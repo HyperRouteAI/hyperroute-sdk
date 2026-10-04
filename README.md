@@ -51,7 +51,6 @@ with HyperRoute() as client:
     response = client.recommend({
         "query": "Find recent research on battery recycling",
         "detail": "full",
-        "evidence_k": 3,
     })
     recommendation = response.data
     if recommendation["best"] is not None:
@@ -83,7 +82,6 @@ const client = new HyperRoute();
 const response = await client.recommend({
   query: 'Find recent research on battery recycling',
   detail: 'full',
-  evidence_k: 3,
 });
 const best = response.data.best;
 if (best) {

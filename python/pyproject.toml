@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hyperroute-sdk"
+version = "0.1.0"
+description = "Python client for HyperRoute"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "HyperRoute"}]
+dependencies = ["httpx>=0.27,<1"]
+classifiers = ["Programming Language :: Python :: 3", "Typing :: Typed"]
+
+[project.urls]
+Homepage = "https://hyperroute.io"
+Repository = "https://github.com/HyperRouteAI/hyperroute-sdk"
+Documentation = "https://github.com/HyperRouteAI/hyperroute-sdk/tree/main/docs"
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "mypy>=1.15,<2", "pytest-asyncio>=0.24,<2", "build>=1.2,<2", "openapi-spec-validator>=0.7,<0.9"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hyperroute"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

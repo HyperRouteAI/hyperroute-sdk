@@ -1,0 +1,204 @@
+{
+  "recommendation": {
+    "session_id": "session-1",
+    "kind": "ranked",
+    "status": "ok",
+    "provisional": false,
+    "best": {
+      "tool_id": "example_search",
+      "name": "Example Search",
+      "variant": null,
+      "capabilities": [
+        "search"
+      ],
+      "description": "Search research",
+      "kind": "external_tool",
+      "endpoint": {},
+      "reason": "Relevant research capability",
+      "capability": 0.84,
+      "band": 0.05,
+      "cap_lcb": 0.79,
+      "rank": 0.75,
+      "price": {
+        "amount": 0.001,
+        "per_query_usd": 0.001,
+        "currency": "USD",
+        "confidence": "high",
+        "selected_plan": "api",
+        "held": false,
+        "estimated": true,
+        "cost_unknown": false,
+        "breakdown": []
+      },
+      "calling": {
+        "tool_id": "example_search",
+        "executable": true
+      }
+    },
+    "runner_ups": [],
+    "decidable": true,
+    "decide_margin": 0.2,
+    "not_checked": [],
+    "flags": {},
+    "disclaimer": "Scores are advisory.",
+    "calling": {
+      "tool_id": "example_search",
+      "executable": true
+    },
+    "facet_form": null,
+    "facet_state": {
+      "active": [],
+      "query_specific_available": [],
+      "hint": ""
+    },
+    "extra_field": {
+      "preserved": true
+    }
+  },
+  "queued": {
+    "job": "job-1",
+    "state": "queued",
+    "position": 1,
+    "eta_ms": 100,
+    "lane": "recommend"
+  },
+  "health": {
+    "ready": true,
+    "routable": true
+  },
+  "execution": {
+    "ok": false,
+    "tool_id": "example_search",
+    "error": "needs_onboard"
+  },
+  "error": {
+    "detail": {
+      "error": "unauthorized",
+      "message": "Authentication required"
+    }
+  },
+  "full_recommendation": {
+    "session_id": "session-1",
+    "kind": "ranked",
+    "status": "ok",
+    "provisional": false,
+    "best": {
+      "tool_id": "example_search",
+      "name": "Example Search",
+      "variant": null,
+      "capabilities": [
+        "search"
+      ],
+      "description": "Search research",
+      "kind": "external_tool",
+      "endpoint": {},
+      "reason": "Relevant research capability",
+      "capability": 0.84,
+      "band": 0.05,
+      "cap_lcb": 0.79,
+      "rank": 0.75,
+      "price": {
+        "amount": 0.001,
+        "per_query_usd": 0.001,
+        "currency": "USD",
+        "confidence": "high",
+        "selected_plan": "api",
+        "held": false,
+        "estimated": true,
+        "cost_unknown": false,
+        "breakdown": []
+      },
+      "calling": {
+        "tool_id": "example_search",
+        "executable": true
+      },
+      "facets": [
+        {
+          "name": "capability",
+          "kano": "must_be",
+          "weight": 30.0,
+          "threshold": 0.3,
+          "raw": 0.84,
+          "contribution": 20.1
+        }
+      ],
+      "evidence": {
+        "n_real": 1,
+        "n_near": 1,
+        "near_mean": 0.9,
+        "dist": [
+          0.9
+        ],
+        "probes": [
+          {
+            "probe_id": 1,
+            "similarity": 0.95,
+            "task_text": "Find battery recycling research",
+            "adapted_input": "battery recycling",
+            "score": 0.9,
+            "redacted": false,
+            "output_chars": 42,
+            "truncated": false,
+            "created_at": "2026-01-01T00:00:00Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "full",
+                "score": 0.9,
+                "rationale": "Relevant research returned",
+                "panel": [
+                  {
+                    "model": "example-judge",
+                    "rationale": "Relevant research returned",
+                    "score": 0.9
+                  }
+                ]
+              }
+            ],
+            "raw_output": "Example research result"
+          }
+        ]
+      }
+    },
+    "runner_ups": [],
+    "decidable": true,
+    "decide_margin": 0.2,
+    "not_checked": [],
+    "flags": {},
+    "disclaimer": "Scores are advisory.",
+    "calling": {
+      "tool_id": "example_search",
+      "executable": true
+    },
+    "facet_form": null,
+    "facet_state": {
+      "active": [],
+      "query_specific_available": [],
+      "hint": ""
+    },
+    "facet_options": [],
+    "extra_field": {
+      "preserved": true
+    }
+  },
+  "min_recommendation": {
+    "session_id": "session-1",
+    "kind": "ranked",
+    "status": "ok",
+    "verdict": null,
+    "best": {
+      "id": "example_search",
+      "name": "Example Search",
+      "why": "Relevant research capability",
+      "price": "$0.0010/query",
+      "use": "ready",
+      "confidence": "high"
+    },
+    "alts": [],
+    "refine": [],
+    "act": "execute the selected tool",
+    "extra_field": {
+      "preserved": true
+    }
+  }
+}

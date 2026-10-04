@@ -1,0 +1,7533 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HyperRoute API",
+    "version": "0.1.0",
+    "description": "Programmatic access to HyperRoute routing, execution, account settings, and feedback.",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://hyperroute.io"
+    }
+  ],
+  "paths": {
+    "/recommend": {
+      "post": {
+        "operationId": "recommend",
+        "summary": "Recommend",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendation"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "event: queued\ndata: {\"job\":\"job-id\",\"state\":\"queued\",\"position\":1,\"eta_ms\":0}\n\nevent: result\ndata: {\"session_id\":\"session-id\",\"kind\":\"ranked\",\"status\":\"ok\",\"best\":null}\n\n"
+              }
+            },
+            "headers": {
+              "X-HyperRoute-Caller": {
+                "description": "Resolved caller-profile reference, or unknown. Present when a caller profile is supplied.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "Recommendation",
+        "x-response-mode": "auto",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommend/submit": {
+      "post": {
+        "operationId": "submit_recommendation",
+        "summary": "Submit recommendation",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationSubmission"
+                }
+              }
+            },
+            "headers": {
+              "X-HyperRoute-Caller": {
+                "description": "Resolved caller-profile reference, or unknown. Present when a caller profile is supplied.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "RecommendationSubmission",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommend/status/{job_id}": {
+      "get": {
+        "operationId": "recommendation_status",
+        "summary": "Recommendation status",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationJob"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "RecommendationJob",
+        "x-response-mode": "json"
+      }
+    },
+    "/describe": {
+      "post": {
+        "operationId": "describe",
+        "summary": "Describe",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Description"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "Description",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DescribeRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/execute": {
+      "post": {
+        "operationId": "execute",
+        "summary": "Execute",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionResult"
+                }
+              }
+            },
+            "headers": {
+              "X-HyperRoute-Caller": {
+                "description": "Resolved caller-profile reference, or unknown. Present when a caller profile is supplied.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "ExecutionResult",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecuteRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report_outcome": {
+      "post": {
+        "operationId": "report_outcome",
+        "summary": "Report outcome",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutcomeReport"
+                }
+              }
+            },
+            "headers": {
+              "X-HyperRoute-Caller": {
+                "description": "Resolved caller-profile reference, or unknown. Present when a caller profile is supplied.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "OutcomeReport",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportOutcomeRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report_narrative": {
+      "post": {
+        "operationId": "report_narrative",
+        "summary": "Report narrative",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NarrativeResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "NarrativeResult",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NarrativeReport"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health",
+        "summary": "Health",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "Health",
+        "x-response-mode": "json"
+      }
+    },
+    "/queue": {
+      "get": {
+        "operationId": "queue",
+        "summary": "Queue",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueStatus"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "QueueStatus",
+        "x-response-mode": "json"
+      }
+    },
+    "/facets/catalog": {
+      "get": {
+        "operationId": "facets_catalog",
+        "summary": "Facets catalog",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacetCatalog"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "FacetCatalog",
+        "x-response-mode": "json"
+      }
+    },
+    "/onboard": {
+      "post": {
+        "operationId": "onboard",
+        "summary": "Onboard",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "CredentialResult",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/onboard/{tool_id}": {
+      "get": {
+        "operationId": "onboard_info",
+        "summary": "Onboard info",
+        "parameters": [
+          {
+            "name": "tool_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardInfo"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "OnboardInfo",
+        "x-response-mode": "json"
+      }
+    },
+    "/credentials/connect": {
+      "post": {
+        "operationId": "connect_credential",
+        "summary": "Connect credential",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "CredentialResult",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/credentials": {
+      "get": {
+        "operationId": "list_credentials",
+        "summary": "List credentials",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "CredentialList",
+        "x-response-mode": "json"
+      }
+    },
+    "/credentials/test": {
+      "post": {
+        "operationId": "test_credential",
+        "summary": "Test credential",
+        "parameters": [
+          {
+            "name": "tool_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "CredentialResult",
+        "x-response-mode": "json"
+      }
+    },
+    "/credentials/{tool_id}": {
+      "delete": {
+        "operationId": "delete_credential",
+        "summary": "Delete credential",
+        "parameters": [
+          {
+            "name": "tool_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "DeletedResponse",
+        "x-response-mode": "json"
+      }
+    },
+    "/preferences": {
+      "get": {
+        "operationId": "get_preferences",
+        "summary": "Get preferences",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preferences"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "Preferences",
+        "x-response-mode": "json"
+      },
+      "put": {
+        "operationId": "set_preferences",
+        "summary": "Set preferences",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoredPreferences"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "StoredPreferences",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferencesRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "clear_preferences",
+        "summary": "Clear preferences",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "DeletedResponse",
+        "x-response-mode": "json"
+      }
+    },
+    "/private-tools": {
+      "get": {
+        "operationId": "list_private_tools",
+        "summary": "List private tools",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivateToolList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "PrivateToolList",
+        "x-response-mode": "json"
+      },
+      "put": {
+        "operationId": "declare_private_tool",
+        "summary": "Declare private tool",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredPrivateTool"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "DeclaredPrivateTool",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateToolRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private-tools/{tool_slug}": {
+      "patch": {
+        "operationId": "update_private_tool",
+        "summary": "Update private tool",
+        "parameters": [
+          {
+            "name": "tool_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatedPrivateTool"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "UpdatedPrivateTool",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateToolPatch"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_private_tool",
+        "summary": "Delete private tool",
+        "parameters": [
+          {
+            "name": "tool_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "DeletedResponse",
+        "x-response-mode": "json"
+      }
+    },
+    "/private-tools/suggest": {
+      "post": {
+        "operationId": "suggest_private_tools",
+        "summary": "Suggest private tools",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionSuggestions"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "RegionSuggestions",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateToolRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private-tools/{tool_slug}/stance": {
+      "post": {
+        "operationId": "set_private_stance",
+        "summary": "Set private stance",
+        "parameters": [
+          {
+            "name": "tool_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "stance",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatedPrivateTool"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "UpdatedPrivateTool",
+        "x-response-mode": "json"
+      }
+    },
+    "/preferred-tools": {
+      "get": {
+        "operationId": "list_preferred_tools",
+        "summary": "List preferred tools",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredToolList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "PreferredToolList",
+        "x-response-mode": "json"
+      },
+      "put": {
+        "operationId": "prefer_tool",
+        "summary": "Prefer tool",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredToolResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "PreferredToolResult",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferredToolRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preferred-tools/{tool_id}": {
+      "patch": {
+        "operationId": "update_preferred_tool",
+        "summary": "Update preferred tool",
+        "parameters": [
+          {
+            "name": "tool_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatedPreferredTool"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "UpdatedPreferredTool",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferredToolPatch"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "unprefer_tool",
+        "summary": "Unprefer tool",
+        "parameters": [
+          {
+            "name": "tool_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "DeletedResponse",
+        "x-response-mode": "json"
+      }
+    },
+    "/result/{ref}": {
+      "get": {
+        "operationId": "download_result",
+        "summary": "Download result",
+        "parameters": [
+          {
+            "name": "ref",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "JsonObject",
+        "x-response-mode": "bytes"
+      }
+    },
+    "/result/{ref}/read": {
+      "post": {
+        "operationId": "read_result",
+        "summary": "Read result",
+        "parameters": [
+          {
+            "name": "ref",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "ReadResult",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultReadRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/console": {
+      "get": {
+        "operationId": "console",
+        "summary": "Console",
+        "parameters": [
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "home"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "text"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsoleResult"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "ConsoleResult",
+        "x-response-mode": "auto"
+      }
+    },
+    "/console/{view}": {
+      "get": {
+        "operationId": "console_view",
+        "summary": "Console view",
+        "parameters": [
+          {
+            "name": "view",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          }
+        ],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsoleResult"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "ConsoleResult",
+        "x-response-mode": "auto"
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "register",
+        "summary": "Register",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "RegistrationResponse",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/verify": {
+      "post": {
+        "operationId": "verify",
+        "summary": "Verify",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "AuthSession",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/resend": {
+      "post": {
+        "operationId": "resend_verification",
+        "summary": "Resend verification",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "MessageResponse",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "login",
+        "summary": "Login",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "AuthSession",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/request-code": {
+      "post": {
+        "operationId": "request_login_code",
+        "summary": "Request login code",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "MessageResponse",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/code": {
+      "post": {
+        "operationId": "login_with_code",
+        "summary": "Login with code",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "AuthSession",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CodeLoginRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/password/forgot": {
+      "post": {
+        "operationId": "forgot_password",
+        "summary": "Forgot password",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "MessageResponse",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/password/reset": {
+      "post": {
+        "operationId": "reset_password",
+        "summary": "Reset password",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "AuthSession",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/recover": {
+      "post": {
+        "operationId": "recover_account",
+        "summary": "Recover account",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "AuthSession",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecoverRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/whoami": {
+      "post": {
+        "operationId": "whoami",
+        "summary": "Whoami",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "User",
+        "x-response-mode": "json"
+      }
+    },
+    "/auth/tokens": {
+      "post": {
+        "operationId": "create_token",
+        "summary": "Create token",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedToken"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "CreatedToken",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenCreateRequest"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "list_tokens",
+        "summary": "List tokens",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "TokenList",
+        "x-response-mode": "json"
+      }
+    },
+    "/auth/tokens/{token_id}": {
+      "delete": {
+        "operationId": "revoke_token",
+        "summary": "Revoke token",
+        "parameters": [
+          {
+            "name": "token_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokedResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "RevokedResponse",
+        "x-response-mode": "json"
+      }
+    },
+    "/invite/accept": {
+      "post": {
+        "operationId": "accept_invite",
+        "summary": "Accept invite",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "AuthSession",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteAcceptRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beta/apply": {
+      "post": {
+        "operationId": "apply_beta",
+        "summary": "Apply beta",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BetaApplication"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "BetaApplication",
+        "x-response-mode": "json",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BetaApplicationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/caller/collectors": {
+      "get": {
+        "operationId": "caller_collectors",
+        "summary": "Caller collectors",
+        "parameters": [],
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallerCollectors"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "CallerCollectors",
+        "x-response-mode": "json"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "RecommendRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "facets": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Facet"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "min",
+                  "lean",
+                  "full"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "format": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "text"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "n_runner_ups": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "evidence_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "DescribeRequest": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "sections": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "facets": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "evidence_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "tool_id"
+        ]
+      },
+      "ExecuteRequest": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": [
+          "tool_id",
+          "query"
+        ]
+      },
+      "ReportOutcomeRequest": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "tool_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "completed": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "coordinator_signal": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "human_survey": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "time_to_outcome_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "downstream_action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "dispute": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": []
+      },
+      "NarrativeReport": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "text": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "default": "coordinator"
+          },
+          "steps": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "OnboardRequest": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "api_key": {
+            "type": "string"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "tool_id",
+          "api_key"
+        ]
+      },
+      "ConnectRequest": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "api_key": {
+            "type": "string"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "tool_id",
+          "api_key"
+        ]
+      },
+      "PreferencesRequest": {
+        "type": "object",
+        "properties": {
+          "facets": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "facets"
+        ]
+      },
+      "PrivateToolRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "default": ""
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "stance": {
+            "type": "string",
+            "default": "pinned"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "PrivateToolPatch": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "triggers": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "anchors": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "stance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": []
+      },
+      "PreferredToolRequest": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "type": "string"
+          },
+          "margin": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "note": {
+            "type": "string",
+            "default": ""
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "tool"
+        ]
+      },
+      "PreferredToolPatch": {
+        "type": "object",
+        "properties": {
+          "margin": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": []
+      },
+      "ResultReadRequest": {
+        "type": "object",
+        "properties": {
+          "op": {
+            "type": "string",
+            "default": "slice"
+          },
+          "offset": {
+            "type": "integer",
+            "default": 0
+          },
+          "limit": {
+            "type": "integer",
+            "default": 100
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {}
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": []
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "VerifyRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "code"
+        ]
+      },
+      "EmailRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "CodeLoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "code"
+        ]
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "new_password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "code",
+          "new_password"
+        ]
+      },
+      "RecoverRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "recovery_code": {
+            "type": "string"
+          },
+          "new_password": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "email",
+          "recovery_code"
+        ]
+      },
+      "TokenCreateRequest": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": []
+      },
+      "InviteAcceptRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "token",
+          "password"
+        ]
+      },
+      "BetaApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "frameworks": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "other_tools": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "track": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "survey": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "name",
+          "email"
+        ]
+      },
+      "JsonObject": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "Facet": {
+        "type": "object",
+        "properties": {
+          "kano": {
+            "type": "string",
+            "enum": [
+              "must_be",
+              "performance",
+              "attractive"
+            ]
+          },
+          "weight": {
+            "type": "number"
+          },
+          "threshold": {
+            "type": "number"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "Candidate": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/MinCandidate"
+          },
+          {
+            "$ref": "#/components/schemas/LeanCandidate"
+          },
+          {
+            "$ref": "#/components/schemas/FullCandidate"
+          }
+        ]
+      },
+      "Recommendation": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/MinRecommendation"
+          },
+          {
+            "$ref": "#/components/schemas/LeanRecommendation"
+          },
+          {
+            "$ref": "#/components/schemas/FullRecommendation"
+          }
+        ]
+      },
+      "RecommendationJob": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/QueuedRecommendationJob"
+          },
+          {
+            "$ref": "#/components/schemas/RunningRecommendationJob"
+          },
+          {
+            "$ref": "#/components/schemas/CompletedRecommendationJob"
+          },
+          {
+            "$ref": "#/components/schemas/FailedRecommendationJob"
+          }
+        ]
+      },
+      "ExecutionResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ExecutionSuccess"
+          },
+          {
+            "$ref": "#/components/schemas/ExecutionOverflow"
+          },
+          {
+            "$ref": "#/components/schemas/ExecutionFailure"
+          }
+        ]
+      },
+      "Health": {
+        "type": "object",
+        "properties": {
+          "ready": {
+            "type": "boolean"
+          },
+          "routable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ready",
+          "routable"
+        ],
+        "additionalProperties": true
+      },
+      "JudgePanelMember": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rationale": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "score": {
+            "type": "number"
+          },
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "model",
+          "rationale"
+        ],
+        "additionalProperties": true
+      },
+      "ProbeJudgment": {
+        "type": "object",
+        "properties": {
+          "facet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "verdict": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rationale": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "panel": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/JudgePanelMember"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "facet",
+          "verdict",
+          "score",
+          "rationale",
+          "panel"
+        ],
+        "additionalProperties": true
+      },
+      "Probe": {
+        "type": "object",
+        "properties": {
+          "probe_id": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "similarity": {
+            "type": "number",
+            "description": "Cosine similarity to the requested task; not a success probability."
+          },
+          "task_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "adapted_input": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "score": {
+            "type": "number",
+            "description": "Observed aggregate score for this probe, on a 0\u20131 scale."
+          },
+          "redacted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "output_chars": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "judges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProbeJudgment"
+            }
+          },
+          "raw_output": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Transport-sized output excerpt; null when redacted. May contain a truncation marker."
+          }
+        },
+        "required": [
+          "probe_id",
+          "similarity",
+          "task_text",
+          "adapted_input",
+          "score",
+          "redacted",
+          "output_chars",
+          "truncated",
+          "created_at",
+          "judges",
+          "raw_output"
+        ],
+        "additionalProperties": true
+      },
+      "ProbeEvidence": {
+        "type": "object",
+        "properties": {
+          "n_real": {
+            "type": "integer",
+            "description": "Count of real probes available for this tool."
+          },
+          "n_near": {
+            "type": "integer"
+          },
+          "near_mean": {
+            "type": "number"
+          },
+          "dist": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Scores of nearby probes; not distances."
+          },
+          "probes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Probe"
+            }
+          }
+        },
+        "required": [
+          "n_real",
+          "n_near",
+          "near_mean",
+          "dist",
+          "probes"
+        ],
+        "additionalProperties": true
+      },
+      "EvidenceTeaser": {
+        "type": "object",
+        "properties": {
+          "task_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "verdict": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "score": {
+            "type": "number"
+          },
+          "similarity": {
+            "type": "number"
+          },
+          "n_real": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "task_text",
+          "verdict",
+          "score",
+          "similarity",
+          "n_real"
+        ],
+        "additionalProperties": true
+      },
+      "FacetBreakdown": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "kano": {
+            "type": "string",
+            "enum": [
+              "must_be",
+              "performance",
+              "attractive"
+            ]
+          },
+          "weight": {
+            "type": "number"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "raw": {
+            "type": "number",
+            "description": "Raw facet value before its Kano transform."
+          },
+          "contribution": {
+            "type": "number",
+            "description": "Weighted contribution before normalization and must-have gates."
+          }
+        },
+        "required": [
+          "name",
+          "kano",
+          "weight",
+          "threshold",
+          "raw",
+          "contribution"
+        ],
+        "additionalProperties": true
+      },
+      "PriceEstimate": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "per_query_usd": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "string"
+          },
+          "selected_plan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "held": {
+            "type": "boolean"
+          },
+          "estimated": {
+            "type": "boolean"
+          },
+          "cost_unknown": {
+            "type": "boolean"
+          },
+          "breakdown": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PricePlan"
+            }
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "per_query_usd",
+          "held",
+          "cost_unknown"
+        ],
+        "additionalProperties": true
+      },
+      "CallingSummary": {
+        "type": "object",
+        "properties": {
+          "usability": {
+            "type": "string"
+          },
+          "auth_method": {
+            "type": "string"
+          },
+          "api_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "connected": {
+            "type": "boolean"
+          },
+          "free": {
+            "type": "boolean"
+          },
+          "how": {
+            "type": "string"
+          },
+          "signup_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "CallingDescriptor": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "coordinator_class": {
+            "type": "boolean"
+          },
+          "executable": {
+            "type": "boolean"
+          },
+          "endpoint": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "adapter": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "auth": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "summary": {
+            "$ref": "#/components/schemas/CallingSummary"
+          },
+          "base_tool": {
+            "type": "string"
+          },
+          "adapter_mode": {},
+          "connect": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "mcp_install": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "OutcomeHealth": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": [
+              "green",
+              "amber",
+              "red"
+            ]
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "level",
+          "label"
+        ],
+        "additionalProperties": true
+      },
+      "FacetFormField": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "default": {
+            "type": "string"
+          },
+          "spread": {
+            "type": "number"
+          },
+          "divergence_over_shortlist": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "FacetForm": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "decidable": {
+            "type": "boolean"
+          },
+          "decide_margin": {
+            "type": "number"
+          },
+          "shortlist": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetFormField"
+            }
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "ActiveFacet": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "kano": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "FacetState": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveFacet"
+            }
+          },
+          "query_specific_available": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hint": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "FacetOption": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "text_source": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "spread": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "divergent": {
+            "type": "boolean"
+          },
+          "on": {
+            "type": "boolean"
+          },
+          "kano": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "default_weight": {
+            "type": "number"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "values": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "Description": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "about": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "price": {
+            "$ref": "#/components/schemas/PriceEstimate"
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetBreakdown"
+            }
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProbeEvidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tool_id",
+          "name"
+        ],
+        "additionalProperties": true
+      },
+      "FullCandidate": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "calling": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallingDescriptor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "capability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated capability mean on a 0\u20131 scale; null for an unrated private tool."
+          },
+          "variant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "band": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Capability uncertainty band; null for an unrated private tool."
+          },
+          "cap_lcb": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Risk-adjusted lower-confidence capability estimate."
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Final preference-weighted ranking score; not a probability."
+          },
+          "price": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PriceEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unrated": {
+            "type": "boolean"
+          },
+          "field_health": {
+            "type": "string"
+          },
+          "outcome_health": {
+            "$ref": "#/components/schemas/OutcomeHealth"
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetBreakdown"
+            },
+            "description": "Present in the full projection."
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProbeEvidence"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Full projection only; null when probe evidence is unavailable or not requested."
+          },
+          "evidence_teaser": {
+            "$ref": "#/components/schemas/EvidenceTeaser"
+          }
+        },
+        "required": [
+          "tool_id",
+          "name",
+          "variant",
+          "capabilities",
+          "description",
+          "kind",
+          "endpoint",
+          "reason",
+          "capability",
+          "band",
+          "cap_lcb",
+          "rank",
+          "price",
+          "calling",
+          "facets",
+          "evidence"
+        ],
+        "additionalProperties": true
+      },
+      "LeanCandidate": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "calling": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallingDescriptor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "capability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated capability mean on a 0\u20131 scale; null for an unrated private tool."
+          },
+          "variant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "band": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Capability uncertainty band; null for an unrated private tool."
+          },
+          "cap_lcb": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Risk-adjusted lower-confidence capability estimate."
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Final preference-weighted ranking score; not a probability."
+          },
+          "price": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PriceEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unrated": {
+            "type": "boolean"
+          },
+          "field_health": {
+            "type": "string"
+          },
+          "outcome_health": {
+            "$ref": "#/components/schemas/OutcomeHealth"
+          }
+        },
+        "required": [
+          "tool_id",
+          "name",
+          "variant",
+          "capabilities",
+          "description",
+          "kind",
+          "endpoint",
+          "reason",
+          "capability",
+          "band",
+          "cap_lcb",
+          "rank",
+          "price",
+          "calling"
+        ],
+        "additionalProperties": true
+      },
+      "MinCandidate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "use": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "why",
+          "price",
+          "use"
+        ],
+        "additionalProperties": true
+      },
+      "LeanRecommendation": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "ranked",
+              "advisory",
+              "no_tool"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "needs_facets"
+            ]
+          },
+          "best": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LeanCandidate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "runner_ups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeanCandidate"
+            }
+          },
+          "calling": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallingDescriptor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provisional": {
+            "type": "boolean"
+          },
+          "disclaimer": {
+            "type": "string"
+          },
+          "facet_form": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FacetForm"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "decidable": {
+            "type": "boolean"
+          },
+          "decide_margin": {
+            "type": "number"
+          },
+          "not_checked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flags": {
+            "$ref": "#/components/schemas/RoutingFlags"
+          },
+          "facet_state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FacetState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "coverage": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "input_truncated": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "session_id",
+          "kind",
+          "status",
+          "provisional",
+          "best",
+          "runner_ups",
+          "decidable",
+          "decide_margin",
+          "not_checked",
+          "flags",
+          "disclaimer",
+          "calling",
+          "facet_form",
+          "facet_state"
+        ],
+        "additionalProperties": true
+      },
+      "FullRecommendation": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "ranked",
+              "advisory",
+              "no_tool"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "needs_facets"
+            ]
+          },
+          "best": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FullCandidate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "runner_ups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FullCandidate"
+            }
+          },
+          "calling": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallingDescriptor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provisional": {
+            "type": "boolean"
+          },
+          "disclaimer": {
+            "type": "string"
+          },
+          "facet_form": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FacetForm"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "decidable": {
+            "type": "boolean"
+          },
+          "decide_margin": {
+            "type": "number"
+          },
+          "not_checked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flags": {
+            "$ref": "#/components/schemas/RoutingFlags"
+          },
+          "facet_state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FacetState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "coverage": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "input_truncated": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "facet_options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetOption"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "kind",
+          "status",
+          "provisional",
+          "best",
+          "runner_ups",
+          "decidable",
+          "decide_margin",
+          "not_checked",
+          "flags",
+          "disclaimer",
+          "calling",
+          "facet_form",
+          "facet_state",
+          "facet_options"
+        ],
+        "additionalProperties": true
+      },
+      "MinRecommendation": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "ranked",
+              "advisory",
+              "no_tool"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "needs_facets"
+            ]
+          },
+          "coverage": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "not_checked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "input_truncated": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "best": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MinCandidate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "alts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MinCandidate"
+            }
+          },
+          "verdict": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refine": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "act": {
+            "type": "string"
+          },
+          "connect": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "consider": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "preferred": {
+            "$ref": "#/components/schemas/PreferredDecision"
+          }
+        },
+        "required": [
+          "session_id",
+          "kind",
+          "status",
+          "best",
+          "alts",
+          "verdict",
+          "refine",
+          "act"
+        ],
+        "additionalProperties": true
+      },
+      "LeanRecommendRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "facets": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Facet"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "const": "lean",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "format": {
+            "anyOf": [
+              {
+                "const": "json",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "n_runner_ups": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "evidence_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "FullRecommendRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "facets": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Facet"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "detail": {
+            "const": "full",
+            "type": "string"
+          },
+          "format": {
+            "anyOf": [
+              {
+                "const": "json",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "n_runner_ups": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "evidence_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": [
+          "query",
+          "detail"
+        ]
+      },
+      "MinRecommendRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "facets": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Facet"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "detail": {
+            "const": "min",
+            "type": "string"
+          },
+          "format": {
+            "anyOf": [
+              {
+                "const": "json",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "n_runner_ups": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "evidence_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": [
+          "query",
+          "detail"
+        ]
+      },
+      "TextRecommendRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "facets": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Facet"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "min",
+                  "lean",
+                  "full"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "format": {
+            "const": "text",
+            "type": "string"
+          },
+          "n_runner_ups": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "evidence_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": [
+          "query",
+          "format"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tier": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "display_name",
+          "tier",
+          "status",
+          "verified"
+        ],
+        "additionalProperties": true
+      },
+      "AuthSession": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "user": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "api_key": {
+            "type": "string"
+          },
+          "recovery_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "user",
+          "api_key"
+        ],
+        "additionalProperties": true
+      },
+      "MessageResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "verification_required": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "verification_required",
+          "email",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "CreatedToken": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "api_key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "api_key",
+          "label"
+        ],
+        "additionalProperties": true
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "client_name": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "TokenList": {
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        },
+        "required": [
+          "tokens"
+        ],
+        "additionalProperties": true
+      },
+      "RevokedResponse": {
+        "type": "object",
+        "properties": {
+          "revoked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "revoked"
+        ],
+        "additionalProperties": true
+      },
+      "DeletedResponse": {
+        "type": "object",
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deleted"
+        ],
+        "additionalProperties": true
+      },
+      "Credential": {
+        "type": "object",
+        "properties": {
+          "credential_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "connected_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_test_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_test_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "credential_id",
+          "tool_id",
+          "label",
+          "connected_at",
+          "last_test_at",
+          "last_test_status"
+        ],
+        "additionalProperties": true
+      },
+      "CredentialResult": {
+        "type": "object",
+        "properties": {
+          "credential_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "connected_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_test_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_test_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "ok": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok"
+        ],
+        "additionalProperties": true
+      },
+      "CredentialList": {
+        "type": "object",
+        "properties": {
+          "credentials": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Credential"
+            }
+          }
+        },
+        "required": [
+          "credentials"
+        ],
+        "additionalProperties": true
+      },
+      "OnboardInfo": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "auth_method": {
+            "type": "string"
+          },
+          "requires_key": {
+            "type": "boolean"
+          },
+          "connected": {
+            "type": "boolean"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallingSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "connect": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "tool_id",
+          "name",
+          "auth_method",
+          "requires_key",
+          "connected",
+          "summary",
+          "connect"
+        ],
+        "additionalProperties": true
+      },
+      "Preferences": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Facet"
+            }
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "project": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Facet"
+            }
+          },
+          "effective": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Facet"
+            }
+          }
+        },
+        "required": [
+          "user",
+          "effective"
+        ],
+        "additionalProperties": true
+      },
+      "StoredPreferences": {
+        "type": "object",
+        "properties": {
+          "stored": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Facet"
+            }
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "effective": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Facet"
+            }
+          }
+        },
+        "required": [
+          "stored",
+          "project_id",
+          "effective"
+        ],
+        "additionalProperties": true
+      },
+      "Region": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label"
+        ],
+        "additionalProperties": true
+      },
+      "PrivateTool": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "stance": {
+            "type": "string"
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Region"
+            }
+          }
+        },
+        "required": [
+          "tool_id",
+          "name",
+          "description",
+          "triggers",
+          "anchors",
+          "stance",
+          "project_id"
+        ],
+        "additionalProperties": true
+      },
+      "PrivateToolList": {
+        "type": "object",
+        "properties": {
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrivateTool"
+            }
+          },
+          "anchors_available": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "tools",
+          "anchors_available"
+        ],
+        "additionalProperties": true
+      },
+      "DeclaredPrivateTool": {
+        "type": "object",
+        "properties": {
+          "declared": {
+            "$ref": "#/components/schemas/PrivateTool"
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Region"
+            }
+          }
+        },
+        "required": [
+          "declared",
+          "triggers",
+          "regions"
+        ],
+        "additionalProperties": true
+      },
+      "UpdatedPrivateTool": {
+        "type": "object",
+        "properties": {
+          "updated": {
+            "$ref": "#/components/schemas/PrivateTool"
+          }
+        },
+        "required": [
+          "updated"
+        ],
+        "additionalProperties": true
+      },
+      "RegionSuggestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "similarity": {
+            "type": "number"
+          },
+          "group": {
+            "type": "string"
+          },
+          "in_taxonomy": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "group",
+          "similarity",
+          "in_taxonomy"
+        ],
+        "additionalProperties": true
+      },
+      "RegionSuggestions": {
+        "type": "object",
+        "properties": {
+          "suggestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegionSuggestion"
+            }
+          }
+        },
+        "required": [
+          "suggestions"
+        ],
+        "additionalProperties": true
+      },
+      "PreferredTool": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "margin": {
+            "type": "number"
+          },
+          "note": {
+            "type": "string"
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "in_catalog": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "tool_id",
+          "margin",
+          "note",
+          "project_id"
+        ],
+        "additionalProperties": true
+      },
+      "PreferredToolList": {
+        "type": "object",
+        "properties": {
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PreferredTool"
+            }
+          }
+        },
+        "required": [
+          "tools"
+        ],
+        "additionalProperties": true
+      },
+      "ToolIdentity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": true
+      },
+      "PreferredToolResult": {
+        "type": "object",
+        "properties": {
+          "preferred": {
+            "$ref": "#/components/schemas/PreferredTool"
+          },
+          "tool": {
+            "$ref": "#/components/schemas/ToolIdentity"
+          }
+        },
+        "required": [
+          "preferred",
+          "tool"
+        ],
+        "additionalProperties": true
+      },
+      "UpdatedPreferredTool": {
+        "type": "object",
+        "properties": {
+          "updated": {
+            "$ref": "#/components/schemas/PreferredTool"
+          }
+        },
+        "required": [
+          "updated"
+        ],
+        "additionalProperties": true
+      },
+      "FacetCatalogEntry": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "constraint": {
+            "type": "boolean"
+          },
+          "spine": {
+            "type": "boolean"
+          },
+          "default_kano": {
+            "type": "string"
+          },
+          "default_weight": {
+            "type": "number"
+          },
+          "default_threshold": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "label",
+          "description",
+          "scope",
+          "kind",
+          "constraint",
+          "spine",
+          "default_kano",
+          "default_weight",
+          "default_threshold"
+        ],
+        "additionalProperties": true
+      },
+      "FacetCatalog": {
+        "type": "object",
+        "properties": {
+          "ready": {
+            "type": "boolean"
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetCatalogEntry"
+            }
+          }
+        },
+        "required": [
+          "ready",
+          "facets"
+        ],
+        "additionalProperties": true
+      },
+      "QueueLane": {
+        "type": "object",
+        "properties": {
+          "queued": {
+            "type": "integer"
+          },
+          "avg_ms": {
+            "type": "number"
+          },
+          "completed": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "queued",
+          "avg_ms",
+          "completed"
+        ],
+        "additionalProperties": true
+      },
+      "RunningJob": {
+        "type": "object",
+        "properties": {
+          "lane": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "lane"
+        ],
+        "additionalProperties": true
+      },
+      "QueueStatus": {
+        "type": "object",
+        "properties": {
+          "concurrency": {
+            "type": "integer"
+          },
+          "queued_total": {
+            "type": "integer"
+          },
+          "running": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunningJob"
+            }
+          },
+          "lanes": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/QueueLane"
+            }
+          }
+        },
+        "required": [
+          "concurrency",
+          "queued_total",
+          "running",
+          "lanes"
+        ],
+        "additionalProperties": true
+      },
+      "AcceptedOutcome": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "counts_as_quality": {
+            "type": "boolean"
+          },
+          "quality": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "comment": {
+            "type": "boolean"
+          },
+          "human_survey": {
+            "type": "boolean"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "OutcomeReport": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "tool_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "accepted": {
+            "$ref": "#/components/schemas/AcceptedOutcome"
+          },
+          "field_probe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FieldProbeResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "triggers_raised": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "score_moved": {
+            "const": false,
+            "type": "boolean"
+          },
+          "private": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ok",
+          "session_id",
+          "tool_id",
+          "accepted",
+          "field_probe",
+          "triggers_raised",
+          "score_moved"
+        ],
+        "additionalProperties": true
+      },
+      "NarrativeResult": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "const": true
+          },
+          "id": {
+            "type": "integer"
+          },
+          "stored": {
+            "type": "string",
+            "enum": [
+              "db",
+              "memory"
+            ]
+          }
+        },
+        "required": [
+          "ok",
+          "id",
+          "stored"
+        ],
+        "additionalProperties": true
+      },
+      "OverflowResult": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "integer"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "preview": {
+            "type": "string"
+          },
+          "resource_url": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ref",
+          "bytes",
+          "content_type",
+          "preview",
+          "resource_url",
+          "note"
+        ],
+        "additionalProperties": true
+      },
+      "ResultShape": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "length": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "additionalProperties": true
+      },
+      "ReadResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ResultSlice"
+          },
+          {
+            "$ref": "#/components/schemas/ResultSearch"
+          },
+          {
+            "$ref": "#/components/schemas/ResultJsonPath"
+          },
+          {
+            "$ref": "#/components/schemas/ResultReadError"
+          }
+        ]
+      },
+      "BetaApplication": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "persisted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "track": {
+            "type": "string"
+          },
+          "position": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "ok",
+          "persisted",
+          "track"
+        ],
+        "additionalProperties": true
+      },
+      "CollectorRule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "var": {
+            "type": "string"
+          },
+          "tail": {
+            "type": "integer"
+          },
+          "out": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "set": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "where": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "table": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "AgentCollector": {
+        "type": "object",
+        "properties": {
+          "match": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "probes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CollectorRule"
+            }
+          }
+        },
+        "required": [
+          "match",
+          "probes"
+        ],
+        "additionalProperties": true
+      },
+      "CallerCollectors": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer"
+          },
+          "agents": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AgentCollector"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "agents"
+        ],
+        "additionalProperties": true
+      },
+      "ConsoleResult": {
+        "type": "object",
+        "properties": {
+          "view": {
+            "type": "string"
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "connections": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Credential"
+                }
+              }
+            ]
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "preferred": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PreferredTool"
+            }
+          },
+          "present": {
+            "type": "boolean"
+          },
+          "model": {
+            "type": "string"
+          },
+          "n_tools": {
+            "type": "integer"
+          },
+          "n_facets": {
+            "type": "integer"
+          },
+          "stats": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "recent": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "total_calls": {
+            "type": "integer"
+          },
+          "routed": {
+            "type": "integer"
+          },
+          "passed_through": {
+            "type": "integer"
+          },
+          "verdicts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "top_tools": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              }
+            }
+          },
+          "executed": {
+            "type": "integer"
+          },
+          "outcomes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "avg_latency_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "view"
+        ],
+        "additionalProperties": true
+      },
+      "QueuedRecommendationJob": {
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "string"
+          },
+          "state": {
+            "const": "queued",
+            "type": "string"
+          },
+          "lane": {
+            "type": "string"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "lane_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eta_ms": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "job",
+          "state",
+          "lane",
+          "position",
+          "eta_ms"
+        ],
+        "additionalProperties": true
+      },
+      "RunningRecommendationJob": {
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "string"
+          },
+          "state": {
+            "const": "running",
+            "type": "string"
+          },
+          "lane": {
+            "type": "string"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "lane_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eta_ms": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "job",
+          "state",
+          "lane",
+          "position",
+          "eta_ms"
+        ],
+        "additionalProperties": true
+      },
+      "CompletedRecommendationJob": {
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "string"
+          },
+          "state": {
+            "const": "done",
+            "type": "string"
+          },
+          "lane": {
+            "type": "string"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "lane_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eta_ms": {
+            "type": "integer"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Recommendation"
+          }
+        },
+        "required": [
+          "job",
+          "state",
+          "lane",
+          "position",
+          "eta_ms",
+          "result"
+        ],
+        "additionalProperties": true
+      },
+      "FailedRecommendationJob": {
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "string"
+          },
+          "state": {
+            "const": "error",
+            "type": "string"
+          },
+          "lane": {
+            "type": "string"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "lane_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eta_ms": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "job",
+          "state",
+          "lane",
+          "position",
+          "eta_ms",
+          "error"
+        ],
+        "additionalProperties": true
+      },
+      "ExecutionSuccess": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "tool_id": {
+            "type": "string"
+          },
+          "result": {},
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latency_ms": {
+            "type": "number"
+          },
+          "query": {
+            "type": "string"
+          },
+          "adapted_query": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "credentials": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connect": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "ok",
+          "tool_id",
+          "result"
+        ],
+        "additionalProperties": true
+      },
+      "ExecutionOverflow": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "tool_id": {
+            "type": "string"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latency_ms": {
+            "type": "number"
+          },
+          "overflow": {
+            "$ref": "#/components/schemas/OverflowResult"
+          },
+          "query": {
+            "type": "string"
+          },
+          "adapted_query": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "credentials": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connect": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "ok",
+          "tool_id",
+          "overflow"
+        ],
+        "additionalProperties": true
+      },
+      "ExecutionFailure": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": false,
+            "type": "boolean"
+          },
+          "tool_id": {
+            "type": "string"
+          },
+          "result": {},
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latency_ms": {
+            "type": "number"
+          },
+          "overflow": {
+            "$ref": "#/components/schemas/OverflowResult"
+          },
+          "query": {
+            "type": "string"
+          },
+          "adapted_query": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "credentials": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connect": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "ok",
+          "tool_id",
+          "error"
+        ],
+        "additionalProperties": true
+      },
+      "ResultSlice": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "total_lines": {
+            "type": "integer"
+          },
+          "content": {
+            "type": "string"
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "op": {
+            "const": "slice",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "op",
+          "offset",
+          "limit",
+          "total_lines",
+          "content",
+          "truncated"
+        ],
+        "additionalProperties": true
+      },
+      "ResultSearch": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "matches_json": {
+            "type": "string"
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "op": {
+            "const": "search",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "op",
+          "count",
+          "matches_json",
+          "truncated"
+        ],
+        "additionalProperties": true
+      },
+      "ResultJsonPath": {
+        "type": "object",
+        "properties": {
+          "shape": {
+            "$ref": "#/components/schemas/ResultShape"
+          },
+          "value_json": {
+            "type": "string"
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          },
+          "op": {
+            "const": "json_path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "op",
+          "shape",
+          "value_json",
+          "truncated"
+        ],
+        "additionalProperties": true
+      },
+      "ResultReadError": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": false,
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "error",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "RecommendationSubmission": {
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "error"
+            ]
+          },
+          "lane": {
+            "type": "string"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "lane_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eta_ms": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "job",
+          "state",
+          "lane",
+          "position",
+          "eta_ms"
+        ],
+        "additionalProperties": true
+      },
+      "FieldProbeResult": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "stored": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok"
+        ],
+        "additionalProperties": true
+      },
+      "PricePlan": {
+        "type": "object",
+        "properties": {
+          "plan_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "plan_group": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "effective_usd": {
+            "type": "number"
+          },
+          "held": {
+            "type": "boolean"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "string"
+          },
+          "overridden": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "plan_id",
+          "kind",
+          "plan_group",
+          "effective_usd",
+          "held",
+          "currency",
+          "confidence",
+          "overridden"
+        ],
+        "additionalProperties": true
+      },
+      "PreferredDecision": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "honoured": {
+            "type": "boolean"
+          },
+          "acceptable": {
+            "type": "boolean"
+          },
+          "gap": {
+            "type": "number"
+          },
+          "margin": {
+            "type": "number"
+          },
+          "cap_lcb": {
+            "type": "number"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "best": {
+            "type": "string"
+          },
+          "best_name": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "ExcludedTools": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tool_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "count",
+          "facets",
+          "tool_ids"
+        ],
+        "additionalProperties": true
+      },
+      "NativeBaseline": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number"
+          },
+          "source": {
+            "type": "string"
+          },
+          "tau": {
+            "type": "number"
+          },
+          "self": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "score",
+          "source",
+          "tau",
+          "self"
+        ],
+        "additionalProperties": true
+      },
+      "OwnToolDecision": {
+        "type": "object",
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string"
+          },
+          "match": {
+            "type": "number"
+          },
+          "stance": {
+            "type": "string"
+          },
+          "own_quality_mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outcomes": {
+            "type": "integer"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      },
+      "RoutingFlags": {
+        "type": "object",
+        "properties": {
+          "short_circuit": {
+            "type": "boolean"
+          },
+          "learned_preset": {
+            "type": "string"
+          },
+          "match_similarity": {
+            "type": "number"
+          },
+          "digest_skipped": {
+            "type": "boolean"
+          },
+          "digest_applied": {
+            "type": "boolean"
+          },
+          "excluded": {
+            "$ref": "#/components/schemas/ExcludedTools"
+          },
+          "verdict": {
+            "type": "string"
+          },
+          "preferred": {
+            "$ref": "#/components/schemas/PreferredDecision"
+          },
+          "own": {
+            "$ref": "#/components/schemas/OwnToolDecision"
+          },
+          "consider": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "baseline": {
+            "$ref": "#/components/schemas/NativeBaseline"
+          }
+        },
+        "required": [],
+        "additionalProperties": true
+      }
+    }
+  }
+}

@@ -139,3 +139,5 @@ See [transport behavior](docs/transport.md) for timeout and cancellation details
 ## License
 
 [MIT](LICENSE).
+
+Waitlist applicants: see [session cookies and survey updates](docs/waitlist.md).

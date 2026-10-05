@@ -103,3 +103,19 @@ test('all operation methods match the shared contract',async()=>{
     if(op.requestBody)assert.deepEqual(JSON.parse(init.body),{query:'fixture'});
   }
 });
+
+test('waitlist cookie can be forwarded and rejected updates are not retried', async () => {
+  let calls = 0;
+  const client = new HyperRoute({maxRetries:3, fetch:async(url,init)=>{
+    calls++;
+    if (calls === 1) return json({ok:true,persisted:true,track:'shortlist'},200,{'set-cookie':'hr_waitlist_session=owner; Path=/beta/apply; HttpOnly; Secure; SameSite=Strict'});
+    if (init.headers.get('cookie') === 'hr_waitlist_session=owner') return json({ok:true,persisted:true,track:'priority'});
+    return json({detail:'Use the original browser session'},403);
+  }});
+  const body = {name:'A',email:'a@example.invalid'};
+  const first = await client.applyBeta(body);
+  const cookie = first.headers.get('set-cookie').split(';',1)[0];
+  assert.equal((await client.applyBeta({...body,track:'priority'},{headers:{cookie}})).data.persisted,true);
+  await assert.rejects(client.applyBeta(body),e=>e instanceof ApiError && e.statusCode===403);
+  assert.equal(calls,3);
+});

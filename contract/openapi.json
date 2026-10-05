@@ -2484,7 +2484,7 @@
         "security": [
           {},
           {
-            "bearerAuth": []
+            "waitlistSession": []
           }
         ],
         "responses": {
@@ -2494,6 +2494,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BetaApplication"
+                }
+              }
+            },
+            "headers": {
+              "Set-Cookie": {
+                "description": "Issued only after persistence. Preserve hr_waitlist_session for subsequent updates.",
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -2510,6 +2518,24 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Existing application requires its original session cookie.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
+                }
+              }
+            }
           }
         },
         "x-response-type": "BetaApplication",
@@ -2523,7 +2549,8 @@
               }
             }
           }
-        }
+        },
+        "description": "First submission creates an application and sets an HttpOnly hr_waitlist_session cookie scoped to /beta/apply (SameSite=Strict, Secure over HTTPS). Updating an existing email requires the same cookie. Missing or wrong cookies, including legacy applications without session ownership, return HTTP 403 without changes. Retain the cookie for partial survey saves and priority upgrades. Cookie deletion or a different browser loses edit access. Database failures return persisted=false and do not issue a cookie."
       }
     },
     "/caller/collectors": {
@@ -2572,6 +2599,12 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      },
+      "waitlistSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "hr_waitlist_session",
+        "description": "Required to edit an existing waitlist application; not required for initial submission."
       }
     },
     "schemas": {

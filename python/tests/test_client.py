@@ -160,3 +160,45 @@ def test_bad_configuration_and_invalid_json():
         with pytest.raises(ValueError):HyperRoute(**kwargs)
     with pytest.raises(ProtocolError):
         client(lambda r:httpx.Response(200,text='not JSON')).health()
+
+
+@pytest.mark.parametrize('asynchronous', [False, True])
+def test_waitlist_cookie_retained_for_updates(asynchronous):
+    seen = []
+    def handler(req):
+        seen.append(req)
+        if len(seen) > 1:
+            assert req.headers['cookie'] == 'hr_waitlist_session=owner'
+        return httpx.Response(200, json={'ok': True, 'persisted': True, 'track': 'shortlist'},
+                              headers={'set-cookie': 'hr_waitlist_session=owner; Path=/beta/apply; HttpOnly; Secure; SameSite=Strict'})
+    body = {'name': 'A', 'email': 'a@example.invalid'}
+    if asynchronous:
+        async def run():
+            async with AsyncHyperRoute(http_client=httpx.AsyncClient(transport=httpx.MockTransport(handler))) as api:
+                assert (await api.apply_beta(body)).data['persisted']
+                await api.apply_beta({**body, 'track': 'priority'})
+        asyncio.run(run())
+    else:
+        with client(handler) as api:
+            assert api.apply_beta(body).data['persisted']
+            api.apply_beta({**body, 'track': 'priority'})
+    assert len(seen) == 2
+
+
+@pytest.mark.parametrize('asynchronous', [False, True])
+def test_waitlist_wrong_session_is_403_without_retry(asynchronous):
+    calls = []
+    def handler(req):
+        calls.append(req)
+        return httpx.Response(403, json={'detail': 'Use the original browser session'})
+    body = {'name': 'A', 'email': 'a@example.invalid'}
+    with pytest.raises(ApiError) as caught:
+        if asynchronous:
+            async def run():
+                async with AsyncHyperRoute(max_retries=3, http_client=httpx.AsyncClient(transport=httpx.MockTransport(handler))) as api:
+                    await api.apply_beta(body)
+            asyncio.run(run())
+        else:
+            with client(handler, max_retries=3) as api:
+                api.apply_beta(body)
+    assert caught.value.status_code == 403 and len(calls) == 1

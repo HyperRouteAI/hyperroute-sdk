@@ -271,6 +271,9 @@ export interface CallingDescriptor {
   adapter_mode?: unknown;
   connect?: JsonObject;
   mcp_install?: JsonObject;
+  verdict?: string;
+  baseline?: NativeBaseline | null;
+  instruction?: NativeInstruction | null;
 }
 
 export interface OutcomeHealth {
@@ -360,6 +363,7 @@ export interface FullCandidate {
   facets: Array<FacetBreakdown>;
   evidence: ProbeEvidence | null;
   evidence_teaser?: EvidenceTeaser;
+  instruction?: NativeInstruction;
 }
 
 export interface LeanCandidate {
@@ -380,6 +384,7 @@ export interface LeanCandidate {
   unrated?: boolean;
   field_health?: string;
   outcome_health?: OutcomeHealth;
+  instruction?: NativeInstruction;
 }
 
 export interface MinCandidate {
@@ -445,6 +450,7 @@ export interface MinRecommendation {
   connect?: JsonObject;
   consider?: Array<JsonObject>;
   preferred?: PreferredDecision;
+  instruction?: NativeInstruction;
 }
 
 export interface LeanRecommendRequest {
@@ -991,6 +997,22 @@ export interface RoutingFlags {
   own?: OwnToolDecision;
   consider?: Array<JsonObject>;
   baseline?: NativeBaseline;
+}
+
+export interface NativeInstructionAlternative {
+  variant: string | null;
+  prompt: string | null;
+  max_searches: number | null;
+  tools: Array<string> | null;
+  cap_lcb: number;
+}
+
+export interface NativeInstruction {
+  variant: string | null;
+  prompt: string | null;
+  max_searches: number | null;
+  tools: Array<string> | null;
+  alternatives: Array<NativeInstructionAlternative>;
 }
 
 

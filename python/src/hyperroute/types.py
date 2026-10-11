@@ -241,6 +241,9 @@ class CallingDescriptor(TypedDict):
     adapter_mode: NotRequired[Any]
     connect: NotRequired[JsonObject]
     mcp_install: NotRequired[JsonObject]
+    verdict: NotRequired[str]
+    baseline: NotRequired[NativeBaseline | None]
+    instruction: NotRequired[NativeInstruction | None]
 
 class OutcomeHealth(TypedDict):
     level: Literal['green', 'amber', 'red']
@@ -322,6 +325,7 @@ class FullCandidate(TypedDict):
     facets: list[FacetBreakdown]
     evidence: ProbeEvidence | None
     evidence_teaser: NotRequired[EvidenceTeaser]
+    instruction: NotRequired[NativeInstruction]
 
 class LeanCandidate(TypedDict):
     tool_id: str
@@ -341,6 +345,7 @@ class LeanCandidate(TypedDict):
     unrated: NotRequired[bool]
     field_health: NotRequired[str]
     outcome_health: NotRequired[OutcomeHealth]
+    instruction: NotRequired[NativeInstruction]
 
 class MinCandidate(TypedDict):
     id: str
@@ -402,6 +407,7 @@ class MinRecommendation(TypedDict):
     connect: NotRequired[JsonObject]
     consider: NotRequired[list[JsonObject]]
     preferred: NotRequired[PreferredDecision]
+    instruction: NotRequired[NativeInstruction]
 
 class LeanRecommendRequest(TypedDict):
     query: str
@@ -883,6 +889,20 @@ class RoutingFlags(TypedDict):
     own: NotRequired[OwnToolDecision]
     consider: NotRequired[list[JsonObject]]
     baseline: NotRequired[NativeBaseline]
+
+class NativeInstructionAlternative(TypedDict):
+    variant: str | None
+    prompt: str | None
+    max_searches: int | None
+    tools: list[str] | None
+    cap_lcb: float
+
+class NativeInstruction(TypedDict):
+    variant: str | None
+    prompt: str | None
+    max_searches: int | None
+    tools: list[str] | None
+    alternatives: list[NativeInstructionAlternative]
 
 
 class TestCredentialQuery(TypedDict):

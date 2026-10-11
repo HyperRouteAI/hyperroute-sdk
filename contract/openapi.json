@@ -4116,6 +4116,30 @@
           "mcp_install": {
             "type": "object",
             "additionalProperties": true
+          },
+          "verdict": {
+            "type": "string",
+            "description": "Present when the recommendation is to use your own agent or tool."
+          },
+          "baseline": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NativeBaseline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "instruction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NativeInstruction"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [],
@@ -4490,6 +4514,10 @@
           },
           "evidence_teaser": {
             "$ref": "#/components/schemas/EvidenceTeaser"
+          },
+          "instruction": {
+            "$ref": "#/components/schemas/NativeInstruction",
+            "description": "Present when the candidate is your own agent."
           }
         },
         "required": [
@@ -4622,6 +4650,10 @@
           },
           "outcome_health": {
             "$ref": "#/components/schemas/OutcomeHealth"
+          },
+          "instruction": {
+            "$ref": "#/components/schemas/NativeInstruction",
+            "description": "Present when the candidate is your own agent."
           }
         },
         "required": [
@@ -5014,6 +5046,10 @@
           },
           "preferred": {
             "$ref": "#/components/schemas/PreferredDecision"
+          },
+          "instruction": {
+            "$ref": "#/components/schemas/NativeInstruction",
+            "description": "Present when the best candidate is your own agent."
           }
         },
         "required": [
@@ -7527,6 +7563,138 @@
         },
         "required": [],
         "additionalProperties": true
+      },
+      "NativeInstructionAlternative": {
+        "type": "object",
+        "properties": {
+          "variant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label of the configuration this instruction belongs to."
+          },
+          "prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "System prompt to run the task with; null when the configuration uses the request alone."
+          },
+          "max_searches": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Web search budget for the configuration."
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tools the configuration may use."
+          },
+          "cap_lcb": {
+            "type": "number",
+            "description": "Risk-adjusted lower-confidence capability estimate for this configuration."
+          }
+        },
+        "required": [
+          "variant",
+          "prompt",
+          "max_searches",
+          "tools",
+          "cap_lcb"
+        ],
+        "additionalProperties": true
+      },
+      "NativeInstruction": {
+        "type": "object",
+        "properties": {
+          "variant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label of the configuration this instruction belongs to."
+          },
+          "prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "System prompt to run the task with; null when the configuration uses the request alone."
+          },
+          "max_searches": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Web search budget for the configuration."
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tools the configuration may use."
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NativeInstructionAlternative"
+            },
+            "description": "Other configurations available to the caller, best first."
+          }
+        },
+        "required": [
+          "variant",
+          "prompt",
+          "max_searches",
+          "tools",
+          "alternatives"
+        ],
+        "additionalProperties": true,
+        "description": "How to run a task with your own agent in the configuration that was evaluated."
       }
     }
   }

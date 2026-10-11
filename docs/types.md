@@ -372,6 +372,9 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `adapter_mode` | `unknown` | No |  |
 | `connect` | `JsonObject` | No |  |
 | `mcp_install` | `JsonObject` | No |  |
+| `verdict` | `string` | No | Present when the recommendation is to use your own agent or tool. |
+| `baseline` | `NativeBaseline \| null` | No |  |
+| `instruction` | `NativeInstruction \| null` | No |  |
 
 ## OutcomeHealth
 
@@ -477,6 +480,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `facets` | `Array<FacetBreakdown>` | Yes | Present in the full projection. |
 | `evidence` | `ProbeEvidence \| null` | Yes | Full projection only; null when probe evidence is unavailable or not requested. |
 | `evidence_teaser` | `EvidenceTeaser` | No |  |
+| `instruction` | `NativeInstruction` | No | Present when the candidate is your own agent. |
 
 ## LeanCandidate
 
@@ -499,6 +503,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `unrated` | `boolean` | No |  |
 | `field_health` | `string` | No |  |
 | `outcome_health` | `OutcomeHealth` | No |  |
+| `instruction` | `NativeInstruction` | No | Present when the candidate is your own agent. |
 
 ## MinCandidate
 
@@ -572,6 +577,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `connect` | `JsonObject` | No |  |
 | `consider` | `Array<JsonObject>` | No |  |
 | `preferred` | `PreferredDecision` | No |  |
+| `instruction` | `NativeInstruction` | No | Present when the best candidate is your own agent. |
 
 ## LeanRecommendRequest
 
@@ -1253,3 +1259,23 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `own` | `OwnToolDecision` | No |  |
 | `consider` | `Array<JsonObject>` | No |  |
 | `baseline` | `NativeBaseline` | No |  |
+
+## NativeInstructionAlternative
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `variant` | `string \| null` | Yes | Label of the configuration this instruction belongs to. |
+| `prompt` | `string \| null` | Yes | System prompt to run the task with; null when the configuration uses the request alone. |
+| `max_searches` | `number \| null` | Yes | Web search budget for the configuration. |
+| `tools` | `Array<string> \| null` | Yes | Tools the configuration may use. |
+| `cap_lcb` | `number` | Yes | Risk-adjusted lower-confidence capability estimate for this configuration. |
+
+## NativeInstruction
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `variant` | `string \| null` | Yes | Label of the configuration this instruction belongs to. |
+| `prompt` | `string \| null` | Yes | System prompt to run the task with; null when the configuration uses the request alone. |
+| `max_searches` | `number \| null` | Yes | Web search budget for the configuration. |
+| `tools` | `Array<string> \| null` | Yes | Tools the configuration may use. |
+| `alternatives` | `Array<NativeInstructionAlternative>` | Yes | Other configurations available to the caller, best first. |

@@ -48,6 +48,23 @@ redacted or shortened for transport; judge rationale and panel fields describe t
 provisional and `facet_form` describes preferences that can refine it. Check the calling descriptor
 and connection requirements before execution.
 
+## Using your own agent
+
+When `verdict` is `use_native`, the best candidate is your own agent rather than an external tool,
+and nothing runs server-side. The recommendation then carries an `instruction`: on the candidate in
+`lean` and `full`, and at the top level in `min`. It describes the configuration that was evaluated.
+
+| Field | Meaning |
+|---|---|
+| `instruction.variant` | Label of the evaluated configuration |
+| `instruction.prompt` | System prompt to run the task with; null means the request alone |
+| `instruction.max_searches` | Web search budget |
+| `instruction.tools` | Tools the configuration may use |
+| `instruction.alternatives` | Other configurations available to you, best first, each with its own `cap_lcb` |
+
+Run the task with the prompt and limits of the configuration you choose. Fields are null when the
+service has no value for them.
+
 ## Python
 
 ```python

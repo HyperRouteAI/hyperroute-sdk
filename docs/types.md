@@ -1298,6 +1298,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `score` | `"full" \| "partial" \| "useless" \| "not_used" \| "blocked"` | Yes | useless or blocked on an item that ran reopens it: the reply carries the next tool's result or the item handed back. |
 | `reason` | `string \| null` | No | wrong_output | missing_data | too_slow | error | redundant | safety; other text is kept as the comment. |
 | `comment` | `string \| null` | No |  |
+| `satisfied` | `boolean \| null` | No | The user's own thumbs up or down, if they gave one. |
 
 ## RunRequest
 

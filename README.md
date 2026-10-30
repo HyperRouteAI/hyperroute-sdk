@@ -107,6 +107,10 @@ Recommendation and execution are separate calls. Inspect the recommendation befo
 tool: it may request additional preferences, suggest your own tools, or require a connection.
 Execution may return HTTP 200 with `ok: false`; check that field before using the result.
 
+`run` does both in one call for several lookups: each item is routed on its own and the best tool
+runs, or the item says to use your own tools, connect a key, or let your user choose. Reports owed
+from an earlier run travel in the next `run`.
+
 See [Python examples](examples/python), [TypeScript examples](examples/typescript), and the
 [usage guide](docs/usage.md) for execution, feedback, polling, streaming, and error handling.
 

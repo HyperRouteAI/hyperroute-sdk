@@ -10,45 +10,49 @@ Example output:
 
 ```json
 {
-  "session_id": "s-be04ce67cc5c46cd",
+  "session_id": "s-13ab2e6e2bd24fc1",
   "kind": "ranked",
   "status": "needs_facets",
   "provisional": true,
   "best": {
-    "tool_id": "tavily_search",
-    "name": "Tavily Search API",
+    "tool_id": "pubmed",
+    "name": "PubMed (NCBI E-utilities)",
     "variant": null,
     "capabilities": [
-      "web_search",
-      "realtime"
+      "paper_search",
+      "academic",
+      "references",
+      "abstracts",
+      "medical_literature",
+      "biomedical"
     ],
-    "description": "AI-optimized search API designed for LLM applications. Returns clean, relevant results with high snippet quality.",
+    "description": "Canonical biomedical and life-science literature index maintained by the US National Library of Medicine. MeSH-indexed; supports clinical filters, publication-type metadata, and PMID-keyed lookups. Returns title, authors, abstract, journal, publication date, DOI, and publication types.",
     "kind": "external_tool",
     "endpoint": {
       "api_type": "rest",
-      "base_url": "https://api.tavily.com",
-      "status_url": "https://app.tavily.com"
+      "base_url": "https://eutils.ncbi.nlm.nih.gov",
+      "status_url": "https://www.ncbi.nlm.nih.gov"
     },
-    "reason": "highest-ranked: capability 0.98; meets the required capability bar; effective $0.0080/query.",
-    "capability": 0.9798,
-    "band": 0.0059,
-    "cap_lcb": 0.9739,
-    "rank": 0.9879,
+    "reason": "highest-ranked: capability 0.98; meets the required capability bar; effective $0.0000/query.",
+    "capability": 0.9809,
+    "band": 0.0172,
+    "cap_lcb": 0.9637,
+    "rank": 0.9846,
     "price": {
-      "amount": 0.008,
-      "per_query_usd": 0.008,
+      "amount": 0,
+      "per_query_usd": 0,
       "currency": "USD",
       "confidence": "high",
-      "selected_plan": "pay_as_you_go",
+      "selected_plan": "free",
       "held": false,
       "estimated": true,
       "cost_unknown": false,
       "breakdown": [
         {
-          "plan_id": "pay_as_you_go",
-          "kind": "metered",
-          "plan_group": "tavily",
-          "effective_usd": 0.008,
+          "plan_id": "free",
+          "kind": "free",
+          "plan_group": null,
+          "effective_usd": 0,
           "held": false,
           "currency": "USD",
           "confidence": "high",
@@ -57,77 +61,27 @@ Example output:
       ]
     },
     "calling": {
-      "tool_id": "tavily_search",
+      "tool_id": "pubmed",
       "coordinator_class": false,
       "executable": true,
       "endpoint": {
-        "base_url": "https://api.tavily.com",
+        "base_url": "https://eutils.ncbi.nlm.nih.gov",
         "api_type": "rest"
       },
       "adapter": {
         "type": "llm"
       },
       "auth": {
-        "method": "api_key",
-        "env_var": "TAVILY_API_KEY",
-        "connected": false
+        "method": "none"
       },
       "summary": {
-        "usability": "connect_key",
-        "auth_method": "api_key",
+        "usability": "ready",
+        "auth_method": "none",
         "api_type": "rest",
         "connected": false,
-        "free": false,
-        "how": "connect a key → app.tavily.com/home",
-        "signup_url": "https://app.tavily.com/home"
-      },
-      "connect": {
-        "tool_id": "tavily_search",
-        "name": "Tavily Search API",
-        "auth_method": "api_key",
-        "signup_url": "https://app.tavily.com/home",
-        "instructions": "  1. Create a Tavily account — it comes with free monthly credits.\n  2. Open the API Keys section of the dashboard.\n  3. Create a key and copy it.",
-        "methods": [
-          {
-            "auth_method": "api_key",
-            "label": "Tavily API key",
-            "signup_url": "https://app.tavily.com/home",
-            "instructions": [
-              "Create a Tavily account — it comes with free monthly credits.",
-              "Open the API Keys section of the dashboard.",
-              "Create a key and copy it."
-            ],
-            "fields": [
-              {
-                "key": "TAVILY_API_KEY",
-                "label": "Tavily API key",
-                "secret": true,
-                "required": true,
-                "help": "Dashboard → API Keys → Create"
-              }
-            ]
-          }
-        ],
-        "fields": [
-          {
-            "key": "TAVILY_API_KEY",
-            "label": "Tavily API key",
-            "secret": true,
-            "required": true,
-            "help": "Dashboard → API Keys → Create"
-          }
-        ],
-        "source": "evaluator",
-        "connect_via": {
-          "surface": "POST /credentials/connect",
-          "method": "Tavily API key",
-          "field_key": "TAVILY_API_KEY",
-          "payload": {
-            "tool_id": "tavily_search",
-            "api_key": "<paste your key here>"
-          },
-          "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"tavily_search\",\"api_key\":\"<YOUR_KEY>\"}'"
-        }
+        "free": true,
+        "how": "free · ready to use",
+        "signup_url": null
       }
     },
     "facets": [
@@ -136,16 +90,16 @@ Example output:
         "kano": "must_be",
         "weight": 1,
         "threshold": 0.5,
-        "raw": 0.9739,
-        "contribution": 0.9635
+        "raw": 0.9637,
+        "contribution": 0.9492
       },
       {
         "name": "price",
         "kano": "performance",
         "weight": 0.3,
         "threshold": 0.5,
-        "raw": 0.9885,
-        "contribution": 0.2965
+        "raw": 1,
+        "contribution": 0.3
       },
       {
         "name": "no_machine_harm",
@@ -157,234 +111,93 @@ Example output:
       }
     ],
     "evidence": {
-      "n_real": 602,
+      "n_real": 82,
       "n_near": 24,
-      "near_mean": 0.721,
+      "near_mean": 0.827,
       "dist": [
-        0.567,
-        0.917,
-        1,
-        0.967,
-        1,
-        0.9,
+        0.399,
         1,
         1,
-        0.267,
         1,
-        0.633,
-        0.4,
-        0.333,
-        0.933,
         1,
-        0.967,
-        0.783,
-        0.733,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0.052,
+        1,
+        0.036,
+        0.973,
+        0.977,
+        1,
+        0.911,
         0,
         1,
-        0.95,
-        0,
-        0,
-        0.95
+        1,
+        0.5,
+        0.998
       ],
       "probes": [
         {
-          "probe_id": "obs-28642",
-          "similarity": 0.97,
-          "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-          "adapted_input": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-          "score": 0.567,
+          "probe_id": "obs-42591",
+          "similarity": 0.983,
+          "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+          "adapted_input": "AlphaFold2 protein structure prediction Jumper 2021",
+          "score": 0.399,
           "redacted": null,
-          "output_chars": 20000,
-          "truncated": true,
-          "created_at": "2026-08-12T17:17:38.587502Z",
+          "output_chars": 6526,
+          "truncated": false,
+          "created_at": "2026-10-08T06:23:24.965500Z",
           "judges": [
             {
               "facet": "capability",
               "verdict": "partial",
-              "score": 0.567,
-              "rationale": "The tool successfully identifies specific recent work by Geoffrey Hinton, such as the 'Forward-Forwa | The tool returned a Wikipedia page about Geoffrey Hinton, which is not a list of recent papers. The  | The tool's answer field accurately names some recent papers by Geoffrey Hinton (e.g., 'The Forward-F",
+              "score": 0.399,
+              "rationale": "jev score 1.59/4 p=0.01/0.54/0.31/0.12/0.02 conf=0.48 | The tool returned AlphaFold-related 2021 Nature papers (the human proteome companion paper and the C | The canonical paper — Jumper et al., 'Highly accurate protein structure prediction with AlphaFold' (",
               "panel": [
                 {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool successfully identifies specific recent work by Geoffrey Hinton, such as the 'Forward-Forward Algorithm', which is a genuine recent contribution. The 'answer' field provides a helpful summary, and the search results include a highly relevant Wikipedia snippet that confirms his recent career…",
-                  "score": 0.8
+                  "model": "typesafe/jev-1.13.0",
+                  "rationale": "jev score 1.59/4 p=0.01/0.54/0.31/0.12/0.02 conf=0.48",
+                  "score": 0.398
                 },
                 {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The tool returned a Wikipedia page about Geoffrey Hinton, which is not a list of recent papers. The 'answer' field mentions 'The Forward-Forward Algorithm' and 'Layer Normalization' but these are not verified by the actual results, and the snippet does not include paper titles or publication years. …",
-                  "score": 0.4
+                  "model": "deepseek/deepseek-v4.1-flash",
+                  "rationale": "The tool returned AlphaFold-related 2021 Nature papers (the human proteome companion paper and the CASP14 paper), but missed the canonical target: Jumper et al., 'Highly accurate protein structure prediction with AlphaFold,' Nature 2021;596:583-589 (PMID 34265844). The requested paper is absent, and…",
+                  "score": 0.3
                 },
                 {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool's answer field accurately names some recent papers by Geoffrey Hinton (e.g., 'The Forward-Forward Algorithm'), which aligns with the ground truth, but the visible search results only show a general Wikipedia page, not direct links to indexed papers. The response partially addresses the quer…",
+                  "model": "z-ai/glm-5.3-flash",
+                  "rationale": "The canonical paper — Jumper et al., 'Highly accurate protein structure prediction with AlphaFold' (Nature 2021, PMID 34211365) — does not appear as a top result. The top hit is the companion human-proteome paper (Tunyasuvunakool et al., PMID 34293799), which is closely related and often confused wi…",
                   "score": 0.5
                 }
               ]
             },
             {
               "facet": "relevance",
-              "verdict": "poor",
-              "score": 0.25,
-              "rationale": "The top search result is a Wikipedia biography page, which is tangentially related but does not provide direct access to recent papers, requiring the user to dig for relevant information.",
+              "verdict": "good",
+              "score": 0.75,
+              "rationale": "jev choice=good p{good=0.53, partial=0.24, excellent=0.17, poor=0.05, irrelevant=0.01} conf=0.41",
               "panel": [
                 {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The top result is a Wikipedia page that provides background but does not directly list recent papers, and the answer mentions only two papers without clear publication years or links to actual papers, mixing relevant content with noise.",
-                  "label": "partial",
-                  "value": 0.5
-                },
-                {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool provides a direct answer mentioning specific recent papers like 'The Forward-Forward Algorithm', though the search results themselves are dominated by a Wikipedia biography rather than a list of papers.",
+                  "model": "typesafe/jev-1.13.0",
+                  "rationale": "jev choice=good p{good=0.53, partial=0.24, excellent=0.17, poor=0.05, irrelevant=0.01} conf=0.41",
                   "label": "good",
                   "value": 0.75
                 },
                 {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The top search result is a Wikipedia biography page, which is tangentially related but does not provide direct access to recent papers, requiring the user to dig for relevant information.",
-                  "label": "poor",
-                  "value": 0.25
-                }
-              ]
-            },
-            {
-              "facet": "source_quality",
-              "verdict": "tertiary",
-              "score": 0.4,
-              "rationale": "The tool provides a Wikipedia snippet as its primary source of information, which is categorized as a tertiary aggregator.",
-              "panel": [
-                {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool provides a Wikipedia snippet as its primary source of information, which is categorized as a tertiary aggregator.",
-                  "label": "tertiary",
-                  "value": 0.4
+                  "model": "deepseek/deepseek-v4.1-flash",
+                  "rationale": "The top results are all genuine 2021 Nature AlphaFold2 papers (Tunyasuvunakool et al. and the CASP14 paper), which are highly relevant and useful, but the specific Jumper et al. paper requested is not among them, so the targeting is imperfect.",
+                  "label": "good",
+                  "value": 0.75
                 },
                 {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The tool's output primarily cites Wikipedia, a tertiary aggregator, rather than providing direct links to peer-reviewed papers or primary sources.",
-                  "label": "tertiary",
-                  "value": 0.4
-                },
-                {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool's output includes a citation from Wikipedia, which is explicitly listed as a tertiary aggregator in the rubric.",
-                  "label": "tertiary",
-                  "value": 0.4
-                }
-              ]
-            },
-            {
-              "facet": "references_present",
-              "verdict": "present",
-              "score": 1,
-              "rationale": "The tool output includes a specific URL (https://en.wikipedia.org/wiki/Geoffrey_Hinton) as a source for the information provided.",
-              "panel": [
-                {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool output includes a specific URL (https://en.wikipedia.org/wiki/Geoffrey_Hinton) as a source for the information provided.",
-                  "label": "present",
-                  "value": 1
-                },
-                {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The tool's output includes explicit source references, such as the Wikipedia URL for Geoffrey Hinton.",
-                  "label": "present",
-                  "value": 1
-                },
-                {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool's output includes explicit URLs in the results section, which are source references that a reader can follow back to the underlying material.",
-                  "label": "present",
-                  "value": 1
-                }
-              ]
-            },
-            {
-              "facet": "output_was_returned",
-              "verdict": "returned",
-              "score": 1,
-              "rationale": "The tool returned a non-empty JSON object containing an answer and search results.",
-              "panel": [
-                {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool returned a non-empty JSON object containing an answer and search results.",
-                  "label": "returned",
-                  "value": 1
-                },
-                {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The tool's output contains multiple results including an AI-generated summary answering the query and a detailed search result snippet from Wikipedia, so non-empty output was returned.",
-                  "label": "returned",
-                  "value": 1
-                },
-                {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool returned a non-empty JSON output containing fields like 'answer' and 'results', which is usable for the query.",
-                  "label": "returned",
-                  "value": 1
-                }
-              ]
-            }
-          ],
-          "raw_output": "{\n  \"query\": \"Find recent papers by Geoffrey Hinton on neural networks published in the last few years.\",\n  \"adapted_query\": \"Find recent papers by Geoffrey Hinton on neural networks published in the last few years.\",\n  \"provider\": \"Tavily\",\n  \"answer\": \"Geoffrey Hinton's recent papers include \\\"The Forward-Forward Algorithm\\\" and \\\"Layer Normalization.\\\" He also discussed new learning algorithms for neural networks in 2022.\",\n  \"total_results\": 17,\n  \"api_params\": {\n    \"search_depth\": \"advanced\",\n    \"include_answer\": true,\n    \"include_raw_content\": false,\n    \"max_results\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Geoffrey Hinton\",\n      \"url\": \"https://en.wikipedia.org/wiki/Geoffrey_Hinton\",\n      \"snippet\": \"| Hinton at his home in 2026 |\\n| Born | Geoffrey Everest Hinton   (1947-12-06) 6 December 1947 (age 78)  London, England, UK |\\n| Education |  King's College, Cambridge (MA \\\"MA (Cantab)\\\"))  University of Edinburgh (PhD) |\\n| Known for |  Applications of backpropagation  Boltzmann machine  Restricted Boltzmann machine  Deep learning  Deep belief network  Knowledge distillation (\\\"Dark knowledge\\\")  Capsule neural networks  Mixture of experts  Product of experts  Time delay neural network  t-SNE  AlexNet  Dropout \\\"Dilution (neural networks)\\\") |\\n| Spouses |  Joanne  Rosalind Zalin   \\u200b (died 1994)\\u200b  Jacqueline Ford  \\u200b   \\u200b (m. 1997; died 2018) …[truncated]"
-        },
-        {
-          "probe_id": "obs-28362",
-          "similarity": 0.968,
-          "task_text": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-          "adapted_input": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-          "score": 0.917,
-          "redacted": null,
-          "output_chars": 20000,
-          "truncated": true,
-          "created_at": "2026-08-12T10:25:14.686269Z",
-          "judges": [
-            {
-              "facet": "capability",
-              "verdict": "pass",
-              "score": 0.917,
-              "rationale": "The tool performed exceptionally well. It provided highly relevant, authoritative scientific literat | The tool returned relevant, authoritative results (PMC, MDPI) with real citations and URLs, directly | The tool returned a relevant and diverse set of authoritative results from indexed scientific source",
-              "panel": [
-                {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool performed exceptionally well. It provided highly relevant, authoritative scientific literature (including links to PMC and MDPI) that directly addresses the query. The snippets contain specific, real-world citations with authors, journals, years, and DOIs, which perfectly aligns with the gr…",
-                  "score": 1
-                },
-                {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The tool returned relevant, authoritative results (PMC, MDPI) with real citations and URLs, directly addressing the query for scientific literature on graphene FET biosensors. The answer provides a concise summary. No off-topic or fabricated results. Minor clutter in snippet formatting does not detr…",
-                  "score": 0.85
-                },
-                {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool returned a relevant and diverse set of authoritative results from indexed scientific sources (e.g., PubMed, MDPI) on graphene FET biosensors, including recent peer-reviewed papers with correct titles and valid URLs, aligning well with the ground truth. Minor deductions for not explicitly li…",
-                  "score": 0.9
-                }
-              ]
-            },
-            {
-              "facet": "relevance",
-              "verdict": "excellent",
-              "score": 1,
-              "rationale": "The top results are directly relevant, providing peer-reviewed articles and reviews specifically on graphene field-effect transistors for biosensing, which matches the query intent for scientific literature.",
-              "panel": [
-                {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The top results are directly relevant, providing peer-reviewed articles and reviews specifically on graphene field-effect transistors for biosensing, which matches the query intent for scientific literature.",
-                  "label": "excellent",
-                  "value": 1
-                },
-                {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The top results provide highly relevant, high-quality scientific literature including specific titles, authors, and DOI/journal information directly related to graphene field-effect transistors for biosensing.",
-                  "label": "excellent",
-                  "value": 1
-                },
-                {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The top results are highly relevant, directly addressing graphene field-effect transistors for biosensing with peer-reviewed scientific literature from reputable sources.",
-                  "label": "excellent",
-                  "value": 1
+                  "model": "z-ai/glm-5.3-flash",
+                  "rationale": "The top results are highly relevant AlphaFold 2 papers from DeepMind in Nature 2021 (the human proteome paper and the CASP14 paper), but the exact target paper—Jumper et al., 'Highly accurate protein structure prediction with AlphaFold'—is not surfaced in the top results, making them useful but not …",
+                  "label": "good",
+                  "value": 0.75
                 }
               ]
             },
@@ -392,23 +205,23 @@ Example output:
               "facet": "source_quality",
               "verdict": "primary",
               "score": 1,
-              "rationale": "The tool output includes citations to peer-reviewed papers from reputable journals such as Proceedings of the National Academy of Sciences, Nano Letters, and Advanced Materials, which are primary authoritative sources.",
+              "rationale": "jev choice=primary p{primary=0.99, not_applicable=0.01, tertiary=0.00, reputable_secondary=0.00, low_quality=0.00} conf=0.99",
               "panel": [
                 {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The tool output includes citations to peer-reviewed papers from reputable journals such as Proceedings of the National Academy of Sciences, Nano Letters, and Advanced Materials, which are primary authoritative sources.",
+                  "model": "typesafe/jev-1.13.0",
+                  "rationale": "jev choice=primary p{primary=0.99, not_applicable=0.01, tertiary=0.00, reputable_secondary=0.00, low_quality=0.00} conf=0.99",
                   "label": "primary",
                   "value": 1
                 },
                 {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool provides citations to peer-reviewed scientific journals such as PNAS, Nano Letters, and Advanced Materials.",
+                  "model": "deepseek/deepseek-v4.1-flash",
+                  "rationale": "The tool returned peer-reviewed Nature journal articles indexed in PubMed, which are primary authoritative sources.",
                   "label": "primary",
                   "value": 1
                 },
                 {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool's results cite peer-reviewed academic papers from sources like PubMed Central and MDPI, which are primary sources.",
+                  "model": "z-ai/glm-5.3-flash",
+                  "rationale": "The tool returns PubMed records of peer-reviewed Nature journal articles (e.g., the AlphaFold human proteome paper and CASP14 paper), which are primary, authoritative scientific sources.",
                   "label": "primary",
                   "value": 1
                 }
@@ -418,23 +231,23 @@ Example output:
               "facet": "references_present",
               "verdict": "present",
               "score": 1,
-              "rationale": "The tool output provides specific URLs, article titles, and detailed citation markers (authors, journals, DOIs) for several scientific papers.",
+              "rationale": "jev choice=present p{present=1.00, absent=0.00, implied=0.00} conf=1.00",
               "panel": [
                 {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool output provides specific URLs, article titles, and detailed citation markers (authors, journals, DOIs) for several scientific papers.",
+                  "model": "typesafe/jev-1.13.0",
+                  "rationale": "jev choice=present p{present=1.00, absent=0.00, implied=0.00} conf=1.00",
                   "label": "present",
                   "value": 1
                 },
                 {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The output includes multiple results with URLs and citation details (e.g., DOI, PubMed, Google Scholar links) that a reader can follow back to the original papers.",
+                  "model": "deepseek/deepseek-v4.1-flash",
+                  "rationale": "The output includes explicit PMIDs, DOIs, journal names, author lists, and PubMed URLs for each result, which a reader can follow back to the source material.",
                   "label": "present",
                   "value": 1
                 },
                 {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool's output includes explicit source references such as URLs and citation markers in the search results, enabling readers to follow them back to the underlying material.",
+                  "model": "z-ai/glm-5.3-flash",
+                  "rationale": "The output includes explicit source references such as PubMed URLs (e.g., https://pubmed.ncbi.nlm.nih.gov/34293799/), PMIDs, and DOIs (e.g., 10.1038/s41586-021-03828-1) that a reader can follow back to the underlying papers.",
                   "label": "present",
                   "value": 1
                 }
@@ -444,41 +257,41 @@ Example output:
               "facet": "output_was_returned",
               "verdict": "returned",
               "score": 1,
-              "rationale": "The tool returned a non-empty JSON object containing a summary and a list of relevant search results with titles and URLs.",
+              "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
               "panel": [
                 {
-                  "model": "google/gemma-4-26b-a4b-it",
-                  "rationale": "The tool returned a non-empty JSON object containing a summary and a list of relevant search results with titles and URLs.",
+                  "model": "typesafe/jev-1.13.0",
+                  "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
                   "label": "returned",
                   "value": 1
                 },
                 {
-                  "model": "deepseek/deepseek-v4-flash",
-                  "rationale": "The tool returned a JSON object containing an answer, results list, and other fields, which is non-empty output.",
+                  "model": "deepseek/deepseek-v4.1-flash",
+                  "rationale": "The tool returned a non-empty PubMed result set with three records, including titles, abstracts, and metadata.",
                   "label": "returned",
                   "value": 1
                 },
                 {
-                  "model": "xiaomi/mimo-v2.5",
-                  "rationale": "The tool output contains a non-empty JSON response with search results, an answer, and structured data.",
+                  "model": "z-ai/glm-5.3-flash",
+                  "rationale": "The tool returned non-empty, structured output containing three PubMed results with titles, abstracts, authors, and metadata for the AlphaFold query.",
                   "label": "returned",
                   "value": 1
                 }
               ]
             }
           ],
-          "raw_output": "{\n  \"query\": \"Find scientific literature on graphene field-effect transistors for biosensing applications.\",\n  \"adapted_query\": \"Find scientific literature on graphene field-effect transistors for biosensing applications.\",\n  \"provider\": \"Tavily\",\n  \"answer\": \"Graphene field-effect transistors (GFETs) are used for biosensing due to their high sensitivity and fast response. They detect biomolecules by changes in charge carrier density. GFETs have been applied to detect various biomolecules including proteins and DNA.\",\n  \"total_results\": 20,\n  \"api_params\": {\n    \"search_depth\": \"advanced\",\n    \"include_answer\": true,\n    \"include_raw_content\": false,\n    \"max_results\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Challenges for Field-Effect-Transistor-Based Graphene Biosensors\",\n      \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC10817696\",\n      \"snippet\": \"155..Gao N., Gao T., Yang X., Dai X., Zhou W., Zhang A., Lieber C.M.. Specific Detection of Biomolecules in Physiological Solutions Using Graphene Transistor Biosensors. _Proc. Natl. Acad. Sci. USA_. 2016. 113:14633-14638. doi: 10.1073/pnas.1625010114 [DOI] [PMC free article] [PubMed] [Google Scholar]\\n   156..Bliem C., Piccinini E., Knoll W., Azzaroni O.. Enzyme Multilayers on Graphene-Based FETs for Biosensing Applications. In: Kumar C.V., editors. _Methods in Enzymology_. Amsterdam, The Netherlands: Elsevier; 2018. Vo …[truncated]"
+          "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"adapted_query\": \"AlphaFold2 protein structure prediction Jumper 2021[dp]\",\n  \"provider\": \"PubMed (NCBI E-utilities)\",\n  \"tool_kind\": \"biomedical literature search (MeSH-indexed)\",\n  \"total_results\": 3,\n  \"returned_results\": 3,\n  \"results\": [\n    {\n      \"pmid\": \"34293799\",\n      \"title\": \"Highly accurate protein structure prediction for the human proteome.\",\n      \"abstract\": \"Protein structures can provide invaluable information, both for reasoning about biological processes and for enabling interventions such as structure-based drug development or targeted mutagenesis. After decades of effort, 17% of the total residues in human protein sequences are covered by an experimentally determined structure1. Here we markedly expand the structural coverage of the proteome by applying the state-of-the-art machine learning method, AlphaFold2, at a scale that covers almost the entire human proteome (98.5% of human proteins). The resulting dataset covers 58% of residues with a confident prediction, of which a subset (36% of all residues) have very high confidence. We introduce several metrics developed by building on the AlphaFold model and use them to interpret the dataset, identifying strong multi-domain predictions as well as regions that are likely to be disord …[truncated]"
         },
         {
-          "probe_id": "obs-32704",
-          "similarity": 0.966,
-          "task_text": "Find the 2026 Applied Energy paper by Chen et al. on turning current mismatch into an advantage to suppress hysteresis in two-terminal tandem cells, and give me its DOI.",
-          "adapted_input": "Chen 2026 Applied Energy tandem two-terminal current mismatch hysteresis suppression perovskite",
+          "probe_id": "obs-43539",
+          "similarity": 0.982,
+          "task_text": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+          "adapted_input": "intrahepatic cholestasis pregnancy prediction stratification Xu 2026",
           "score": 1,
           "redacted": null,
-          "output_chars": 20000,
-          "truncated": true,
-          "created_at": "2026-08-29T10:47:02.333840Z",
+          "output_chars": 2853,
+          "truncated": false,
+          "created_at": "2026-10-08T22:50:55.723652Z",
           "judges": [
             {
               "facet": "capability",
@@ -488,2901 +301,75 @@ Example output:
               "panel": null
             }
           ],
-          "raw_output": "{\n  \"query\": \"Chen 2026 Applied Energy tandem two-terminal current mismatch hysteresis suppression perovskite\",\n  \"adapted_query\": \"Chen 2026 Applied Energy tandem two-terminal current mismatch hysteresis suppression perovskite\",\n  \"provider\": \"Tavily\",\n  \"answer\": \"Two-terminal perovskite/silicon tandem solar cells face current mismatch issues, leading to hysteresis and performance instability. Strategies to mitigate this include precise interface passivation and ion suppression. Research shows these cells may not perform optimally in all climates due to spectral variations.\",\n  \"total_results\": 20,\n  \"api_params\": {\n    \"search_depth\": \"advanced\",\n    \"include_answer\": true,\n    \"include_raw_content\": \"markdown\",\n    \"max_results\": 20\n  },\n  \"top_documents\": [\n    {\n      \"url\": \"https://www.sciencedirect.com/science/article/abs/pii/S0306261926012328\",\n      \"title\": \"Turning current mismatch into advantage: suppressing hysteresis and improving operational stability in two-terminal perovskite/silicon tandem solar cells\",\n      \"text\": \"[Skip to main content](https://www.sciencedirect.com/science/article/abs/pii/S0306261926012328#screen-reader-main-content)[Skip to article](https://www.sciencedirect.com/science/article/abs/pii/S0306261926012328#screen-reader-main-title)\\n\\n[![Image 2: Elsevier logo](https://www.sciencedirect.com/shared-assets/24/images/elsevier-non-solus-new-g …[truncated]"
+          "raw_output": "{\n  \"query\": \"What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?\",\n  \"adapted_query\": \"intrahepatic cholestasis pregnancy prediction stratification Xu 2026[dp]\",\n  \"provider\": \"PubMed (NCBI E-utilities)\",\n  \"tool_kind\": \"biomedical literature search (MeSH-indexed)\",\n  \"total_results\": 1,\n  \"returned_results\": 1,\n  \"results\": [\n    {\n      \"pmid\": \"42589990\",\n      \"title\": \"Early Precise Prediction and Severe Risk Stratification of Intrahepatic Cholestasis of Pregnancy: Advances and Future Directions in Clinical Translation from Traditional Models to Artificial Intelligence and Multi-Omics Technologies.\",\n      \"abstract\": \"Intrahepatic cholestasis of pregnancy (ICP) is a liver disorder unique to pregnancy, closely associated with severe adverse maternal and fetal outcomes such as preterm birth and intrauterine fetal death. Its pathogenesis involves a complex interplay of genetic, hormonal, metabolic, and environmental factors, with a higher risk observed in southern China and among individuals co-infected with hepatitis B virus. Substantial evidence demonstrates a significant dose-response relationship between serum total bile acid (TBA) levels and perinatal outcomes, with TBA \\u2265 40 \\u03bcmol/L commonly used as a criterion for severe ICP. However,  …[truncated]"
+        },
+        {
+          "probe_id": "obs-43058",
+          "similarity": 0.975,
+          "task_text": "Find the August 2026 Diabetes, Obesity & Metabolism paper by Liao et al. asking whether more treatment translates to better outcomes for continuous glucose monitoring in gestational diabetes. PMID please.",
+          "adapted_input": "Liao 2026 continuous glucose monitoring gestational diabetes",
+          "score": 1,
+          "redacted": null,
+          "output_chars": 978,
+          "truncated": false,
+          "created_at": "2026-10-08T13:19:57.713161Z",
+          "judges": [
+            {
+              "facet": "capability",
+              "verdict": "pass",
+              "score": 1,
+              "rationale": "Deterministic check — matched 1/1 required string(s).",
+              "panel": null
+            }
+          ],
+          "raw_output": "{\n  \"query\": \"Find the August 2026 Diabetes, Obesity & Metabolism paper by Liao et al. asking whether more treatment translates to better outcomes for continuous glucose monitoring in gestational diabetes. PMID please.\",\n  \"adapted_query\": \"Liao continuous glucose monitoring gestational diabetes 2026[dp]\",\n  \"provider\": \"PubMed (NCBI E-utilities)\",\n  \"tool_kind\": \"biomedical literature search (MeSH-indexed)\",\n  \"total_results\": 1,\n  \"returned_results\": 1,\n  \"results\": [\n    {\n      \"pmid\": \"42642349\",\n      \"title\": \"Continuous Glucose Monitoring in Gestational Diabetes: Does More Treatment Translate to Better Outcomes?\",\n      \"abstract\": \"\",\n      \"authors\": [\n        \"Liao J\",\n        \"Yuan Q\",\n        \"Xia Y\"\n      ],\n      \"publication_date\": \"2026 Nov\",\n      \"journal\": \"Diabetes, obesity & metabolism\",\n      \"doi\": \"10.1111/dom.71282\",\n      \"publication_types\": [\n        \"Letter\"\n      ],\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/42642349/\"\n    }\n  ]\n}"
         }
       ]
     },
     "evidence_teaser": {
-      "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-      "verdict": "returned",
-      "score": 0.567,
-      "similarity": 0.97,
-      "n_real": 602
+      "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+      "verdict": "present",
+      "score": 0.399,
+      "similarity": 0.983,
+      "n_real": 82
     }
   },
   "runner_ups": [
     {
-      "tool_id": "sonar_deep_research",
-      "name": "Perplexity Agent API (medium / deep-research preset)",
-      "variant": null,
-      "capabilities": [
-        "deep_research",
-        "web_search",
-        "realtime",
-        "references",
-        "synthesis",
-        "fact_check"
-      ],
-      "description": "Composite deep-research agent on Perplexity's Agent API, `medium` preset (their rename of deep-research; the model is Perplexity-managed and reported per response). Issues multiple web searches and page fetches per query, cross-checks claims, and synthesises a long-form answer with inline citations. Shares the PERPLEXITY_API_KEY credential with perplexity_sonar.",
-      "kind": "external_tool",
-      "endpoint": {
-        "api_type": "rest",
-        "base_url": "https://api.perplexity.ai",
-        "status_url": "https://status.perplexity.com"
-      },
-      "reason": "lower capability (0.96 vs 0.98); pricier ($0.0200 vs $0.0080/query).",
-      "capability": 0.9586,
-      "band": 0.0203,
-      "cap_lcb": 0.9384,
-      "rank": 0.9712,
-      "price": {
-        "amount": 0.02,
-        "per_query_usd": 0.02,
-        "currency": "USD",
-        "confidence": "medium",
-        "selected_plan": "api",
-        "held": false,
-        "estimated": true,
-        "cost_unknown": false,
-        "breakdown": [
-          {
-            "plan_id": "api",
-            "kind": "metered",
-            "plan_group": "perplexity_api",
-            "effective_usd": 0.02,
-            "held": false,
-            "currency": "USD",
-            "confidence": "medium",
-            "overridden": false
-          }
-        ]
-      },
-      "calling": {
-        "tool_id": "sonar_deep_research",
-        "coordinator_class": false,
-        "executable": true,
-        "endpoint": {
-          "base_url": "https://api.perplexity.ai",
-          "api_type": "rest"
-        },
-        "adapter": {
-          "type": "none"
-        },
-        "auth": {
-          "method": "api_key",
-          "env_var": "PERPLEXITY_API_KEY",
-          "connected": false
-        },
-        "summary": {
-          "usability": "connect_key",
-          "auth_method": "api_key",
-          "api_type": "rest",
-          "connected": false,
-          "free": false,
-          "how": "connect a key → www.perplexity.ai/settings/api",
-          "signup_url": "https://www.perplexity.ai/settings/api"
-        },
-        "connect": {
-          "tool_id": "sonar_deep_research",
-          "name": "Perplexity Agent API (medium / deep-research preset)",
-          "auth_method": "api_key",
-          "signup_url": "https://www.perplexity.ai/settings/api",
-          "instructions": "  1. Create a Perplexity account, or sign in.\n  2. Open the API settings page.\n  3. Add a payment method and buy some API credit.\n  4. Generate an API key and copy it.",
-          "methods": [
-            {
-              "auth_method": "api_key",
-              "label": "Perplexity API key",
-              "signup_url": "https://www.perplexity.ai/settings/api",
-              "instructions": [
-                "Create a Perplexity account, or sign in.",
-                "Open the API settings page.",
-                "Add a payment method and buy some API credit.",
-                "Generate an API key and copy it."
-              ],
-              "fields": [
-                {
-                  "key": "PERPLEXITY_API_KEY",
-                  "label": "Perplexity API key",
-                  "secret": true,
-                  "required": true,
-                  "help": "Settings → API → Generate"
-                }
-              ]
-            }
-          ],
-          "fields": [
-            {
-              "key": "PERPLEXITY_API_KEY",
-              "label": "Perplexity API key",
-              "secret": true,
-              "required": true,
-              "help": "Settings → API → Generate"
-            }
-          ],
-          "source": "evaluator",
-          "connect_via": {
-            "surface": "POST /credentials/connect",
-            "method": "Perplexity API key",
-            "field_key": "PERPLEXITY_API_KEY",
-            "payload": {
-              "tool_id": "sonar_deep_research",
-              "api_key": "<paste your key here>"
-            },
-            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"sonar_deep_research\",\"api_key\":\"<YOUR_KEY>\"}'"
-          }
-        }
-      },
-      "facets": [
-        {
-          "name": "capability",
-          "kano": "must_be",
-          "weight": 1,
-          "threshold": 0.5,
-          "raw": 0.9384,
-          "contribution": 0.9137
-        },
-        {
-          "name": "price",
-          "kano": "performance",
-          "weight": 0.3,
-          "threshold": 0.5,
-          "raw": 0.9714,
-          "contribution": 0.2914
-        },
-        {
-          "name": "no_machine_harm",
-          "kano": "must_be",
-          "weight": 2,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 2
-        }
-      ],
-      "evidence": {
-        "n_real": 165,
-        "n_near": 24,
-        "near_mean": 0.924,
-        "dist": [
-          1,
-          0.9,
-          0.94,
-          1,
-          0.967,
-          0.733,
-          0.983,
-          1,
-          0.933,
-          0.7,
-          0.95,
-          1,
-          0.933,
-          0.967,
-          0.733,
-          0.967,
-          0.867,
-          0.867,
-          0.733,
-          1,
-          1,
-          1,
-          1,
-          1
-        ],
-        "probes": [
-          {
-            "probe_id": "obs-826",
-            "similarity": 0.958,
-            "task_text": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-            "adapted_input": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 20000,
-            "truncated": true,
-            "created_at": "2026-05-17T19:11:49.804516Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "The tool provided a highly detailed and accurate response. It correctly identified the paper title,  | The tool correctly identifies the exact paper requested: 'Observation of Gravitational Waves from a  | The tool accurately identifies the paper with the exact title, authors (in standard citation form), ",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a highly detailed and accurate response. It correctly identified the paper title, authors (Abbott et al.), year (2016), journal (Physical Review Letters), DOI, and the arXiv identifier. It even included the internal LIGO report number and specific astrophysical details, exceeding t…",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool correctly identifies the exact paper requested: 'Observation of Gravitational Waves from a Binary Black Hole Merger' by B. P. Abbott et al., published in Physical Review Letters (116, 061102, 2016), with DOI 10.1103/PhysRevLett.116.061102, arXiv:1602.03837. It provides full bibliographic de…",
-                    "score": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool accurately identifies the paper with the exact title, authors (in standard citation form), year, venue, and DOI as specified in the ground truth, providing a comprehensive and correct response.",
-                    "score": 1
-                  }
-                ]
-              },
-              {
-                "facet": "format",
-                "verdict": "unstructured",
-                "score": 0,
-                "rationale": "The tool output is provided as a long-form prose response in Markdown format rather than a machine-parseable JSON or structured data object.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output is provided as a long-form prose response in Markdown format rather than a machine-parseable JSON or structured data object.",
-                    "label": "unstructured",
-                    "value": 0
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output is a JSON object with clearly defined fields (query, provider, tool_kind, answer), making it machine-parseable structured data despite the prose content within the answer field.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output is presented as a detailed prose narrative with no machine-parseable structured data format such as JSON or a list.",
-                    "label": "unstructured",
-                    "value": 0
-                  }
-                ]
-              },
-              {
-                "facet": "freshness",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The query asks for a specific scientific paper regarding a historical discovery, which is a static fact where freshness is irrelevant.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The query asks for a specific scientific paper regarding a historical discovery, which is a static fact where freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The query asks for a specific historical paper from 2016, which is a static fact where freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The query is about identifying a historical paper from 2016, which is a static fact where freshness is irrelevant as the publication details are fixed and do not change over time.",
-                    "label": "not_applicable",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The tool directly identifies the correct paper, providing the title, authors, year, journal, DOI, and arXiv identifier as requested.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool directly identifies the correct paper, providing the title, authors, year, journal, DOI, and arXiv identifier as requested.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output directly and accurately identifies the discovery paper for GW150914 with its title, authors, year, DOI, and LIGO document number, fully satisfying the query intent with high-quality source information.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output directly identifies the exact paper requested with complete bibliographic details, perfectly matching the query intent and ground truth.",
-                    "label": "excellent",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool cites the peer-reviewed paper itself (Physical Review Letters) and its arXiv preprint as the basis for its answer.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool cites the peer-reviewed paper itself (Physical Review Letters) and its arXiv preprint as the basis for its answer.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output cites peer-reviewed scientific papers (e.g., Phys. Rev. Lett. 116, 061102) and official LIGO document numbers as primary authoritative sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output directly cites and provides bibliographic details for the original peer-reviewed paper in Physical Review Letters, which is a primary source for scientific research.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "snippet_quality",
-                "verdict": "informative",
-                "score": 1,
-                "rationale": "The output provides a highly detailed description including the paper title, authors, journal, year, DOI, arXiv identifier, and specific scientific findings, allowing the user to fully assess relevance without further searching.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The output provides a highly detailed description including the paper title, authors, journal, year, DOI, arXiv identifier, and specific scientific findings, allowing the user to fully assess relevance without further searching.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output provides a detailed summary including the exact title, authors, year, DOI, arXiv ID, and specific scientific details (masses, distance, significance) that allow full assessment of relevance without needing to click through.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The output provides specific facts such as the paper title, authors, publication details, DOI, and key scientific findings, allowing the reader to assess relevance without clicking through.",
-                    "label": "informative",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool provides explicit citation markers, the DOI, the arXiv identifier, and the specific journal publication details.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides explicit citation markers, the DOI, the arXiv identifier, and the specific journal publication details.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output contains multiple explicit source references including a DOI, arXiv ID, and internal LIGO document number, along with citation markers, allowing a reader to trace back to the original paper.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit source references like the arXiv ID (1602.03837) and DOI (10.1103/PhysRevLett.116.061102), which are direct identifiers for the paper.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool provided a detailed and comprehensive response containing the requested information.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a detailed and comprehensive response containing the requested information.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a substantial, non-empty answer describing the requested paper with bibliographic details and analysis.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output is non-empty and provides a detailed response with bibliographic information about the paper, meeting the criteria for usable output.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).\",\n  \"provider\": \"Perplexity (sonar-deep-research)\",\n  \"tool_kind\": \"composite deep-research agent (multi-step search + LLM synthesis)\",\n  \"answer\": \"# The First Direct Detection of Gravitational Waves from a Binary Black Hole Merger: The LIGO GW150914 Discovery Paper\\n\\nThe foundational paper reporting the first direct observation of gravitational waves from a binary black hole merger is the LIGO\\u2013Virgo collaboration article titled **\\u201cObservation of Gravitational Waves from a Binary Black Hole Merger\\u201d**, with report number **LIGO\\u2011P150914**, published in *Physical Review Letters* (volume 116, article 061102, 2016) and first released as **arXiv:1602.03837**.[7][7][7] This paper, authored by B. P. Abbott and the LIGO Scientific Collaboration and Virgo Collaboration, presents the detection and analysis of the event designated **GW150914**, a transient gravitational\\u2011wave signal recorded on 14 September 2015 by the two Advanced LIGO detectors, and interprets it as the inspiral, merger, and ringdown of a binary black hole system with component masses of approximately \\\\(36 M_\\\\odot\\\\) and \\\\(29 M_\\\\odot\\\\) at a luminosity distance of roughly 410 Mpc.[7][7][12] The paper establishes that the observed …[truncated]"
-          },
-          {
-            "probe_id": "obs-641",
-            "similarity": 0.949,
-            "task_text": "Devlin et al. 2018 paper on bidirectional Transformer pre-training for language understanding (BERT).",
-            "adapted_input": "Devlin et al. 2018 paper on bidirectional Transformer pre-training for language understanding (BERT).",
-            "score": 0.9,
-            "redacted": null,
-            "output_chars": 20000,
-            "truncated": true,
-            "created_at": "2026-05-17T09:26:21.565254Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 0.9,
-                "rationale": "The tool provided a highly detailed and accurate response. It correctly identified the title, all au | The tool's output is highly relevant, accurate, and comprehensive. It correctly identifies the paper | The tool accurately identifies the BERT paper by its title and authors, provides a comprehensive ana",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a highly detailed and accurate response. It correctly identified the title, all authors, and the core technical contributions of the paper. While the output was truncated (likely due to length limits of the tool's synthesis), the information provided was perfectly aligned with the …",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output is highly relevant, accurate, and comprehensive. It correctly identifies the paper's title, authors, year, and key contributions (bidirectional Transformer, masked LM, next sentence prediction, fine-tuning). It provides detailed historical context, architecture, and impact, closely…",
-                    "score": 0.9
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool accurately identifies the BERT paper by its title and authors, provides a comprehensive analysis of its content, and mentions the year (with a slight variation to 2018/2019), which is largely correct. However, it does not explicitly include the persistent identifier (arXiv ID or URL) as spe…",
-                    "score": 0.8
-                  }
-                ]
-              },
-              {
-                "facet": "format",
-                "verdict": "semi_structured",
-                "score": 0.5,
-                "rationale": "The output is a valid JSON object with metadata fields, but the main answer is unstructured prose (Markdown text), so it is only partially machine-parseable for the expected structured fields.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returns a long-form prose report in Markdown format rather than a machine-parseable JSON object or a list of search results with specific fields.",
-                    "label": "unstructured",
-                    "value": 0
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output is a valid JSON object with metadata fields, but the main answer is unstructured prose (Markdown text), so it is only partially machine-parseable for the expected structured fields.",
-                    "label": "semi_structured",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The output is a JSON object with an unstructured prose answer embedded in the 'answer' field, matching the definition of partially structured data.",
-                    "label": "semi_structured",
-                    "value": 0.5
-                  }
-                ]
-              },
-              {
-                "facet": "freshness",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The query is about a specific academic paper from 2018, which is a static historical fact where freshness is not a relevant metric.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The query is about a specific academic paper from 2018, which is a static historical fact where freshness is not a relevant metric.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The query is about a specific 2018 research paper, so freshness of evidence is irrelevant as it is a static historical fact.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The query targets a historical paper from 2018, which is a static fact with no dependence on current evidence.",
-                    "label": "not_applicable",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The tool directly identifies the specific paper requested and provides a comprehensive, high-quality technical summary that addresses the query intent perfectly.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool directly identifies the specific paper requested and provides a comprehensive, high-quality technical summary that addresses the query intent perfectly.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output directly and comprehensively addresses the query intent by providing a detailed analysis of the Devlin et al. 2018 BERT paper, including its title, authors, context, and impact, making it highly relevant and useful.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output directly and comprehensively identifies the specified BERT paper with accurate details, fully addressing the query intent without any irrelevant information.",
-                    "label": "excellent",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool's output is a technical analysis of the specific peer-reviewed paper requested, and while the snippet itself is a synthesis, it is built upon and cites the primary research paper (Devlin et al., 2018).",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool's output is a technical analysis of the specific peer-reviewed paper requested, and while the snippet itself is a synthesis, it is built upon and cites the primary research paper (Devlin et al., 2018).",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output cites the original BERT paper and other peer-reviewed sources, which are primary academic sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes citations to peer-reviewed academic papers, which are classified as primary sources in the rubric.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "snippet_quality",
-                "verdict": "informative",
-                "score": 1,
-                "rationale": "The output provides a highly detailed technical summary of the paper, including its core objectives (MLM and NSP), its architectural significance, and its historical context in NLP.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The output provides a highly detailed technical summary of the paper, including its core objectives (MLM and NSP), its architectural significance, and its historical context in NLP.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output provides a comprehensive, detailed summary of the BERT paper including its title, authors, year, and specific technical descriptions, which allows the reader to assess relevance without needing to click through to external sources.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes specific facts such as the paper title, authors, year, and detailed content summaries, allowing assessment of relevance without further action.",
-                    "label": "informative",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool's output includes specific citation markers (e.g., [5], [1], [4]) throughout the text to refer to underlying sources.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool's output includes specific citation markers (e.g., [5], [1], [4]) throughout the text to refer to underlying sources.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output includes multiple citation markers like [5][1][4] and others that serve as explicit source references, allowing a reader to trace back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output includes explicit citation markers such as [5], [1], and [4] throughout the text, which are specific references that a reader can follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool provided a detailed, non-empty response containing information about the requested paper.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a detailed, non-empty response containing information about the requested paper.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a detailed synthesis about the BERT paper, which is non-empty and usable.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool provided a non-empty, detailed answer addressing the query, confirming usable output was returned.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Devlin et al. 2018 paper on bidirectional Transformer pre-training for language understanding (BERT).\",\n  \"provider\": \"Perplexity (sonar-deep-research)\",\n  \"tool_kind\": \"composite deep-research agent (multi-step search + LLM synthesis)\",\n  \"answer\": \"# BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding \\u2013 A Comprehensive Analysis of Devlin et al. (2018/2019)\\n\\nThe paper \\u201cBERT: Pre-training of Deep Bidirectional Transformers for Language Understanding\\u201d by Devlin, Chang, Lee and Toutanova introduced a deceptively simple but transformative idea: take the encoder half of the Transformer architecture, train it at large scale on raw text with two carefully designed self-supervised objectives\\u2014masked language modeling and next sentence prediction\\u2014and then reuse this single, generic model across a wide variety of downstream natural language processing (NLP) tasks with minimal architectural modification.[5][1][4] BERT (Bidirectional Encoder Representations from Transformers) is trained to jointly condition on both left and right context in all layers, in contrast to earlier unidirectional language models, which unlocks richer contextual representations that substantially improve performance on benchmarks such as GLUE, MultiNLI and SQuAD.[5][5][13] Remarkably, the same pre-trained BERT model can be adapted to classificat …[truncated]"
-          },
-          {
-            "probe_id": "obs-549",
-            "similarity": 0.949,
-            "task_text": "Find the 1986 Nature paper by Rumelhart, Hinton and Williams that introduced back-propagation for training multi-layer neural networks.",
-            "adapted_input": "Find the 1986 Nature paper by Rumelhart, Hinton and Williams that introduced back-propagation for training multi-layer neural networks.",
-            "score": 0.94,
-            "redacted": null,
-            "output_chars": 20000,
-            "truncated": true,
-            "created_at": "2026-05-17T05:09:51.106423Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 0.94,
-                "rationale": "The tool correctly identified the paper title, authors, year, and journal. It provided highly detail | The tool accurately identifies the requested paper with correct title, authors, year, venue, and vol | The tool accurately identified the paper's title, authors, year, and venue, matching the ground trut",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool correctly identified the paper title, authors, year, and journal. It provided highly detailed bibliographic information including volume, issue, and page numbers, which exceeds the requirements of the ground truth. Although the output was truncated at the end, the core answer to the user's …",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool accurately identifies the requested paper with correct title, authors, year, venue, and volume/issue/pages. It provides additional context and citation details, closely matching the ground truth. However, it does not explicitly state the DOI or URL, which are expected as persistent identifi…",
-                    "score": 0.92
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool accurately identified the paper's title, authors, year, and venue, matching the ground truth. It also provided additional bibliographic details and context. However, it did not explicitly include the persistent identifiers (DOI and URL) specified in the ground truth, which is a minor gap.",
-                    "score": 0.9
-                  }
-                ]
-              },
-              {
-                "facet": "format",
-                "verdict": "unstructured",
-                "score": 0,
-                "rationale": "The tool output is provided as a long-form prose response in Markdown format rather than a machine-parseable JSON or structured data object.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output is provided as a long-form prose response in Markdown format rather than a machine-parseable JSON or structured data object.",
-                    "label": "unstructured",
-                    "value": 0
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output is a valid JSON object with distinct fields, allowing programmatic extraction of the query, provider, tool kind, and the answer text.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output is a JSON object with structured keys like 'query' and 'provider', but the 'answer' field contains unstructured prose, making it partially machine-parseable.",
-                    "label": "semi_structured",
-                    "value": 0.5
-                  }
-                ]
-              },
-              {
-                "facet": "freshness",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The query asks for a specific historical scientific paper from 1986, which is a static fact where freshness is irrelevant.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The query asks for a specific historical scientific paper from 1986, which is a static fact where freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The query requests a historical paper from 1986, a static fact for which freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The query is about a static historical paper from 1986, where freshness is irrelevant to the fact itself.",
-                    "label": "not_applicable",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The tool directly identifies the correct paper, including the title, authors, year, and specific volume/issue details, perfectly matching the query intent.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool directly identifies the correct paper, including the title, authors, year, and specific volume/issue details, perfectly matching the query intent.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output directly and accurately identifies the requested 1986 Nature paper by Rumelhart, Hinton, and Williams with full bibliographic details, perfectly matching the query intent.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output directly identifies the specified 1986 Nature paper with accurate title, authors, venue, and bibliographic details, fully answering the query intent with high-quality sources.",
-                    "label": "excellent",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool cites the specific peer-reviewed paper in Nature and mentions authoritative databases like NASA ADS to provide the bibliographic information.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool cites the specific peer-reviewed paper in Nature and mentions authoritative databases like NASA ADS to provide the bibliographic information.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output cites the original 1986 Nature paper by Rumelhart, Hinton, and Williams, which is a peer-reviewed primary source.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool cites primary sources such as the peer-reviewed paper via NASA ADS and official repositories, which are authoritative for accessing the original publication.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "snippet_quality",
-                "verdict": "informative",
-                "score": 1,
-                "rationale": "The output provides a highly detailed description including the full title, complete author list, specific volume/issue/page numbers, and a summary of the paper's technical content.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The output provides a highly detailed description including the full title, complete author list, specific volume/issue/page numbers, and a summary of the paper's technical content.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output provides specific bibliographic details including exact title, authors, year, journal, volume, pages, and citation references, allowing the reader to assess relevance without needing to click through.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output contains specific bibliographic details and descriptive content that allow assessment of relevance without clicking.",
-                    "label": "informative",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool includes explicit citation markers (e.g., [7], [8], [3]) throughout the text to refer to underlying sources.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool includes explicit citation markers (e.g., [7], [8], [3]) throughout the text to refer to underlying sources.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output contains explicit citation markers (e.g., [7], [8], [3]) that point to specific sources, which a reader can use to locate the original material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit citation markers such as [7] and references to specific sources like Nature volume and page numbers.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool provided a detailed response containing the title, authors, year, and publication details of the requested paper.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a detailed response containing the title, authors, year, and publication details of the requested paper.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool provided a substantial, non-empty answer with detailed bibliographic information and analysis.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output includes a detailed answer with the paper's title, authors, year, venue, and additional context, indicating non-empty and usable output.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the 1986 Nature paper by Rumelhart, Hinton and Williams that introduced back-propagation for training multi-layer neural networks.\",\n  \"provider\": \"Perplexity (sonar-deep-research)\",\n  \"tool_kind\": \"composite deep-research agent (multi-step search + LLM synthesis)\",\n  \"answer\": \"# The 1986 Nature Paper \\u201cLearning representations by back-propagating errors\\u201d by Rumelhart, Hinton and Williams\\n\\nThe paper you are looking for is the 1986 *Nature* article titled **\\u201cLearning representations by back-propagating errors\\u201d** by **David E. Rumelhart, Geoffrey E. Hinton and Ronald J. Williams**, published in *Nature*, volume 323, issue 6088, pages 533\\u2013536, on 9 October 1986.[7][7][7] In modern bibliographic form, it is usually cited as: Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning representations by back-propagating errors. *Nature*, 323(6088), 533\\u2013536.[8][8] The paper describes a general learning procedure, now universally called **backpropagation**, for adjusting the connection weights in multi-layer networks of neuron-like units so as to minimize a differentiable measure of error between the network\\u2019s actual outputs and desired targets.[3][7] As the authors emphasize in the abstract, this process leads internal \\u201chidden\\u201d units to develop distributed representations that capture important structure in the …[truncated]"
-          }
-        ]
-      },
-      "evidence_teaser": {
-        "task_text": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-        "verdict": "excellent",
-        "score": 1,
-        "similarity": 0.958,
-        "n_real": 165
-      }
-    },
-    {
-      "tool_id": "pubmed",
-      "name": "PubMed (NCBI E-utilities)",
-      "variant": null,
-      "capabilities": [
-        "paper_search",
-        "academic",
-        "references",
-        "abstracts",
-        "medical_literature",
-        "biomedical"
-      ],
-      "description": "Canonical biomedical and life-science literature index maintained by the US National Library of Medicine. MeSH-indexed; supports clinical filters, publication-type metadata, and PMID-keyed lookups. Returns title, authors, abstract, journal, publication date, DOI, and publication types.",
-      "kind": "external_tool",
-      "endpoint": {
-        "api_type": "rest",
-        "base_url": "https://eutils.ncbi.nlm.nih.gov",
-        "status_url": "https://www.ncbi.nlm.nih.gov"
-      },
-      "reason": "lower capability (0.94 vs 0.98).",
-      "capability": 0.9435,
-      "band": 0.0168,
-      "cap_lcb": 0.9266,
-      "rank": 0.9689,
-      "price": {
-        "amount": 0,
-        "per_query_usd": 0,
-        "currency": "USD",
-        "confidence": "high",
-        "selected_plan": "free",
-        "held": false,
-        "estimated": true,
-        "cost_unknown": false,
-        "breakdown": [
-          {
-            "plan_id": "free",
-            "kind": "free",
-            "plan_group": null,
-            "effective_usd": 0,
-            "held": false,
-            "currency": "USD",
-            "confidence": "high",
-            "overridden": false
-          }
-        ]
-      },
-      "calling": {
-        "tool_id": "pubmed",
-        "coordinator_class": false,
-        "executable": true,
-        "endpoint": {
-          "base_url": "https://eutils.ncbi.nlm.nih.gov",
-          "api_type": "rest"
-        },
-        "adapter": {
-          "type": "llm"
-        },
-        "auth": {
-          "method": "none"
-        },
-        "summary": {
-          "usability": "ready",
-          "auth_method": "none",
-          "api_type": "rest",
-          "connected": false,
-          "free": true,
-          "how": "free · ready to use",
-          "signup_url": null
-        }
-      },
-      "facets": [
-        {
-          "name": "capability",
-          "kano": "must_be",
-          "weight": 1,
-          "threshold": 0.5,
-          "raw": 0.9266,
-          "contribution": 0.8973
-        },
-        {
-          "name": "price",
-          "kano": "performance",
-          "weight": 0.3,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 0.3
-        },
-        {
-          "name": "no_machine_harm",
-          "kano": "must_be",
-          "weight": 2,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 2
-        }
-      ],
-      "evidence": {
-        "n_real": 181,
-        "n_near": 24,
-        "near_mean": 0.784,
-        "dist": [
-          0,
-          0.933,
-          1,
-          1,
-          1,
-          0.933,
-          0.4,
-          0.433,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          0.95,
-          0.933,
-          1,
-          1,
-          0.033,
-          0.2,
-          0,
-          1
-        ],
-        "probes": [
-          {
-            "probe_id": "obs-31831",
-            "similarity": 0.97,
-            "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-            "adapted_input": "Hinton neural networks 2022 2023 2024",
-            "score": 0,
-            "redacted": null,
-            "output_chars": 335,
-            "truncated": false,
-            "created_at": "2026-08-26T02:34:35.232411Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "fail",
-                "score": 0,
-                "rationale": "The tool returned zero results for a very high-profile researcher. The adapted query 'Hinton neural  | The tool returned zero results for a query that should have returned real papers by Geoffrey Hinton  | The tool returned an empty list of results, completely failing to surface any papers by Geoffrey Hin",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned zero results for a very high-profile researcher. The adapted query 'Hinton neural networks 2022 2023 2024' was too restrictive and poorly constructed for a PubMed search, failing to find any relevant papers that clearly exist in the scientific literature. This is a failure of the t…",
-                    "score": 0
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned zero results for a query that should have returned real papers by Geoffrey Hinton on neural networks published in recent years (e.g., 2022–2024). This is a complete failure to retrieve relevant, accurate information, as the ground truth confirms such papers exist. The output is emp…",
-                    "score": 0
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned an empty list of results, completely failing to surface any papers by Geoffrey Hinton as expected by the ground truth. This empty output is directly penalized per the tool contract and represents a total failure in relevance, accuracy, and completeness for the query.",
-                    "score": 0
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "irrelevant",
-                "score": 0,
-                "rationale": "The tool returned zero results, failing to provide any papers that address the user's query intent.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned zero results, failing to provide any papers that address the user's query intent.",
-                    "label": "irrelevant",
-                    "value": 0
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned zero results despite the existence of real papers by Geoffrey Hinton on neural networks in the specified timeframe, completely missing the query intent.",
-                    "label": "irrelevant",
-                    "value": 0
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned zero results, completely missing the query intent to find recent papers by Geoffrey Hinton on neural networks.",
-                    "label": "irrelevant",
-                    "value": 0
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The tool returned zero results, so no citations were provided to evaluate.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned zero results, so no citations were provided to evaluate.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned zero results and provided no citations, so the source quality facet does not apply.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output returned zero results with no citations provided, so the source quality facet does not apply as absence is handled by citation_existence.",
-                    "label": "not_applicable",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "absent",
-                "score": 0,
-                "rationale": "The tool output returned zero results and contains no references to any papers or sources.",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output returned zero results and contains no references to any papers or sources.",
-                    "label": "absent",
-                    "value": 0
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned zero results, and therefore provided no source references, URLs, or document names.",
-                    "label": "absent",
-                    "value": 0
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output contains no explicit source references, as it returned zero results without any URLs, document names, or citation markers.",
-                    "label": "absent",
-                    "value": 0
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "empty",
-                "score": 0,
-                "rationale": "The tool returned zero results and an empty list for the query.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned zero results and an empty list for the query.",
-                    "label": "empty",
-                    "value": 0
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned zero results, meaning it did not find any papers by Geoffrey Hinton despite their existence, resulting in an empty output.",
-                    "label": "empty",
-                    "value": 0
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a structured JSON response with fields like query and results, which is non-empty output despite having zero results.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find recent papers by Geoffrey Hinton on neural networks published in the last few years.\",\n  \"adapted_query\": \"Hinton neural networks 2022 2023 2024\",\n  \"provider\": \"PubMed (NCBI E-utilities)\",\n  \"tool_kind\": \"biomedical literature search (MeSH-indexed)\",\n  \"total_results\": 0,\n  \"returned_results\": 0,\n  \"results\": []\n}"
-          },
-          {
-            "probe_id": "obs-28354",
-            "similarity": 0.968,
-            "task_text": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-            "adapted_input": "graphene field-effect transistor biosensor",
-            "score": 0.933,
-            "redacted": null,
-            "output_chars": 20000,
-            "truncated": true,
-            "created_at": "2026-08-12T09:56:23.063234Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 0.933,
-                "rationale": "The tool performed exactly as expected for a PubMed API. It adapted the query into a searchable form | The tool returned a large set of relevant peer-reviewed papers on graphene FET biosensors, with the  | The tool returns relevant, accurate, and structured literature on graphene FET biosensors with real ",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool performed exactly as expected for a PubMed API. It adapted the query into a searchable format, identified a significant number of relevant results (498), and returned highly relevant, high-quality metadata (titles, authors, abstracts, PMIDs, and DOIs) for papers that directly address the us…",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a large set of relevant peer-reviewed papers on graphene FET biosensors, with the top results directly matching the query. The first two papers are clearly on-topic, with correct titles, authors, and DOIs, and the total result count (498) indicates good coverage. The output satisfi…",
-                    "score": 0.9
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returns relevant, accurate, and structured literature on graphene FET biosensors with real PMIDs, titles, authors, and abstracts, matching the ground truth expectations. It adapts the query appropriately, provides current papers (2024), and offers clear metadata. Minor truncation in the pro…",
-                    "score": 0.9
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The top results are highly relevant, high-quality peer-reviewed papers that directly address graphene field-effect transistors for biosensing applications as requested.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The top results are highly relevant, high-quality peer-reviewed papers that directly address graphene field-effect transistors for biosensing applications as requested.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top two results are directly relevant, peer-reviewed papers on graphene FET biosensors, matching the query intent with high-quality sources.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returns multiple peer-reviewed papers with titles and abstracts directly addressing graphene field-effect transistors for biosensing, perfectly matching the query intent.",
-                    "label": "excellent",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool returns citations from PubMed, a database of peer-reviewed biomedical literature, which are primary sources.",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returns citations from PubMed, a database of peer-reviewed biomedical literature, which are primary sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides citations to peer-reviewed journal articles from PubMed, which are considered primary scientific sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output cites peer-reviewed papers from PubMed, which are primary sources as per the rubric.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool provides explicit source references including PMIDs, DOIs, and direct URLs to the PubMed entries.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides explicit source references including PMIDs, DOIs, and direct URLs to the PubMed entries.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output includes explicit source references such as PubMed URLs, DOIs, and citation information for each returned article.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The output includes explicit URLs and DOIs for each referenced paper, providing clear, followable references.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool returned a structured JSON object containing a list of relevant scientific publications with titles, abstracts, and metadata.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a structured JSON object containing a list of relevant scientific publications with titles, abstracts, and metadata.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool produced a non-empty output containing 15 results with titles, authors, and abstracts related to graphene field-effect transistors for biosensing, rather than an error or empty response.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output contains a non-empty JSON response with search results, including titles, abstracts, and other details for multiple papers.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find scientific literature on graphene field-effect transistors for biosensing applications.\",\n  \"adapted_query\": \"graphene field-effect transistor biosensor\",\n  \"provider\": \"PubMed (NCBI E-utilities)\",\n  \"tool_kind\": \"biomedical literature search (MeSH-indexed)\",\n  \"total_results\": 498,\n  \"returned_results\": 15,\n  \"results\": [\n    {\n      \"pmid\": \"38255502\",\n      \"title\": \"Challenges for Field-Effect-Transistor-Based Graphene Biosensors.\",\n      \"abstract\": \"Owing to its outstanding physical properties, graphene has attracted attention as a promising biosensor material. Field-effect-transistor (FET)-based biosensors are particularly promising because of their high sensitivity that is achieved through the high carrier mobility of graphene. However, graphene-FET biosensors have not yet reached widespread practical applications owing to several problems. In this review, the authors focus on graphene-FET biosensors and discuss their advantages, the challenges to their development, and the solutions to the challenges. The problem of Debye screening, in which the surface charges of the detection target are shielded and undetectable, can be solved by using small-molecule receptors and their deformations and by using enzyme reaction products. To address the complexity of sample components and the detection mechanisms of graphene-FET biosensors, the authors outline measu …[truncated]"
-          },
-          {
-            "probe_id": "obs-32817",
-            "similarity": 0.964,
-            "task_text": "Find the 2026 Phytomedicine paper by Meng et al. showing obacunone attenuates cholestatic liver disease via PPARα activation and gut microbiota remodeling. Give me the PubMed ID.",
-            "adapted_input": "obacunone cholestatic PPARα gut microbiota Meng 2026",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 4164,
-            "truncated": false,
-            "created_at": "2026-08-29T11:55:47.593721Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "Deterministic check — matched 1/1 required string(s).",
-                "panel": null
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the 2026 Phytomedicine paper by Meng et al. showing obacunone attenuates cholestatic liver disease via PPAR\\u03b1 activation and gut microbiota remodeling. Give me the PubMed ID.\",\n  \"adapted_query\": \"obacunone cholestatic PPAR\\u03b1 gut microbiota Meng 2026\",\n  \"provider\": \"PubMed (NCBI E-utilities)\",\n  \"tool_kind\": \"biomedical literature search (MeSH-indexed)\",\n  \"total_results\": 1,\n  \"returned_results\": 1,\n  \"results\": [\n    {\n      \"pmid\": \"42551234\",\n      \"title\": \"Obacunone attenuates Cholestatic liver disease via PPAR\\u03b1 activation and gut microbiota remodeling.\",\n      \"abstract\": \"BACKGROUND: Cholestatic liver disease (CLD) comprises a collection of disorders marked by impaired bile formation or flow, which can progress to fibrosis, cirrhosis, and liver failure if left untreated. Although there have been significant advances in understanding its pathogenesis, effective pharmacotherapies are still limited; ursodeoxycholic acid (UDCA), the first-line treatment, exhibits an incomplete response in approximately 30-40% of patients. Obacunone (OBA), a naturally occurring limonoid triterpenoid, has shown potent anti-inflammatory and antioxidant effects in various models of liver injury; however, its role in CLD has yet to be investigated.\\nPURPOSE: To investigate the mechanism by which OBA ameliorates \\u03b1-naphthyl isothiocyanate (ANIT)/ethinyl estrad …[truncated]"
-          }
-        ]
-      },
-      "evidence_teaser": {
-        "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-        "verdict": "not_applicable",
-        "score": 0,
-        "similarity": 0.97,
-        "n_real": 181
-      }
-    },
-    {
-      "tool_id": "crossref+references",
-      "name": "crossref+references",
-      "variant": null,
-      "capabilities": [
-        "academic",
-        "doi_metadata",
-        "paper_search",
-        "references"
-      ],
-      "description": "Crossref DOI resolution that additionally returns the deposited cited-reference DOI list in the same call, so the works a record cites are surfaced without a second lookup.",
-      "kind": "external_tool",
-      "endpoint": {
-        "api_type": "rest",
-        "base_url": "https://api.crossref.org",
-        "status_url": "https://status.crossref.org"
-      },
-      "reason": "lower capability (0.94 vs 0.98).",
-      "capability": 0.9375,
-      "band": 0.0268,
-      "cap_lcb": 0.9107,
-      "rank": 0.9621,
-      "price": {
-        "amount": 0,
-        "per_query_usd": 0,
-        "currency": "USD",
-        "confidence": "high",
-        "selected_plan": "free",
-        "held": false,
-        "estimated": true,
-        "cost_unknown": false,
-        "breakdown": [
-          {
-            "plan_id": "free",
-            "kind": "free",
-            "plan_group": null,
-            "effective_usd": 0,
-            "held": false,
-            "currency": "USD",
-            "confidence": "high",
-            "overridden": false
-          }
-        ]
-      },
-      "calling": {
-        "tool_id": "crossref+references",
-        "coordinator_class": false,
-        "executable": true,
-        "endpoint": {
-          "base_url": "https://api.crossref.org",
-          "api_type": "rest"
-        },
-        "adapter": {
-          "type": "llm"
-        },
-        "auth": {
-          "method": "none"
-        },
-        "summary": {
-          "usability": "ready",
-          "auth_method": "none",
-          "api_type": "rest",
-          "connected": false,
-          "free": true,
-          "how": "free · ready to use",
-          "signup_url": null
-        },
-        "base_tool": "crossref",
-        "adapter_mode": "references"
-      },
-      "facets": [
-        {
-          "name": "capability",
-          "kano": "must_be",
-          "weight": 1,
-          "threshold": 0.5,
-          "raw": 0.9107,
-          "contribution": 0.875
-        },
-        {
-          "name": "price",
-          "kano": "performance",
-          "weight": 0.3,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 0.3
-        },
-        {
-          "name": "no_machine_harm",
-          "kano": "must_be",
-          "weight": 2,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 2
-        }
-      ],
-      "evidence": {
-        "n_real": 55,
-        "n_near": 24,
-        "near_mean": 0.667,
-        "dist": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0.667,
-          1,
-          1,
-          0,
-          0.667,
-          1,
-          0.667,
-          0.5,
-          0.5,
-          0,
-          0.5,
-          0.5,
-          0,
-          1,
-          0.5,
-          0,
-          0.5,
-          1,
-          1
-        ],
-        "probes": [
-          {
-            "probe_id": "obs-33345",
-            "similarity": 0.942,
-            "task_text": "Find the 'Segment Anything' paper by Kirillov and colleagues from Meta AI.",
-            "adapted_input": "{\"search\": \"Segment Anything\", \"year\": null}",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 19541,
-            "truncated": false,
-            "created_at": "2026-09-08T03:51:06.470034Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "Deterministic check — matched 1/1 required string(s).",
-                "panel": null
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the 'Segment Anything' paper by Kirillov and colleagues from Meta AI.\",\n  \"adapted_spec\": {\n    \"search\": \"Segment Anything\",\n    \"year\": null\n  },\n  \"lookup_mode\": \"title\",\n  \"provider\": \"Crossref\",\n  \"tool_kind\": \"citation metadata search (publisher-contributed)\",\n  \"total_results\": 79730,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"doi\": \"10.1109/iccv51070.2023.00371\",\n      \"title\": \"Segment Anything\",\n      \"authors\": [\n        \"Alexander Kirillov\",\n        \"Eric Mintun\",\n        \"Nikhila Ravi\",\n        \"Hanzi Mao\",\n        \"Chloe Rolland\",\n        \"Laura Gustafson\",\n        \"Tete Xiao\",\n        \"Spencer Whitehead\",\n        \"Alexander C. Berg\",\n        \"Wan-Yen Lo\",\n        \"Piotr Doll\\u00e1r\",\n        \"Ross Girshick\"\n      ],\n      \"year\": 2023,\n      \"container_title\": \"2023 IEEE/CVF International Conference on Computer Vision (ICCV)\",\n      \"type\": \"proceedings-article\",\n      \"cited_by_count\": 11074,\n      \"url\": \"https://doi.org/10.1109/iccv51070.2023.00371\",\n      \"subject\": [],\n      \"abstract\": \"\",\n      \"reference_count\": 115,\n      \"references\": [\n        \"10.1117/12.429489\",\n        \"10.1109/TPAMI.2010.161\",\n        \"10.1109/CVPR52688.2022.02047\",\n        \"10.1038/s41592-019-0582-9\",\n        \"10.1007/978-3-030-00919-9_42\",\n        \"10.1038/s41592-019-0612-7\",\n        \"10.1109/TPAMI.1986.4767851\",\n        \"10.1007/978-3-030-58452-8_13 …[truncated]"
-          },
-          {
-            "probe_id": "obs-33174",
-            "similarity": 0.888,
-            "task_text": "Find the paper that introduced the Transformer architecture, 'Attention Is All You Need' by Vaswani and colleagues.",
-            "adapted_input": "{\"search\": \"Attention Is All You Need\", \"year\": null}",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 16205,
-            "truncated": false,
-            "created_at": "2026-09-08T01:56:25.591211Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "Deterministic check — matched 1/1 required string(s).",
-                "panel": null
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the paper that introduced the Transformer architecture, 'Attention Is All You Need' by Vaswani and colleagues.\",\n  \"adapted_spec\": {\n    \"search\": \"Attention Is All You Need\",\n    \"year\": null\n  },\n  \"lookup_mode\": \"title\",\n  \"provider\": \"Crossref\",\n  \"tool_kind\": \"citation metadata search (publisher-contributed)\",\n  \"total_results\": 1233947,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"doi\": \"10.65215/ysbyhc05\",\n      \"title\": \"Attention Is All You Need\",\n      \"authors\": [\n        \"Ashish Vaswani\",\n        \"Noam Shazeer\",\n        \"Niki Parmar\",\n        \"Jakob Uszkoreit\",\n        \"Llion Jones\",\n        \"Aidan N.Gomez\",\n        \"Lukasz Kaiser\",\n        \"Illia Polosukhin\"\n      ],\n      \"year\": 2025,\n      \"container_title\": null,\n      \"type\": \"posted-content\",\n      \"cited_by_count\": 21,\n      \"url\": \"https://doi.org/10.65215/ysbyhc05\",\n      \"subject\": [],\n      \"abstract\": \"The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality …[truncated]"
-          },
-          {
-            "probe_id": "obs-35115",
-            "similarity": 0.862,
-            "task_text": "A July 2026 paper in an open-access journal described a new species of Colobus monkey discovered in Lomami National Park in the Democratic Republic of Congo, nicknamed 'Likweli' by local communities for its distinctive orange-cream muzzle patch. Its bibliography cites an earlier 2021 paper reporting a morphological analysis of newly found specimens of another Congo Basin primate, the Dryas monkey. What is the DOI of that cited paper, and what journal did it appear in?",
-            "adapted_input": "{\"search\": \"Dryas monkey morphological Congo\", \"year\": 2021}",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 20000,
-            "truncated": true,
-            "created_at": "2026-09-12T15:08:06.854324Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "Deterministic check — matched 2/2 required string(s).",
-                "panel": null
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"A July 2026 paper in an open-access journal described a new species of Colobus monkey discovered in Lomami National Park in the Democratic Republic of Congo, nicknamed 'Likweli' by local communities for its distinctive orange-cream muzzle patch. Its bibliography cites an earlier 2021 paper reporting a morphological analysis of newly found specimens of another Congo Basin primate, the Dryas monkey. What is the DOI of that cited paper, and what journal did it appear in?\",\n  \"adapted_spec\": {\n    \"search\": \"Dryas monkey morphological Congo\",\n    \"year\": 2021\n  },\n  \"lookup_mode\": \"keyword\",\n  \"provider\": \"Crossref\",\n  \"tool_kind\": \"citation metadata search (publisher-contributed)\",\n  \"total_results\": 241526,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"doi\": \"10.1371/journal.pone.0349857\",\n      \"title\": \"Likweli: A remarkable new species of Colobus monkey from the Lomami National Park, Democratic Republic of Congo\",\n      \"authors\": [\n        \"John A. Hart\",\n        \"Junior D. Amboko\",\n        \"Julia L. Arenson\",\n        \"Emma R. Horton\",\n        \"Kathryn F. Coates\",\n        \"Jean-Pierre I. Kapale\",\n        \"Mardoch\\u00e9 B. Koko\",\n        \"Terese B. Hart\",\n        \"Christopher C. Gilbert\",\n        \"Eric J. Sargis\",\n        \"Kate M. Detwiler\"\n      ],\n      \"year\": 2026,\n      \"container_title\": \"PLOS One\",\n      \"type\": \"journal-article\",\n      \"cited_by_c …[truncated]"
-          }
-        ]
-      },
-      "evidence_teaser": {
-        "task_text": "Find the 'Segment Anything' paper by Kirillov and colleagues from Meta AI.",
-        "verdict": "pass",
-        "score": 1,
-        "similarity": 0.942,
-        "n_real": 55
-      }
-    },
-    {
-      "tool_id": "perplexity_sonar",
-      "name": "Perplexity Agent API (fast preset)",
-      "variant": null,
-      "capabilities": [
-        "web_search",
-        "realtime",
-        "references"
-      ],
-      "description": "Web-grounded LLM verifier on Perplexity's Agent API, `fast` preset (single-fact lookups with inline citations; the model is Perplexity-managed and reported per response). Performs live web search and synthesises a structured verdict per claim with citations. Verdicts via the FactCheckResult JSON schema (overall_rating + per-claim {claim, rating, explanation, sources}). Strong on fresh / niche / cross-domain claims where Google FCT is silent.",
-      "kind": "external_tool",
-      "endpoint": {
-        "api_type": "rest",
-        "base_url": "https://api.perplexity.ai",
-        "status_url": "https://status.perplexity.com"
-      },
-      "reason": "lower capability (0.91 vs 0.98); pricier ($0.0130 vs $0.0080/query).",
-      "capability": 0.9055,
-      "band": 0.0395,
-      "cap_lcb": 0.866,
-      "rank": 0.9414,
-      "price": {
-        "amount": 0.013,
-        "per_query_usd": 0.013,
-        "currency": "USD",
-        "confidence": "high",
-        "selected_plan": "api",
-        "held": false,
-        "estimated": true,
-        "cost_unknown": false,
-        "breakdown": [
-          {
-            "plan_id": "api",
-            "kind": "metered",
-            "plan_group": "perplexity_api",
-            "effective_usd": 0.013,
-            "held": false,
-            "currency": "USD",
-            "confidence": "high",
-            "overridden": false
-          }
-        ]
-      },
-      "calling": {
-        "tool_id": "perplexity_sonar",
-        "coordinator_class": false,
-        "executable": true,
-        "endpoint": {
-          "base_url": "https://api.perplexity.ai",
-          "api_type": "rest"
-        },
-        "adapter": {
-          "type": "none"
-        },
-        "auth": {
-          "method": "api_key",
-          "env_var": "PERPLEXITY_API_KEY",
-          "connected": false
-        },
-        "summary": {
-          "usability": "connect_key",
-          "auth_method": "api_key",
-          "api_type": "rest",
-          "connected": false,
-          "free": false,
-          "how": "connect a key → www.perplexity.ai/settings/api",
-          "signup_url": "https://www.perplexity.ai/settings/api"
-        },
-        "connect": {
-          "tool_id": "perplexity_sonar",
-          "name": "Perplexity Agent API (fast preset)",
-          "auth_method": "api_key",
-          "signup_url": "https://www.perplexity.ai/settings/api",
-          "instructions": "  1. Create a Perplexity account, or sign in.\n  2. Open the API settings page.\n  3. Add a payment method and buy some API credit.\n  4. Generate an API key and copy it.",
-          "methods": [
-            {
-              "auth_method": "api_key",
-              "label": "Perplexity API key",
-              "signup_url": "https://www.perplexity.ai/settings/api",
-              "instructions": [
-                "Create a Perplexity account, or sign in.",
-                "Open the API settings page.",
-                "Add a payment method and buy some API credit.",
-                "Generate an API key and copy it."
-              ],
-              "fields": [
-                {
-                  "key": "PERPLEXITY_API_KEY",
-                  "label": "Perplexity API key",
-                  "secret": true,
-                  "required": true,
-                  "help": "Settings → API → Generate"
-                }
-              ]
-            }
-          ],
-          "fields": [
-            {
-              "key": "PERPLEXITY_API_KEY",
-              "label": "Perplexity API key",
-              "secret": true,
-              "required": true,
-              "help": "Settings → API → Generate"
-            }
-          ],
-          "source": "evaluator",
-          "connect_via": {
-            "surface": "POST /credentials/connect",
-            "method": "Perplexity API key",
-            "field_key": "PERPLEXITY_API_KEY",
-            "payload": {
-              "tool_id": "perplexity_sonar",
-              "api_key": "<paste your key here>"
-            },
-            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"perplexity_sonar\",\"api_key\":\"<YOUR_KEY>\"}'"
-          }
-        }
-      },
-      "facets": [
-        {
-          "name": "capability",
-          "kano": "must_be",
-          "weight": 1,
-          "threshold": 0.5,
-          "raw": 0.866,
-          "contribution": 0.8124
-        },
-        {
-          "name": "price",
-          "kano": "performance",
-          "weight": 0.3,
-          "threshold": 0.5,
-          "raw": 0.9814,
-          "contribution": 0.2944
-        },
-        {
-          "name": "no_machine_harm",
-          "kano": "must_be",
-          "weight": 2,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 2
-        }
-      ],
-      "evidence": {
-        "n_real": 226,
-        "n_near": 24,
-        "near_mean": 0.87,
-        "dist": [
-          0.983,
-          0.933,
-          0.95,
-          0.933,
-          0.9,
-          0.9,
-          0.983,
-          0.85,
-          0.333,
-          0.283,
-          0.933,
-          0.967,
-          0.867,
-          0.933,
-          0.967,
-          0.933,
-          0.983,
-          0.95,
-          1,
-          0.917,
-          0.967,
-          0.883,
-          0.933,
-          0.6
-        ],
-        "probes": [
-          {
-            "probe_id": "obs-822",
-            "similarity": 0.958,
-            "task_text": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-            "adapted_input": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-            "score": 0.983,
-            "redacted": null,
-            "output_chars": 8284,
-            "truncated": false,
-            "created_at": "2026-05-17T18:58:04.701179Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 0.983,
-                "rationale": "The tool successfully identified the exact paper requested. It provided the correct title, authors ( | The tool correctly identifies the LIGO Scientific Collaboration paper reporting the first direct obs | The tool accurately identifies the paper with all key details matching the ground truth: title, auth",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool successfully identified the exact paper requested. It provided the correct title, authors (as B. P. Abbott et al.), journal (Physical Review Letters), volume/article number (116, 061102), year (2016), arXiv ID, and internal LIGO document ID. It also provided direct links to the source, matc…",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool correctly identifies the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from GW150914. It provides the exact title, authors (Abbott et al.), year (2016), venue (Physical Review Letters), DOI (10.1103/PhysRevLett.116.061102), and arXiv ID (1…",
-                    "score": 0.95
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool accurately identifies the paper with all key details matching the ground truth: title, authors (correctly abbreviated as B. P. Abbott et al.), year (2016), venue (Physical Review Letters), and persistent identifier (DOI 10.1103/PhysRevLett.116.061102). It provides clear, verifiable sources …",
-                    "score": 1
-                  }
-                ]
-              },
-              {
-                "facet": "format",
-                "verdict": "structured",
-                "score": 1,
-                "rationale": "The tool returns a valid JSON object containing all the expected fields such as query, provider, fact_check_result, and citations.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returns a valid JSON object containing all the expected fields such as query, provider, fact_check_result, and citations.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output is a well-formed JSON object with nested fields like fact_check_result containing claims, ratings, and citations, which is explicitly designed for programmatic parsing.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output is a complete JSON object with the fact_check result structured to include verdict label, citations, and other expected fields in a machine-parseable format.",
-                    "label": "structured",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "freshness",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The query asks for a specific scientific paper published in 2016, which is a static historical fact where freshness is irrelevant.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The query asks for a specific scientific paper published in 2016, which is a static historical fact where freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The query concerns a static historical fact (a 2016 scientific paper), so the freshness of the verification is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The query concerns a static historical paper from 2016 that does not require current evidence, so freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The tool directly identifies the specific paper requested, providing the correct title, authors, journal, year, arXiv ID, and DOI, all of which match the ground truth perfectly.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool directly identifies the specific paper requested, providing the correct title, authors, journal, year, arXiv ID, and DOI, all of which match the ground truth perfectly.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output directly identifies the exact paper requested, including title, authors, year, venue, and persistent identifiers, with verifiable high-quality sources.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The top results include one directly relevant citation to the correct paper (LIGO DCC link), but others are companion papers or have incorrect identifiers, mixing relevant with off-topic items.",
-                    "label": "partial",
-                    "value": 0.5
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool cites the peer-reviewed journal Physical Review Letters, the arXiv preprint server, and the official LIGO Document Control Center, which are all primary or authoritative scientific sources.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool cites the peer-reviewed journal Physical Review Letters, the arXiv preprint server, and the official LIGO Document Control Center, which are all primary or authoritative scientific sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "All citations are from official LIGO sites, the journal publisher (APS/PRL), or arXiv, which are primary and authoritative sources for a peer-reviewed research paper.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool cites official LIGO documents and peer-reviewed journal articles, which are primary sources.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "snippet_quality",
-                "verdict": "informative",
-                "score": 1,
-                "rationale": "The tool provides a highly detailed summary including the paper title, authors, journal, volume, article number, year, arXiv ID, and specific DOI, allowing the user to assess relevance immediately.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides a highly detailed summary including the paper title, authors, journal, volume, article number, year, arXiv ID, and specific DOI, allowing the user to assess relevance immediately.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output includes detailed bibliographic details such as the exact title, journal, volume, DOI, and arXiv identifier within the claim explanations, allowing the user to assess the relevance without needing to click through to the sources.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes a detailed summary with specific facts such as paper title, authors, year, and venue, allowing relevance assessment without clicking.",
-                    "label": "informative",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool provides specific URLs, the paper title, journal details, and arXiv identifiers that allow a reader to locate the source material.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides specific URLs, the paper title, journal details, and arXiv identifiers that allow a reader to locate the source material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes multiple explicit URLs and document references, such as links to LIGO, APS, and arXiv sources, meeting the criterion for present references.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output provides explicit URLs under the 'sources' section that readers can follow to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool provided a detailed response containing the requested paper's title, authors, journal, and identifiers.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a detailed response containing the requested paper's title, authors, journal, and identifiers.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a comprehensive JSON response with fact-check results, claims, and citations, indicating non-empty and usable output.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output contains a structured JSON response with fact-check results, claims, explanations, and citations, indicating non-empty output was returned.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).\",\n  \"provider\": \"Perplexity Sonar (sonar-pro)\",\n  \"tool_kind\": \"verifier (live web search + LLM synthesis with structured output)\",\n  \"fact_check_result\": {\n    \"overall_rating\": \"MIXED\",\n    \"summary\": \"The claim is framed as a task rather than a factual statement, but it implicitly assumes there is a specific LIGO/Virgo collaboration paper reporting the first direct observation of gravitational waves from the GW150914 binary black hole merger. This is correct: the canonical paper is \\u201cObservation of Gravitational Waves from a Binary Black Hole Merger,\\u201d LIGO-P150914, published in Physical Review Letters 116, 061102 (2016) and on arXiv as 1602.03837. Several related LIGO papers on GW150914 also exist, but the main discovery paper is well defined and verifiable.\",\n    \"claims\": [\n      {\n        \"claim\": \"There is a LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914), and it can be found.\",\n        \"rating\": \"TRUE\",\n        \"explanation\": \"The core factual assumption behind the user\\u2019s task is that a specific LIGO Scientific Collaboration paper exists that reports the first direct observation of gravitational waves f …[truncated]"
-          },
-          {
-            "probe_id": "obs-728",
-            "similarity": 0.956,
-            "task_text": "Gu and Dao's 2023 selective state-space model architecture proposed as an alternative to Transformers (Mamba).",
-            "adapted_input": "Gu and Dao's 2023 selective state-space model architecture proposed as an alternative to Transformers (Mamba).",
-            "score": 0.933,
-            "redacted": null,
-            "output_chars": 8072,
-            "truncated": false,
-            "created_at": "2026-05-17T13:47:52.497100Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 0.933,
-                "rationale": "The tool perfectly identified the paper, authors, year, and the specific technical nature of the arc | The tool correctly identifies all key aspects of the ground truth: authors (Gu and Dao), year (2023) | The tool accurately verifies all key components of the ground truth: authors (Albert Gu, Tri Dao), y",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool perfectly identified the paper, authors, year, and the specific technical nature of the architecture (selective state-space models). It even provided the arXiv identifier and confirmed the context of it being an alternative to Transformers, matching all requirements of the ground truth.",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool correctly identifies all key aspects of the ground truth: authors (Gu and Dao), year (2023), the architecture (Mamba as a selective state space model), and its positioning as an alternative to Transformers. It provides the arXiv link and identifier. The output is thorough and accurate, thou…",
-                    "score": 0.9
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool accurately verifies all key components of the ground truth: authors (Albert Gu, Tri Dao), year (2023), selective state-space model architecture (Mamba), and persistent identifier (arXiv: 2312.00752 with URL). It provides clear, structured output with sources, demonstrating relevance, accura…",
-                    "score": 0.9
-                  }
-                ]
-              },
-              {
-                "facet": "format",
-                "verdict": "structured",
-                "score": 1,
-                "rationale": "The tool returns a valid JSON object containing the expected fields such as query, provider, and a detailed fact_check_result object.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returns a valid JSON object containing the expected fields such as query, provider, and a detailed fact_check_result object.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output is a valid JSON object with clearly defined keys and nested structures (e.g., fact_check_result with claims array), making it machine-parseable and fully structured.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output is a well-formed JSON object with all key fields populated, including a nested fact_check_result structure, ensuring it is machine-parseable.",
-                    "label": "structured",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "freshness",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The query concerns a specific academic paper and its technical details, which are static historical facts rather than ongoing events or changing regulations.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The query concerns a specific academic paper and its technical details, which are static historical facts rather than ongoing events or changing regulations.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The query is about a static fact—the publication of a specific 2023 paper—so the freshness of the verification evidence is irrelevant, and the tool's use of the original paper and current citations is appropriate.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The query is about a static historical fact (a paper published in 2023), so freshness is not relevant to the verification.",
-                    "label": "not_applicable",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The tool directly identifies the correct paper, authors, year, and core technical details requested in the query, providing high-quality source verification.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool directly identifies the correct paper, authors, year, and core technical details requested in the query, providing high-quality source verification.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output directly confirms all key components of the query—authors, year, architecture name, and its positioning as a Transformer alternative—with citations to authoritative sources like the arXiv paper.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output directly verifies the query's factual components with accurate details and high-quality sources, perfectly aligning with the ground truth paper.",
-                    "label": "excellent",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool cites the original arXiv preprint (the primary source for the research) and Semantic Scholar to verify the paper's details.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool cites the original arXiv preprint (the primary source for the research) and Semantic Scholar to verify the paper's details.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's citations reference the original arXiv preprint and Semantic Scholar entry, which are primary academic sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool cites the original arXiv preprint paper directly, which serves as the primary source for the research findings.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "snippet_quality",
-                "verdict": "informative",
-                "score": 1,
-                "rationale": "The tool provides a highly detailed breakdown of the claim, including specific author names, publication dates, arXiv identifiers, and direct quotes from the paper's abstract to verify the information.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides a highly detailed breakdown of the claim, including specific author names, publication dates, arXiv identifiers, and direct quotes from the paper's abstract to verify the information.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output provides specific facts, numbers, and direct quotes from the paper, such as authors, year, arXiv link, and positioning as an alternative to Transformers, allowing assessment of relevance without clicking through.",
-                    "label": "informative",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output contains specific facts like authors, publication date, and paper details from sources, allowing relevance assessment without further action.",
-                    "label": "informative",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool provides explicit source references, including a direct URL to the arXiv paper and specific citations from Semantic Scholar and the arXiv abstract.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides explicit source references, including a direct URL to the arXiv paper and specific citations from Semantic Scholar and the arXiv abstract.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes explicit source references such as URLs (e.g., https://arxiv.org/abs/2312.00752) and named sources (e.g., Semantic Scholar) that readers can follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output explicitly lists URLs and document names, such as the arXiv link, which readers can follow to access the source material.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool provided a detailed fact-check response containing the requested information and sources.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a detailed fact-check response containing the requested information and sources.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a detailed JSON response with fact-check results and sources, so output was non-empty.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a detailed JSON response with structured fact-check results, summary, and sources, confirming non-empty output.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Gu and Dao's 2023 selective state-space model architecture proposed as an alternative to Transformers (Mamba).\",\n  \"provider\": \"Perplexity Sonar (sonar-pro)\",\n  \"tool_kind\": \"verifier (live web search + LLM synthesis with structured output)\",\n  \"fact_check_result\": {\n    \"overall_rating\": \"MIXED\",\n    \"summary\": \"The claim correctly identifies Mamba as a selective state space model architecture introduced by Albert Gu and Tri Dao in 2023 and positioned as an alternative to Transformers. However, as written it is incomplete/underspecified rather than strictly factual or false: it reads more like a fragment than a full factual statement. The core factual components (who, what, when, and its role as an alternative to Transformers) are supported by the cited sources.\",\n    \"claims\": [\n      {\n        \"claim\": \"Gu and Dao\\u2019s 2023 selective state-space model architecture (Mamba) was proposed as an alternative to Transformers.\",\n        \"rating\": \"TRUE\",\n        \"explanation\": \"Breaking the claim into components:\\n\\n1. **Authorship (Gu and Dao)**  \\n   The arXiv paper \\\"Mamba: Linear-Time Sequence Modeling with Selective State Spaces\\\" lists the authors as **Albert Gu** and **Tri Dao**:\\n   - Semantic Scholar: \\u201cMamba: Linear-Time Sequence Modeling with Selective State Spaces \\u00b7 **Albert Gu, Tri Dao** \\u00b7 Published in arXiv.org 1 December 2023.\\u201d\\n   \\ …[truncated]"
-          },
-          {
-            "probe_id": "obs-692",
-            "similarity": 0.952,
-            "task_text": "Ho, Jain and Abbeel's 2020 paper on denoising diffusion probabilistic models for image generation.",
-            "adapted_input": "Ho, Jain and Abbeel's 2020 paper on denoising diffusion probabilistic models for image generation.",
-            "score": 0.95,
-            "redacted": null,
-            "output_chars": 7252,
-            "truncated": false,
-            "created_at": "2026-05-17T11:51:04.348734Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 0.95,
-                "rationale": "The tool correctly identified the paper, its title, authors, year, and provided the correct arXiv li | The tool correctly identifies the paper, its authors, year, and topic, providing accurate citations  | The tool accurately identifies and verifies the paper's details, providing correct title, authors, y",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool correctly identified the paper, its title, authors, year, and provided the correct arXiv link and venue (NeurIPS 2020). It went above and beyond by providing a detailed fact-check structure that matches all requirements of the ground truth.",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool correctly identifies the paper, its authors, year, and topic, providing accurate citations and a thorough fact-check. It matches the ground truth closely, though the query is a fragment and the tool's response is slightly verbose. Minor deduction for not explicitly listing the arXiv ID in t…",
-                    "score": 0.95
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool accurately identifies and verifies the paper's details, providing correct title, authors, year, and URLs with supporting sources, closely aligning with the ground truth. It addresses the query comprehensively with clear structure and evidence, though minor differences in venue specification…",
-                    "score": 0.9
-                  }
-                ]
-              },
-              {
-                "facet": "format",
-                "verdict": "structured",
-                "score": 1,
-                "rationale": "The tool returns a complete, valid JSON object containing all the required fields such as fact_check_result, top_level_citations, and search_results.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returns a complete, valid JSON object containing all the required fields such as fact_check_result, top_level_citations, and search_results.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output is a complete JSON object with well-defined fields including query, provider, tool_kind, fact_check_result, top_level_citations, and search_results, all properly populated.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output is a well-formed JSON object with populated fields for verdict, citations, and search results, adhering to the expected structured format for fact_check tools.",
-                    "label": "structured",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "freshness",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The query concerns a specific academic paper published in 2020, which is a static historical fact where freshness is irrelevant.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The query concerns a specific academic paper published in 2020, which is a static historical fact where freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The query refers to a specific 2020 paper, which is a static fact where the freshness of the evidence is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The query is about a historical paper publication, which is a static fact where freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The tool correctly identifies the specific paper, authors, year, and title, providing direct links to the arXiv preprint and the NeurIPS proceedings as top results.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool correctly identifies the specific paper, authors, year, and title, providing direct links to the arXiv preprint and the NeurIPS proceedings as top results.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's top results, including citations and search results, directly cite the exact paper by Ho, Jain, and Abbeel with correct title, authors, year, and persistent identifier, fully satisfying the query intent.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output confirms the paper's existence with correct authors, year, and topic, and provides direct high-quality sources like the arXiv and NeurIPS links that exactly match the query intent.",
-                    "label": "excellent",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool cites the original peer-reviewed paper from the NeurIPS proceedings and the official arXiv preprint, which are primary sources.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool cites the original peer-reviewed paper from the NeurIPS proceedings and the official arXiv preprint, which are primary sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool cites the original arXiv preprint and NeurIPS proceedings, which are direct, authoritative primary sources for the paper by Ho, Jain, and Abbeel.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool cites peer-reviewed papers and authoritative academic sources such as arXiv preprints and NeurIPS conference proceedings, which are primary sources.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "snippet_quality",
-                "verdict": "generic",
-                "score": 0.5,
-                "rationale": "The only provided snippet in the search results section is heavily truncated and provides almost no information beyond the title.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The only provided snippet in the search results section is heavily truncated and provides almost no information beyond the title.",
-                    "label": "generic",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The search result snippet is truncated to only a few words ('We present high quality image synth'), providing minimal information to assess relevance without clicking.",
-                    "label": "generic",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The snippet is truncated, making it vague and insufficient to assess relevance without clicking through.",
-                    "label": "generic",
-                    "value": 0.5
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool provides multiple explicit source references, including direct URLs to arXiv, NeurIPS proceedings, and the authors' project page.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides multiple explicit source references, including direct URLs to arXiv, NeurIPS proceedings, and the authors' project page.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output contains multiple explicit URLs (e.g., arXiv, NeurIPS proceedings) that a reader can follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit URLs in the 'Sources' section and 'top_level_citations' array, providing direct references to the paper.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool provided a detailed fact-check response including the paper title, authors, year, and several source URLs.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a detailed fact-check response including the paper title, authors, year, and several source URLs.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a detailed JSON with fact-checking results, citations, and search results, indicating non-empty output.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output is a non-empty JSON response containing fact-check details, citations, and search snippets, fulfilling the criteria for usable output.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Ho, Jain and Abbeel's 2020 paper on denoising diffusion probabilistic models for image generation.\",\n  \"provider\": \"Perplexity Sonar (sonar-pro)\",\n  \"tool_kind\": \"verifier (live web search + LLM synthesis with structured output)\",\n  \"fact_check_result\": {\n    \"overall_rating\": \"MOSTLY_TRUE\",\n    \"summary\": \"The claim is incomplete but essentially refers to the well\\u2011known 2020 paper by Ho, Jain, and Abbeel titled \\u201cDenoising Diffusion Probabilistic Models,\\u201d which indeed introduces a diffusion-based generative model for high\\u2011quality image synthesis. The authors, year, and topic (denoising diffusion probabilistic models for image generation) are correct, though the wording is more like a fragment than a full factual statement.\",\n    \"claims\": [\n      {\n        \"claim\": \"Ho, Jain and Abbeel's 2020 paper on denoising diffusion probabilistic models for image generation.\",\n        \"rating\": \"TRUE\",\n        \"explanation\": \"Interpreting this as the implicit claim: \\u201cIn 2020, Ho, Jain, and Abbeel published a paper on denoising diffusion probabilistic models for image generation,\\u201d this is accurate.\\n\\nEvidence:\\n\\n1. **Authors and year**: The NeurIPS 2020 proceedings version lists the paper:\\n   - Title: \\u201cDenoising Diffusion Probabilistic Models\\u201d\\n   - Authors: Jonathan Ho, Ajay Jain, Pieter Abbeel\\n   - Venue: Advances in Neural Informa …[truncated]"
-          }
-        ]
-      },
-      "evidence_teaser": {
-        "task_text": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-        "verdict": "excellent",
-        "score": 0.983,
-        "similarity": 0.958,
-        "n_real": 226
-      }
-    },
-    {
-      "tool_id": "semantic_scholar",
-      "name": "Semantic Scholar Graph API",
-      "variant": null,
-      "capabilities": [
-        "paper_search",
-        "academic",
-        "references",
-        "abstracts",
-        "citation_graph"
-      ],
-      "description": "Academic graph API covering all research fields with title, abstract, authors, venue, year, citation counts, external IDs (DOI, PMID, arXiv), and open-access PDF locations when known. Requires a free Semantic Scholar API key for reliable use: the unauthenticated endpoint shares one global rate pool and frequently times out. Commercial use is restricted — AI2's Semantic Scholar API License Agreement conditions commercial use; review it before using the tool in a commercial product.",
-      "kind": "external_tool",
-      "endpoint": {
-        "api_type": "rest",
-        "base_url": "https://api.semanticscholar.org",
-        "status_url": "https://api.semanticscholar.org/health"
-      },
-      "reason": "lower capability (0.89 vs 0.98).",
-      "capability": 0.8859,
-      "band": 0.0372,
-      "cap_lcb": 0.8488,
-      "rank": 0.9358,
-      "price": {
-        "amount": 0,
-        "per_query_usd": 0,
-        "currency": "USD",
-        "confidence": "high",
-        "selected_plan": "free",
-        "held": false,
-        "estimated": true,
-        "cost_unknown": false,
-        "breakdown": [
-          {
-            "plan_id": "free",
-            "kind": "free",
-            "plan_group": null,
-            "effective_usd": 0,
-            "held": false,
-            "currency": "USD",
-            "confidence": "high",
-            "overridden": false
-          }
-        ]
-      },
-      "calling": {
-        "tool_id": "semantic_scholar",
-        "coordinator_class": false,
-        "executable": true,
-        "endpoint": {
-          "base_url": "https://api.semanticscholar.org",
-          "api_type": "rest"
-        },
-        "adapter": {
-          "type": "llm"
-        },
-        "auth": {
-          "method": "api_key",
-          "env_var": "SEMANTIC_SCHOLAR_API_KEY",
-          "connected": false
-        },
-        "summary": {
-          "usability": "connect_key",
-          "auth_method": "api_key",
-          "api_type": "rest",
-          "connected": false,
-          "free": false,
-          "how": "connect a key → www.semanticscholar.org/product/api",
-          "signup_url": "https://www.semanticscholar.org/product/api"
-        },
-        "connect": {
-          "tool_id": "semantic_scholar",
-          "name": "Semantic Scholar Graph API",
-          "auth_method": "api_key",
-          "signup_url": "https://www.semanticscholar.org/product/api",
-          "instructions": "  1. Open the Semantic Scholar API page.\n  2. Fill in the 'Request an API Key' form with your name, email, and intended use.\n  3. Wait for the approval email (it arrives from the Semantic Scholar team).\n  4. Copy the API key from that email.",
-          "methods": [
-            {
-              "auth_method": "api_key",
-              "label": "Semantic Scholar API key",
-              "signup_url": "https://www.semanticscholar.org/product/api",
-              "instructions": [
-                "Open the Semantic Scholar API page.",
-                "Fill in the 'Request an API Key' form with your name, email, and intended use.",
-                "Wait for the approval email (it arrives from the Semantic Scholar team).",
-                "Copy the API key from that email."
-              ],
-              "fields": [
-                {
-                  "key": "SEMANTIC_SCHOLAR_API_KEY",
-                  "label": "Semantic Scholar API key",
-                  "secret": true,
-                  "required": true,
-                  "help": "From the approval email after you submit the API key request form"
-                }
-              ]
-            }
-          ],
-          "fields": [
-            {
-              "key": "SEMANTIC_SCHOLAR_API_KEY",
-              "label": "Semantic Scholar API key",
-              "secret": true,
-              "required": true,
-              "help": "From the approval email after you submit the API key request form"
-            }
-          ],
-          "source": "evaluator",
-          "connect_via": {
-            "surface": "POST /credentials/connect",
-            "method": "Semantic Scholar API key",
-            "field_key": "SEMANTIC_SCHOLAR_API_KEY",
-            "payload": {
-              "tool_id": "semantic_scholar",
-              "api_key": "<paste your key here>"
-            },
-            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"semantic_scholar\",\"api_key\":\"<YOUR_KEY>\"}'"
-          }
-        }
-      },
-      "facets": [
-        {
-          "name": "capability",
-          "kano": "must_be",
-          "weight": 1,
-          "threshold": 0.5,
-          "raw": 0.8488,
-          "contribution": 0.7883
-        },
-        {
-          "name": "price",
-          "kano": "performance",
-          "weight": 0.3,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 0.3
-        },
-        {
-          "name": "no_machine_harm",
-          "kano": "must_be",
-          "weight": 2,
-          "threshold": 0.5,
-          "raw": 1,
-          "contribution": 2
-        }
-      ],
-      "evidence": {
-        "n_real": 83,
-        "n_near": 24,
-        "near_mean": 0.675,
-        "dist": [
-          1,
-          0.983,
-          0.2,
-          0,
-          1,
-          1,
-          1,
-          1,
-          0,
-          0,
-          0.967,
-          1,
-          0.967,
-          1,
-          0.1,
-          0.933,
-          0,
-          0.86,
-          0.1,
-          0.1,
-          1,
-          0.983,
-          1,
-          1
-        ],
-        "probes": [
-          {
-            "probe_id": "obs-32554",
-            "similarity": 0.96,
-            "task_text": "Find the 2026 Frontiers in Plant Science paper by Song et al. on arbuscular mycorrhizal fungi and rhizobium facilitating nitrogen uptake and transfer in a soybean/tobacco intercropping system. Give me its DOI.",
-            "adapted_input": "Song arbuscular mycorrhizal fungi rhizobium nitrogen soybean tobacco intercropping 2026",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 2464,
-            "truncated": false,
-            "created_at": "2026-08-29T09:54:09.497513Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "Deterministic check — matched 1/1 required string(s).",
-                "panel": null
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the 2026 Frontiers in Plant Science paper by Song et al. on arbuscular mycorrhizal fungi and rhizobium facilitating nitrogen uptake and transfer in a soybean/tobacco intercropping system. Give me its DOI.\",\n  \"adapted_query\": \"Song arbuscular mycorrhizal fungi rhizobium nitrogen soybean tobacco intercropping 2026\",\n  \"provider\": \"Semantic Scholar\",\n  \"tool_kind\": \"academic paper search (broad coverage, citation graph)\",\n  \"total_results\": 1,\n  \"returned_results\": 1,\n  \"results\": [\n    {\n      \"paper_id\": \"aec971a94f2d92b2c1f16bcbbeb919d257454ddc\",\n      \"title\": \"Arbuscular mycorrhizal fungi and rhizobium facilitate nitrogen uptake and transfer in soybean/tobacco intercropping system\",\n      \"abstract\": \"Introduction The tripartite symbiosis of legume-AMF-rhizobia is widely considered to facilitate nitrogen (N) uptakeby legumes, but its effect on non-legume plants in intercropping systems remains unclear. Methods A pot experiment with three root separations (PS, MS, NS) was conducted using \\u00b9\\u2075N isotope tracing in a soybean/tobacco intercropping system with double inoculation of Claroideoglomus etunicatum (CE) and Bradyrhizobium japonicum 5016 (BJ). Results Double inoculation (CE+BJ) significantly increased bioaccumulation, N uptake, and N transfer from soybean to tobacco compared to single or no inoculation. Mycorrhizal colonization in soybean increa …[truncated]"
-          },
-          {
-            "probe_id": "obs-8910",
-            "similarity": 0.96,
-            "task_text": "Find the recent arXiv paper \"Spin disorder competing with positional symmetry\" on the metal-insulator behavior of oxide paramagnets.",
-            "adapted_input": "spin disorder positional symmetry metal-insulator oxide paramagnets",
-            "score": 0.983,
-            "redacted": null,
-            "output_chars": 20000,
-            "truncated": true,
-            "created_at": "2026-06-16T20:05:31.133647Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 0.983,
-                "rationale": "The tool successfully identified the exact paper requested. It provided the correct title, authors,  | The tool correctly identified the exact arXiv paper (2606.14624) with the precise title, authors, ye | The tool returned the exact arXiv paper with correct title, arXiv ID (2606.14624), authors, and year",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool successfully identified the exact paper requested. It provided the correct title, authors, publication date, and the specific arXiv ID (2606.14624) mentioned in the ground truth.",
-                    "score": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool correctly identified the exact arXiv paper (2606.14624) with the precise title, authors, year, and abstract matching the ground truth. The adapted query effectively retrieved the target paper as the top result. Minor deduction for returning 15 results when the query asked for a specific pap…",
-                    "score": 0.95
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned the exact arXiv paper with correct title, arXiv ID (2606.14624), authors, and year (2026), perfectly matching the ground truth. No issues with relevance, accuracy, or completeness, as all key details are present and correct.",
-                    "score": 1
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "excellent",
-                "score": 1,
-                "rationale": "The top result is the exact paper requested by the user, matching the title, topic, and arXiv ID provided in the ground truth.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The top result is the exact paper requested by the user, matching the title, topic, and arXiv ID provided in the ground truth.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top result is the exact arXiv paper requested, with matching title, authors, and abstract, directly fulfilling the query intent.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output directly returns the exact arXiv paper requested as the top result, matching the ground truth with correct details, thus perfectly answering the query intent.",
-                    "label": "excellent",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool provides a direct citation to a peer-reviewed/academic preprint from arXiv, which is a primary source for scientific research.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides a direct citation to a peer-reviewed/academic preprint from arXiv, which is a primary source for scientific research.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output directly cites a peer-reviewed arXiv preprint (arXiv:2606.14624) and other academic papers, which are primary authoritative sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output cites academic papers, including preprints from arXiv, which are primary sources in the context of research.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool output provides explicit source references including the paper title, authors, arXiv ID, and a Semantic Scholar URL.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output provides explicit source references including the paper title, authors, arXiv ID, and a Semantic Scholar URL.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output includes explicit source references such as a Semantic Scholar URL and an ArXiv ID (2606.14624) for the first paper, allowing a reader to follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit URLs and ArXiv IDs in the results, providing clear source references that a reader can follow back to the papers.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool returned a list of results containing the specific paper requested by the user.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a list of results containing the specific paper requested by the user.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a list of 15 results, including the exact paper requested as the top result, so the output is non-empty and usable.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a non-empty JSON output with multiple results, including the correct paper, fulfilling the requirement for usable output.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the recent arXiv paper \\\"Spin disorder competing with positional symmetry\\\" on the metal-insulator behavior of oxide paramagnets.\",\n  \"adapted_query\": \"spin disorder positional symmetry metal-insulator oxide paramagnets\",\n  \"provider\": \"Semantic Scholar\",\n  \"tool_kind\": \"academic paper search (broad coverage, citation graph)\",\n  \"total_results\": 28,\n  \"returned_results\": 15,\n  \"results\": [\n    {\n      \"paper_id\": \"22de36ef6d33ab78fe7a104a0cbe12ef82375637\",\n      \"title\": \"Spin disorder competing with positional symmetry breaking governs the metal-insulator behavior in oxide paramagnets\",\n      \"abstract\": \"Numerous transition-metal oxides have low-temperature antiferromagnetic (AFM) states and high-temperature paramagnetic (PM) phases, where the AFM state is usually insulating while the PM phase can be either insulating or metallic. Without involving strong correlation, we use symmetry-broken density-functional theory (DFT) to obtain the PM phases of insulating NaFeO3 vs the recently discovered metallic NaOsO3. We develop the understanding of insulating and metallic behaviors in paramagnetic oxides by analyzing the interactions between magnetic and positional symmetry breaking: The insulating gap is governed by the competition between the spin disorder that induces a distribution of different magnitudes of local magnetic moments and the polymorphous distribut …[truncated]"
-          },
-          {
-            "probe_id": "obs-8764",
-            "similarity": 0.957,
-            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
-            "adapted_input": "AlphaFold2 protein structure prediction Jumper 2021 Nature DeepMind",
-            "score": 0.2,
-            "redacted": null,
-            "output_chars": 20000,
-            "truncated": true,
-            "created_at": "2026-06-13T22:13:31.499960Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "fail",
-                "score": 0.2,
-                "rationale": "The tool failed to return the actual canonical paper as a direct result. Instead, the top result is  | The tool failed to return the requested canonical paper (Jumper et al. 2021 Nature). The top results | The tool returned papers related to AlphaFold2, but the specific paper by Jumper et al. ('Highly acc",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool failed to return the actual canonical paper as a direct result. Instead, the top result is a different paper that merely cites the target paper in its abstract. While the first result's abstract contains the correct citation information (Jumper et al., 2021, Nature, 596, 583), the tool did …",
-                    "score": 0.3
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool failed to return the requested canonical paper (Jumper et al. 2021 Nature). The top results are irrelevant: a commentary and a review discussing AlphaFold2 but not the actual paper itself. No correct title, authors, or identifier are present despite the query being clear and the ground trut…",
-                    "score": 0
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned papers related to AlphaFold2, but the specific paper by Jumper et al. ('Highly accurate protein structure prediction with AlphaFold.') did not appear in the visible top results, failing to retrieve the canonical paper as required by the query.",
-                    "score": 0.3
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "partial",
-                "score": 0.5,
-                "rationale": "The top results are secondary papers discussing AlphaFold2 rather than the primary research paper requested, although the first result's abstract does contain the correct citation information.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The top results are secondary papers discussing AlphaFold2 rather than the primary research paper requested, although the first result's abstract does contain the correct citation information.",
-                    "label": "partial",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top results discuss AlphaFold2 but do not include the specific 2021 Nature paper by Jumper et al. that announced it, so the user would need to dig further to find the exact paper.",
-                    "label": "partial",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The top results are relevant to AlphaFold2 and include citations to the target paper, offering useful context though not directly providing the specific Nature paper itself.",
-                    "label": "good",
-                    "value": 0.75
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool provides results from academic databases including peer-reviewed journals like Nature and Microbial Biotechnology, which are primary sources.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides results from academic databases including peer-reviewed journals like Nature and Microbial Biotechnology, which are primary sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "All returned results are from peer-reviewed journals, which are primary academic sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output consists of peer-reviewed academic papers, which are primary sources as defined in the rubric.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool output provides specific paper titles, authors, publication venues, DOIs, and Semantic Scholar URLs for the results found.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output provides specific paper titles, authors, publication venues, DOIs, and Semantic Scholar URLs for the results found.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output includes explicit source references such as URLs, DOIs, and other identifiers for each paper, allowing a reader to follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit URLs and DOI numbers for each search result, which are direct source references that a reader can follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool returned a list of search results containing paper titles, abstracts, and metadata.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a list of search results containing paper titles, abstracts, and metadata.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned multiple paper results with titles, abstracts, and metadata, so the output is non-empty.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a detailed JSON response with multiple paper results and metadata, confirming non-empty output.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"adapted_query\": \"AlphaFold2 protein structure prediction Jumper 2021 Nature DeepMind\",\n  \"provider\": \"Semantic Scholar\",\n  \"tool_kind\": \"academic paper search (broad coverage, citation graph)\",\n  \"total_results\": 24,\n  \"returned_results\": 15,\n  \"results\": [\n    {\n      \"paper_id\": \"eed8d8fd7fd3ccfe13585cb0cd51654436a5f820\",\n      \"title\": \"Artificial intelligence for microbial biotechnology: beyond the hype\",\n      \"abstract\": \"It has been a landmark year for artificial intelligence (AI) and biotechnology. Perhaps the most noteworthy of these advances was Google DeepMind\\u2019s AlphaFold2 algorithm which smashed records in protein structure prediction (Jumper et al., 2021, Nature, 596, 583) complemented by progress made by other research groups around the globe (Baek et al., 2021, Science, 373, 871; Zheng et al., 2021, Proteins). For the first time in history, AI achieved protein structure models rivalling the accuracy of experimentally determined structures. The power of accurate protein structure prediction at our fingertips has countless implications for drug discovery, de novo protein design and fundamental research in chemical biology. While acknowledging the significance of these breakthroughs, this perspective aims to cut through the hype and exam …[truncated]"
-          }
-        ]
-      },
-      "evidence_teaser": {
-        "task_text": "Find the 2026 Frontiers in Plant Science paper by Song et al. on arbuscular mycorrhizal fungi and rhizobium facilitating nitrogen uptake and transfer in a soybean/tobacco intercropping system. Give me its DOI.",
-        "verdict": "pass",
-        "score": 1,
-        "similarity": 0.96,
-        "n_real": 83
-      }
-    },
-    {
-      "tool_id": "serp_search",
-      "name": "SerpAPI (Google)",
+      "tool_id": "kagi_search",
+      "name": "Kagi Search API",
       "variant": null,
       "capabilities": [
         "web_search",
         "realtime"
       ],
-      "description": "Google search results via API. Returns structured JSON with organic results, answer boxes, knowledge panels, and news.",
+      "description": "Premium, ad-free search engine with independent index. Strong anti-SEO-spam filtering and high-quality results.",
       "kind": "external_tool",
       "endpoint": {
         "api_type": "rest",
-        "base_url": "https://serpapi.com",
-        "status_url": "https://serpapi.com"
+        "base_url": "https://kagi.com",
+        "status_url": "https://kagi.com"
       },
-      "reason": "lower capability (0.88 vs 0.98).",
-      "capability": 0.8835,
-      "band": 0.0332,
-      "cap_lcb": 0.8503,
-      "rank": 0.9355,
+      "reason": "lower capability (0.94 vs 0.98); pricier ($0.0120 vs $0.0000/query).",
+      "capability": 0.9402,
+      "band": 0.1177,
+      "cap_lcb": 0.8226,
+      "rank": 0.9232,
       "price": {
-        "amount": 0.0075,
-        "per_query_usd": 0.0075,
+        "amount": 0.012,
+        "per_query_usd": 0.012,
         "currency": "USD",
         "confidence": "high",
-        "selected_plan": "free",
+        "selected_plan": "api",
         "held": false,
         "estimated": true,
         "cost_unknown": false,
         "breakdown": [
           {
-            "plan_id": "free",
-            "kind": "free",
-            "plan_group": "serpapi",
-            "effective_usd": 0.0075,
-            "held": false,
-            "currency": "USD",
-            "confidence": "high",
-            "overridden": false
-          },
-          {
-            "plan_id": "starter",
-            "kind": "subscription",
-            "plan_group": "serpapi",
-            "effective_usd": 0.025,
-            "held": false,
-            "currency": "USD",
-            "confidence": "high",
-            "overridden": false
-          },
-          {
-            "plan_id": "developer",
-            "kind": "subscription",
-            "plan_group": "serpapi",
-            "effective_usd": 0.075,
-            "held": false,
-            "currency": "USD",
-            "confidence": "high",
-            "overridden": false
-          },
-          {
-            "plan_id": "production",
-            "kind": "subscription",
-            "plan_group": "serpapi",
-            "effective_usd": 0.15,
+            "plan_id": "api",
+            "kind": "metered",
+            "plan_group": "kagi_search_api",
+            "effective_usd": 0.012,
             "held": false,
             "currency": "USD",
             "confidence": "high",
@@ -3391,11 +378,11 @@ Example output:
         ]
       },
       "calling": {
-        "tool_id": "serp_search",
+        "tool_id": "kagi_search",
         "coordinator_class": false,
         "executable": true,
         "endpoint": {
-          "base_url": "https://serpapi.com",
+          "base_url": "https://kagi.com",
           "api_type": "rest"
         },
         "adapter": {
@@ -3403,7 +390,7 @@ Example output:
         },
         "auth": {
           "method": "api_key",
-          "env_var": "SERPAPI_KEY",
+          "env_var": "KAGI_API_KEY",
           "connected": false
         },
         "summary": {
@@ -3412,56 +399,56 @@ Example output:
           "api_type": "rest",
           "connected": false,
           "free": false,
-          "how": "connect a key → serpapi.com/users/sign_up",
-          "signup_url": "https://serpapi.com/users/sign_up"
+          "how": "connect a key → kagi.com/signup",
+          "signup_url": "https://kagi.com/signup"
         },
         "connect": {
-          "tool_id": "serp_search",
-          "name": "SerpAPI (Google)",
+          "tool_id": "kagi_search",
+          "name": "Kagi Search API",
           "auth_method": "api_key",
-          "signup_url": "https://serpapi.com/users/sign_up",
-          "instructions": "  1. Create a SerpApi account — the free tier is enough to start.\n  2. Confirm your email address.\n  3. Open the API Key page in your dashboard.\n  4. Copy your private API key.",
+          "signup_url": "https://kagi.com/signup",
+          "instructions": "  1. Create a Kagi account and subscribe to a plan.\n  2. Open Settings → Advanced → API portal.\n  3. Add API credit, then generate a Search API token.\n  4. Copy the token.",
           "methods": [
             {
               "auth_method": "api_key",
-              "label": "SerpApi private key",
-              "signup_url": "https://serpapi.com/users/sign_up",
+              "label": "Kagi Search API token",
+              "signup_url": "https://kagi.com/signup",
               "instructions": [
-                "Create a SerpApi account — the free tier is enough to start.",
-                "Confirm your email address.",
-                "Open the API Key page in your dashboard.",
-                "Copy your private API key."
+                "Create a Kagi account and subscribe to a plan.",
+                "Open Settings → Advanced → API portal.",
+                "Add API credit, then generate a Search API token.",
+                "Copy the token."
               ],
               "fields": [
                 {
-                  "key": "SERPAPI_KEY",
-                  "label": "SerpApi private key",
+                  "key": "KAGI_API_KEY",
+                  "label": "Kagi Search API token",
                   "secret": true,
                   "required": true,
-                  "help": "Dashboard → Your Account → API Key"
+                  "help": "Settings → Advanced → API → Generate API Token"
                 }
               ]
             }
           ],
           "fields": [
             {
-              "key": "SERPAPI_KEY",
-              "label": "SerpApi private key",
+              "key": "KAGI_API_KEY",
+              "label": "Kagi Search API token",
               "secret": true,
               "required": true,
-              "help": "Dashboard → Your Account → API Key"
+              "help": "Settings → Advanced → API → Generate API Token"
             }
           ],
           "source": "evaluator",
           "connect_via": {
             "surface": "POST /credentials/connect",
-            "method": "SerpApi private key",
-            "field_key": "SERPAPI_KEY",
+            "method": "Kagi Search API token",
+            "field_key": "KAGI_API_KEY",
             "payload": {
-              "tool_id": "serp_search",
+              "tool_id": "kagi_search",
               "api_key": "<paste your key here>"
             },
-            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"serp_search\",\"api_key\":\"<YOUR_KEY>\"}'"
+            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"kagi_search\",\"api_key\":\"<YOUR_KEY>\"}'"
           }
         }
       },
@@ -3471,16 +458,16 @@ Example output:
           "kano": "must_be",
           "weight": 1,
           "threshold": 0.5,
-          "raw": 0.8503,
-          "contribution": 0.7905
+          "raw": 0.8226,
+          "contribution": 0.7516
         },
         {
           "name": "price",
           "kano": "performance",
           "weight": 0.3,
           "threshold": 0.5,
-          "raw": 0.9892,
-          "contribution": 0.2968
+          "raw": 0.9828,
+          "contribution": 0.2948
         },
         {
           "name": "no_machine_harm",
@@ -3492,208 +479,67 @@ Example output:
         }
       ],
       "evidence": {
-        "n_real": 399,
+        "n_real": 796,
         "n_near": 24,
-        "near_mean": 0.73,
+        "near_mean": 0.851,
         "dist": [
-          0.667,
-          0.867,
+          0.93,
+          1,
+          1,
+          1,
           0,
           1,
+          1,
+          0.967,
+          0.933,
+          0.983,
+          0.973,
+          0.95,
+          1,
+          0.5,
+          0.833,
+          0.9,
+          0.833,
+          0.8,
+          0.933,
+          0,
           0.933,
           1,
-          1,
-          0.633,
-          1,
-          0.967,
-          0.967,
-          1,
-          0.967,
-          0.967,
-          0,
-          1,
-          0.7,
-          0,
-          0,
-          0.983,
-          1,
-          0.867,
-          1,
-          0
+          0.95,
+          1
         ],
         "probes": [
           {
-            "probe_id": "obs-28658",
-            "similarity": 0.97,
-            "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-            "adapted_input": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-            "score": 0.667,
+            "probe_id": "obs-42590",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "score": 0.93,
             "redacted": null,
-            "output_chars": 4517,
+            "output_chars": 6055,
             "truncated": false,
-            "created_at": "2026-08-12T17:47:11.895385Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "partial",
-                "score": 0.667,
-                "rationale": "The tool provides several highly relevant authoritative sources that would allow a user to find the  | The tool returns relevant authoritative sources for finding Geoffrey Hinton's recent papers (Google  | The tool provided authoritative sources (e.g., Google Scholar and University of Toronto pages) that ",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides several highly relevant authoritative sources that would allow a user to find the requested information, specifically the Google Scholar profile (Result 1), the University of Toronto personal page (Result 4), and the Google Research profile (Result 6). While the snippets themselves…",
-                    "score": 0.7
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returns relevant authoritative sources for finding Geoffrey Hinton's recent papers (Google Scholar, his personal page, Google Research), but the snippets do not directly display specific recent papers or their titles/years. The query asks for 'recent papers ... in the last few years', and t…",
-                    "score": 0.6
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool provided authoritative sources (e.g., Google Scholar and University of Toronto pages) that enable access to Hinton's papers, aligning with the contract's reward for canonical sources. However, some results (e.g., YouTube, Reddit) are less relevant for papers, and snippets focus on older pub…",
-                    "score": 0.7
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "partial",
-                "score": 0.5,
-                "rationale": "The top results include a Google Scholar profile and a personal publications page, but the actual recent papers by Hinton are not directly surfaced, and many results are interviews, news articles, or older works.",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top results include a Google Scholar profile and a personal publications page, but the actual recent papers by Hinton are not directly surfaced, and many results are interviews, news articles, or older works.",
-                    "label": "partial",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "While the results provide links to Geoffrey Hinton's profiles and general information, they fail to directly list specific recent papers as requested, instead providing a mix of biographical links, YouTube videos, and older publications.",
-                    "label": "partial",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The top results include non-paper items like videos, profiles, and articles about Hinton, with no specific recent papers listed in the snippets, requiring the user to dig for relevant information.",
-                    "label": "poor",
-                    "value": 0.25
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool's output includes links to Google Scholar, the University of Toronto's publication list, and Google Research, which are authoritative sources for peer-reviewed papers and primary research.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides a mix of sources including Google Scholar and University websites (reputable secondary/primary indicators) alongside Wikipedia and Reddit (tertiary/low-quality), but fails to provide direct links to the actual peer-reviewed papers requested.",
-                    "label": "reputable_secondary",
-                    "value": 0.75
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes links to Google Scholar, the University of Toronto's publication list, and Google Research, which are authoritative sources for peer-reviewed papers and primary research.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The output includes citations to primary sources such as peer-reviewed papers from ACM Digital Library and official academic publications from institutions like the University of Toronto and Google Research.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool's output includes multiple explicit URLs and document names (e.g., Google Scholar, YouTube, Reddit, University of Toronto page, MIT Sloan article) that a reader can follow back to the underlying material.",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes multiple explicit URLs and document names (e.g., Google Scholar, YouTube, Reddit, University of Toronto page, MIT Sloan article) that a reader can follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output provides multiple explicit source references, including URLs and titles for various web pages and documents.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes multiple URLs in the results section, which are explicit source references that a reader can follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool returned a list of search results containing various links and snippets related to Geoffrey Hinton.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a list of search results containing various links and snippets related to Geoffrey Hinton.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a non-empty JSON response with a list of search results, which constitutes usable output regardless of correctness.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a list of 10 results with titles, URLs, and snippets, which is non-empty output.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find recent papers by Geoffrey Hinton on neural networks published in the last few years.\",\n  \"adapted_query\": \"Find recent papers by Geoffrey Hinton on neural networks published in the last few years.\",\n  \"provider\": \"SerpAPI (Google)\",\n  \"answer\": \"\",\n  \"total_results\": 10,\n  \"api_params\": {\n    \"engine\": \"google\",\n    \"num\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Geoffrey Hinton\",\n      \"url\": \"https://scholar.google.com/citations?user=JicYPdAAAAAJ&hl=en\",\n      \"snippet\": \"Hinton Advances in neural information processing systems 25, 2012. Hinton Journal of Machine Learning Research 9 (Nov), 2579-2605, International conference on ...\",\n      \"date\": \"\",\n      \"position\": 1,\n      \"source\": \"Google Scholar\"\n    },\n    {\n      \"title\": \"Ep. 2 - Five Decades of Neural Networks with Geoffrey Hinton\",\n      \"url\": \"https://www.youtube.com/watch?v=i1KUdDo2eOo\",\n      \"snippet\": \"Geoffrey explains how he got into the field, He explains the burst of neural network progress in the mid-1980s \\u2026 re-emergence of deep neural ...\",\n      \"date\": \"\",\n      \"position\": 2,\n      \"source\": \"YouTube \\u00b7 Stanford Digital Economy Lab\"\n    },\n    {\n      \"title\": \"AMA Geoffrey Hinton : r/MachineLearning\",\n      \"url\": \"https://www.reddit.com/r/MachineLearning/comments/2lmo0l/ama_geoffrey_hinton/\",\n      \"snippet\": \"I design learning algorithms for neural networks. My ai …[truncated]"
-          },
-          {
-            "probe_id": "obs-28376",
-            "similarity": 0.968,
-            "task_text": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-            "adapted_input": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-            "score": 0.867,
-            "redacted": null,
-            "output_chars": 4493,
-            "truncated": false,
-            "created_at": "2026-08-12T10:51:37.077669Z",
+            "created_at": "2026-10-08T06:21:58.891616Z",
             "judges": [
               {
                 "facet": "capability",
                 "verdict": "pass",
-                "score": 0.867,
-                "rationale": "The tool performed exceptionally well. It provided a diverse set of highly relevant, authoritative,  | The tool returned a diverse set of highly relevant, authoritative results (NIH, ScienceDirect, MDPI, | The tool returned mostly relevant results from authoritative sources (e.g., PMC, ScienceDirect, ACS)",
+                "score": 0.93,
+                "rationale": "jev score 3.4/4 p=0.00/0.00/0.08/0.44/0.48 conf=0.50 | The top result is the exact canonical Nature paper (s41586-021-03819-2, 'Highly accurate protein str | The top result is the canonical Nature article (nature.com/articles/s41586-021-03819-2) for Jumper e",
                 "panel": [
                   {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool performed exceptionally well. It provided a diverse set of highly relevant, authoritative, and high-quality scientific sources including PMC (NIH), ScienceDirect, MDPI, Royal Society of Chemistry, and ACS Publications. The results directly address the specific technical query and provide th…",
-                    "score": 1
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev score 3.4/4 p=0.00/0.00/0.08/0.44/0.48 conf=0.50",
+                    "score": 0.85
                   },
                   {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a diverse set of highly relevant, authoritative results (NIH, ScienceDirect, MDPI, ACS, RSC, etc.) with correct titles and snippets that match the query. No empty or off-topic results, and all URLs appear valid. This aligns well with the ground truth expectation of surfacing real i…",
-                    "score": 0.9
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The top result is the exact canonical Nature paper (s41586-021-03819-2, 'Highly accurate protein structure prediction with AlphaFold'), matching the ground truth Jumper et al. 2021. Additional authoritative results (PubMed, Wikipedia, DeepMind) reinforce coverage. Minor truncation of the last result…",
+                    "score": 0.97
                   },
                   {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned mostly relevant results from authoritative sources (e.g., PMC, ScienceDirect, ACS) that align with the query for scientific literature, but included an off-topic YouTube video and a potential non-peer-reviewed site, partially missing the ground truth requirement for peer-reviewed p…",
-                    "score": 0.7
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The top result is the canonical Nature article (nature.com/articles/s41586-021-03819-2) for Jumper et al. 2021, 'Highly accurate protein structure prediction with AlphaFold' (Nature 596:583-589), exactly matching the ground truth. Supporting results include the PubMed record (PMID 34265844), the com…",
+                    "score": 0.97
                   }
                 ]
               },
@@ -3701,23 +547,23 @@ Example output:
                 "facet": "relevance",
                 "verdict": "excellent",
                 "score": 1,
-                "rationale": "The top three results are highly relevant, high-quality scientific sources (PMC, ScienceDirect, and MDPI) that directly address the user's request for literature on graphene field-effect transistors for biosensing.",
+                "rationale": "jev choice=excellent p{excellent=0.96, good=0.04, partial=0.00, irrelevant=0.00, poor=0.00} conf=0.95",
                 "panel": [
                   {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The top three results are highly relevant, high-quality scientific sources (PMC, ScienceDirect, and MDPI) that directly address the user's request for literature on graphene field-effect transistors for biosensing.",
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=excellent p{excellent=0.96, good=0.04, partial=0.00, irrelevant=0.00, poor=0.00} conf=0.95",
                     "label": "excellent",
                     "value": 1
                   },
                   {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top three results are directly relevant, from high-quality peer-reviewed sources, and address the query intent of finding scientific literature on graphene field-effect transistors for biosensing.",
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The top two results are the exact Nature paper and its PubMed record, with the third being a closely related AlphaFold paper, directly satisfying the query intent.",
                     "label": "excellent",
                     "value": 1
                   },
                   {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The top three results directly answer the query intent with high-quality, peer-reviewed sources on graphene FET biosensors from reputable publishers like NIH, ScienceDirect, and MDPI.",
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The top two results are the exact target paper (Jumper et al., 'Highly accurate protein structure prediction with AlphaFold', Nature 2021) surfaced directly from nature.com and PubMed, with the third being the closely related companion human proteome paper, so the top results directly answer the que…",
                     "label": "excellent",
                     "value": 1
                   }
@@ -3727,23 +573,23 @@ Example output:
                 "facet": "source_quality",
                 "verdict": "primary",
                 "score": 1,
-                "rationale": "The tool provides links to peer-reviewed scientific literature from authoritative sources such as PMC (NIH), ScienceDirect, MDPI, RSC, and ACS Publications.",
+                "rationale": "jev choice=primary p{primary=1.00, low_quality=0.00, not_applicable=0.00, tertiary=0.00, reputable_secondary=0.00} conf=1.00",
                 "panel": [
                   {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides links to peer-reviewed scientific literature from authoritative sources such as PMC (NIH), ScienceDirect, MDPI, RSC, and ACS Publications.",
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=primary p{primary=1.00, low_quality=0.00, not_applicable=0.00, tertiary=0.00, reputable_secondary=0.00} conf=1.00",
                     "label": "primary",
                     "value": 1
                   },
                   {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output primarily consists of peer-reviewed scientific articles from reputable publishers and government databases, which are primary authoritative sources.",
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The top results cite the actual Nature peer-reviewed paper (s41586-021-03819-2) and its PubMed record, which are primary authoritative sources.",
                     "label": "primary",
                     "value": 1
                   },
                   {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes multiple citations from peer-reviewed scientific publishers and academic databases, which are primary sources.",
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The top results directly surface the peer-reviewed Nature paper (nature.com s41586-021-03819-2) and its PubMed record, which are primary/authoritative sources, despite a few tertiary or low-quality entries mixed in lower down.",
                     "label": "primary",
                     "value": 1
                   }
@@ -3753,23 +599,23 @@ Example output:
                 "facet": "references_present",
                 "verdict": "present",
                 "score": 1,
-                "rationale": "The tool's output includes multiple explicit source references with URLs, such as the first result linking to pmc.ncbi.nlm.nih.gov.",
+                "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
                 "panel": [
                   {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes multiple explicit source references with URLs, such as the first result linking to pmc.ncbi.nlm.nih.gov.",
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
                     "label": "present",
                     "value": 1
                   },
                   {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output provides multiple explicit source references, including URLs, titles, and source names for each search result.",
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The output includes explicit URLs (e.g., nature.com/articles/s41586-021-03819-2, pubmed.ncbi.nlm.nih.gov/34265844/) and named documents, providing followable source references.",
                     "label": "present",
                     "value": 1
                   },
                   {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit URLs for each search result, enabling readers to follow back to the underlying scientific literature.",
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The output includes multiple explicit source references, including the direct Nature article URL (nature.com/articles/s41586-021-03819-2), PubMed links, and other named documents matching the ground truth citation.",
                     "label": "present",
                     "value": 1
                   }
@@ -3779,60 +625,739 @@ Example output:
                 "facet": "output_was_returned",
                 "verdict": "returned",
                 "score": 1,
-                "rationale": "The tool returned a list of nine search results containing titles, URLs, and snippets relevant to the query.",
+                "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
                 "panel": [
                   {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a list of nine search results containing titles, URLs, and snippets relevant to the query.",
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
                     "label": "returned",
                     "value": 1
                   },
                   {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a JSON object containing a non-empty list of search results with titles, URLs, and snippets.",
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool returned 14 non-empty search results, including the correct Nature paper URL, so usable output was produced.",
                     "label": "returned",
                     "value": 1
                   },
                   {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes a structured JSON response with multiple search results, titles, URLs, and snippets, demonstrating non-empty output was returned.",
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool returned a non-empty JSON response with 14 search results, including the Nature paper URL and PubMed entries for the AlphaFold paper.",
                     "label": "returned",
                     "value": 1
                   }
                 ]
               }
             ],
-            "raw_output": "{\n  \"query\": \"Find scientific literature on graphene field-effect transistors for biosensing applications.\",\n  \"adapted_query\": \"Find scientific literature on graphene field-effect transistors for biosensing applications.\",\n  \"provider\": \"SerpAPI (Google)\",\n  \"answer\": \"\",\n  \"total_results\": 9,\n  \"api_params\": {\n    \"engine\": \"google\",\n    \"num\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Graphene-Based Field-Effect Transistors in Biosensing ... - PMC\",\n      \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC11386440/\",\n      \"snippet\": \"GFET biosensors usually have a high signal-to-noise ratio due to the high carrier mobility and low electronic noise of graphene. Bonding of biomolecules to the ...\",\n      \"date\": \"\",\n      \"position\": 1,\n      \"source\": \"National Institutes of Health (NIH) | (.gov)\"\n    },\n    {\n      \"title\": \"Field-effect transistor for biosensing applications using a ...\",\n      \"url\": \"https://www.sciencedirect.com/science/article/pii/S2590137025001001\",\n      \"snippet\": \"In this paper, we report the use of amine-functionalized graphene by plasma polymerization to detect the presence of biomolecules in graphene channel based on ...\",\n      \"date\": \"\",\n      \"position\": 2,\n      \"source\": \"ScienceDirect.com\"\n    },\n    {\n      \"title\": \"Recent Advances in Graphene-Based Field-Effect ...\",\n      \"url\": \"https://www.mdpi.com/2079-6374/16/4/190\",\n      \"snipp …[truncated]"
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"adapted_query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"provider\": \"Kagi Search\",\n  \"total_results\": 14,\n  \"api_params\": {\n    \"limit\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold\",\n      \"url\": \"https://www.nature.com/articles/s41586-021-03819-2\",\n      \"snippet\": \"AlphaFold predicts protein structures with an accuracy competitive with experimental structures in the majority of cases using a novel deep learning architecture.\",\n      \"published\": \"\"\n    },\n    {\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold\",\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34265844/\",\n      \"snippet\": \"by J Jumper \\u00b7 2021 \\u00b7 Cited by 56055 \\u2014 Predicting the three-dimensional structure that a protein will adopt based solely on its amino acid sequence-the structure prediction component ...\",\n      \"published\": \"\"\n    },\n    {\n      \"title\": \"Highly accurate protein structure prediction for the human proteome\",\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34293799/\",\n      \"snippet\": \"Protein structures can provide invaluable information, both for reasoning about biological processes and for enabling i …[truncated]"
           },
           {
-            "probe_id": "obs-32721",
-            "similarity": 0.966,
-            "task_text": "Find the 2026 Applied Energy paper by Chen et al. on turning current mismatch into an advantage to suppress hysteresis in two-terminal tandem cells, and give me its DOI.",
-            "adapted_input": "Chen et al. 2026 Applied Energy current mismatch hysteresis two-terminal tandem solar cells",
-            "score": 0,
+            "probe_id": "obs-33015",
+            "similarity": 0.983,
+            "task_text": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
+            "adapted_input": "Zhang 2026 Advanced Energy Materials self-assembled monolayers molecular design interfacial perovskite tandem solar cells DOI",
+            "score": 1,
             "redacted": null,
-            "output_chars": 4272,
+            "output_chars": 9251,
             "truncated": false,
-            "created_at": "2026-08-29T10:55:30.318527Z",
+            "created_at": "2026-09-07T20:19:39.882420Z",
             "judges": [
               {
                 "facet": "capability",
-                "verdict": "fail",
-                "score": 0,
-                "rationale": "Deterministic check — matched 0/1 required string(s); missing: 10.1016/j.apenergy.2026.128576.",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
                 "panel": null
               }
             ],
-            "raw_output": "{\n  \"query\": \"Chen et al. 2026 Applied Energy current mismatch hysteresis two-terminal tandem solar cells\",\n  \"adapted_query\": \"Chen et al. 2026 Applied Energy current mismatch hysteresis two-terminal tandem solar cells\",\n  \"provider\": \"SerpAPI (Google)\",\n  \"answer\": \"\",\n  \"total_results\": 9,\n  \"api_params\": {\n    \"engine\": \"google\",\n    \"num\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"suppressing hysteresis and improving operational stability ...\",\n      \"url\": \"https://www.sciencedirect.com/science/article/abs/pii/S0306261926012328\",\n      \"snippet\": \"Turning current mismatch into advantage: suppressing hysteresis and improving operational stability in two-terminal perovskite/silicon tandem solar cells.\",\n      \"date\": \"\",\n      \"position\": 1,\n      \"source\": \"ScienceDirect.com\"\n    },\n    {\n      \"title\": \"Origin of the Voltage Gap and Recombination Losses in All ...\",\n      \"url\": \"https://advanced.onlinelibrary.wiley.com/doi/10.1002/aenm.202505590?utm_source\\\\u003dresearchgate.net\\\\u0026utm_medium\\\\u003darticle\",\n      \"snippet\": \"The EL spectrum of the tandem solar cell exhibits two EL emission peaks at \\u223c1.23 eV (from NBG subcell) and \\u223c1.82 eV (from WBG subcell). The ...\",\n      \"date\": \"15\\u200f/01\\u200f/2026\",\n      \"position\": 2,\n      \"source\": \"Wiley & Sons\"\n    },\n    {\n      \"title\": \"Opto-electro-thermal Multiphysical Mechanisms and ...\",\n      \"url\": …[truncated]"
+            "raw_output": "{\n  \"query\": \"Zhang 2026 Advanced Energy Materials self-assembled monolayers molecular design interfacial perovskite tandem solar cells DOI\",\n  \"adapted_query\": \"Zhang 2026 Advanced Energy Materials self-assembled monolayers molecular design interfacial perovskite tandem solar cells DOI\",\n  \"provider\": \"Kagi Search\",\n  \"total_results\": 19,\n  \"api_params\": {\n    \"limit\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Molecular Design and Interfacial Functions of Self\\u2010Assembled ...\",\n      \"url\": \"https://advanced.onlinelibrary.wiley.com/doi/abs/10.1002/aenm.70979\",\n      \"snippet\": \"by J Zhang \\u00b7 Cited by 3 \\u2014 Zhang, B. Kang, \\u201c Molecular Design and Interfacial Functions of Self-Assembled Monolayers for Perovskite and Tandem Solar Cells.\\u201d Advanced ...\",\n      \"published\": \"\"\n    },\n    {\n      \"title\": \"Molecular Design and Interfacial Functions of Self-Assembled Monolayers ...\",\n      \"url\": \"https://advanced.onlinelibrary.wiley.com/doi/10.1002/aenm.70979\",\n      \"snippet\": \"As a potent interfacial platform at the crossroads of molecular engineering and device physics, self-assembled monolayers (SAMs) have been demonstrated to enable molecular-level control over buried interfaces in perovskite solar cells (PSCs), whilst overcoming the intrinsic limitations of conventional charge transport layers (CTLs).\",\n      \"published\": \"\"\n    },\n    {\n      \"title\": \"Se …[truncated]"
+          },
+          {
+            "probe_id": "obs-33020",
+            "similarity": 0.982,
+            "task_text": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "adapted_input": "Xu 2026 Journal of Clinical Medicine intrahepatic cholestasis pregnancy early prediction severe risk stratification PMID",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 5734,
+            "truncated": false,
+            "created_at": "2026-09-07T20:20:08.959650Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Xu 2026 Journal of Clinical Medicine intrahepatic cholestasis pregnancy early prediction severe risk stratification PMID\",\n  \"adapted_query\": \"Xu 2026 Journal of Clinical Medicine intrahepatic cholestasis pregnancy early prediction severe risk stratification PMID\",\n  \"provider\": \"Kagi Search\",\n  \"total_results\": 10,\n  \"api_params\": {\n    \"limit\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Early Precise Prediction and Severe Risk Stratification of Intrahepatic ...\",\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/42589990/\",\n      \"snippet\": \"However, most existing prediction models are based on single-center, retrospective studies with small sample sizes and insufficient external validation, limiting their clinical generalizability. In recent years, nomograms and machine learning methods have demonstrated advantages in the early prediction and risk stratification of ICP.\",\n      \"published\": \"\"\n    },\n    {\n      \"title\": \"pubmed.ncbi.nlm.nih.gov\",\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/33197417/\",\n      \"snippet\": \"Enable cookies for pubmed.ncbi.nlm.nih.govand reload this page to continue.\",\n      \"published\": \"\"\n    },\n    {\n      \"title\": \"Risk factors and machine learning prediction models for intrahepatic ...\",\n      \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC11780866/\",\n      \"snippet\": \"Intrahepatic cholestasis of pregnancy (ICP) is a liver dis …[truncated]"
           }
         ]
       },
       "evidence_teaser": {
-        "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-        "verdict": "partial",
-        "score": 0.667,
-        "similarity": 0.97,
-        "n_real": 399
+        "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+        "verdict": "present",
+        "score": 0.93,
+        "similarity": 0.983,
+        "n_real": 796
+      }
+    },
+    {
+      "tool_id": "unpaywall",
+      "name": "Unpaywall (via Crossref)",
+      "variant": null,
+      "capabilities": [
+        "pdf_locator",
+        "open_access",
+        "references",
+        "academic"
+      ],
+      "description": "Open-access PDF locator. Resolves a query to the top-ranked Crossref DOI, then asks Unpaywall for the best legally-available open-access copy (publisher OA, repository deposit, preprint). Reports whether a paywalled paper has a free alternative, and reports a DOI Unpaywall does not index (DataCite-registered, figure/supplement component DOIs) as not held rather than as an error.",
+      "kind": "external_tool",
+      "endpoint": {
+        "api_type": "rest",
+        "base_url": "https://api.unpaywall.org",
+        "status_url": "https://unpaywall.org"
+      },
+      "reason": "lower capability (0.85 vs 0.98).",
+      "capability": 0.8523,
+      "band": 0.1253,
+      "cap_lcb": 0.727,
+      "rank": 0.8842,
+      "price": {
+        "amount": 0,
+        "per_query_usd": 0,
+        "currency": "USD",
+        "confidence": "high",
+        "selected_plan": "free",
+        "held": false,
+        "estimated": true,
+        "cost_unknown": false,
+        "breakdown": [
+          {
+            "plan_id": "free",
+            "kind": "free",
+            "plan_group": null,
+            "effective_usd": 0,
+            "held": false,
+            "currency": "USD",
+            "confidence": "high",
+            "overridden": false
+          }
+        ]
+      },
+      "calling": {
+        "tool_id": "unpaywall",
+        "coordinator_class": false,
+        "executable": true,
+        "endpoint": {
+          "base_url": "https://api.unpaywall.org",
+          "api_type": "rest"
+        },
+        "adapter": {
+          "type": "llm"
+        },
+        "auth": {
+          "method": "none"
+        },
+        "summary": {
+          "usability": "ready",
+          "auth_method": "none",
+          "api_type": "rest",
+          "connected": false,
+          "free": true,
+          "how": "free · ready to use",
+          "signup_url": null
+        }
+      },
+      "facets": [
+        {
+          "name": "capability",
+          "kano": "must_be",
+          "weight": 1,
+          "threshold": 0.5,
+          "raw": 0.727,
+          "contribution": 0.6178
+        },
+        {
+          "name": "price",
+          "kano": "performance",
+          "weight": 0.3,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 0.3
+        },
+        {
+          "name": "no_machine_harm",
+          "kano": "must_be",
+          "weight": 2,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 2
+        }
+      ],
+      "evidence": {
+        "n_real": 158,
+        "n_near": 24,
+        "near_mean": 0.628,
+        "dist": [
+          0.932,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.933,
+          0.133,
+          0.167,
+          0.067,
+          0.1,
+          0.5,
+          0,
+          0.967,
+          0.967,
+          0.967,
+          0.967,
+          0.1,
+          1,
+          1,
+          0.343,
+          0,
+          0,
+          0.938
+        ],
+        "probes": [
+          {
+            "probe_id": "obs-42594",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "{\"title\": \"highly accurate protein structure prediction with AlphaFold\", \"author\": \"Jumper\", \"year\": 2021}",
+            "score": 0.932,
+            "redacted": null,
+            "output_chars": 1454,
+            "truncated": false,
+            "created_at": "2026-10-08T06:26:19.615381Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 0.932,
+                "rationale": "jev score 3.5/4 p=0.00/0.00/0.06/0.38/0.56 conf=0.58 | The tool correctly identified the queried paper: DOI 10.1038/s41586-021-03819-2, title 'Highly accur | The tool correctly resolved the query to the exact target paper: Jumper et al., 'Highly accurate pro",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev score 3.5/4 p=0.00/0.00/0.06/0.38/0.56 conf=0.58",
+                    "score": 0.875
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool correctly identified the queried paper: DOI 10.1038/s41586-021-03819-2, title 'Highly accurate protein structure prediction with AlphaFold', Nature 2021 — matching the ground truth (Jumper et al., Nature 596:583-589) exactly. It also returned a valid open-access PDF location (publisher publ…",
+                    "score": 0.97
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool correctly resolved the query to the exact target paper: Jumper et al., 'Highly accurate protein structure prediction with AlphaFold', Nature 2021, with the correct DOI (10.1038/s41586-021-03819-2), title, year, and journal matching the ground truth. It accurately reports the paper as open a…",
+                    "score": 0.95
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "jev choice=excellent p{excellent=1.00, poor=0.00, good=0.00, partial=0.00, irrelevant=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=excellent p{excellent=1.00, poor=0.00, good=0.00, partial=0.00, irrelevant=0.00} conf=1.00",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool resolved the exact target paper (DOI 10.1038/s41586-021-03819-2, 'Highly accurate protein structure prediction with AlphaFold', Nature 2021) with a direct open-access PDF link, perfectly matching the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool correctly resolved the exact AlphaFold 2 Nature 2021 paper (DOI 10.1038/s41586-021-03819-2) with an open-access publisher PDF, directly answering the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "jev choice=primary p{primary=0.99, not_applicable=0.01, tertiary=0.00, low_quality=0.00, reputable_secondary=0.00} conf=0.99",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=primary p{primary=0.99, not_applicable=0.01, tertiary=0.00, low_quality=0.00, reputable_secondary=0.00} conf=0.99",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool resolves to the peer-reviewed Nature paper itself (DOI 10.1038/s41586-021-03819-2) with publisher-hosted OA locations, which is a primary authoritative source.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool resolved the query to the peer-reviewed Nature paper itself (DOI 10.1038/s41586-021-03819-2), a primary authoritative source.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The output includes explicit source references such as the DOI (10.1038/s41586-021-03819-2), the Nature article URL, and PMC repository links that a reader can follow back to the material.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The output explicitly includes the DOI (10.1038/s41586-021-03819-2) and multiple concrete URLs (Nature PDF, PMC repository, DOI link) that a reader can follow back to the source material.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool returned a complete JSON payload with a resolved DOI, title, journal, and open-access locations, so non-empty usable output was produced.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool returned a non-empty, structured JSON response containing a resolved DOI, title, OA status, and multiple open-access locations for the query.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"provider\": \"Unpaywall (via Crossref top-DOI lookup)\",\n  \"tool_kind\": \"open-access PDF locator (DOI-keyed)\",\n  \"resolved_paper\": {\n    \"doi\": \"10.1038/s41586-021-03819-2\",\n    \"resolved_by\": \"crossref:query.title\",\n    \"title\": \"Highly accurate protein structure prediction with AlphaFold\",\n    \"year\": 2021,\n    \"journal\": \"Nature\",\n    \"is_open_access\": true,\n    \"oa_status\": \"hybrid\"\n  },\n  \"best_open_access_location\": {\n    \"url\": \"https://www.nature.com/articles/s41586-021-03819-2.pdf\",\n    \"url_for_pdf\": \"https://www.nature.com/articles/s41586-021-03819-2.pdf\",\n    \"host_type\": \"publisher\",\n    \"version\": \"publishedVersion\",\n    \"license\": \"cc-by\"\n  },\n  \"all_oa_locations\": [\n    {\n      \"url\": \"https://www.nature.com/articles/s41586-021-03819-2.pdf\",\n      \"url_for_pdf\": \"https://www.nature.com/articles/s41586-021-03819-2.pdf\",\n      \"host_type\": \"publisher\",\n      \"version\": \"publishedVersion\",\n      \"license\": \"cc-by\"\n    },\n    {\n      \"url\": \"https://www.ncbi.nlm.nih.gov/pmc/articles/8371605\",\n      \"url_for_pdf\": null,\n      \"host_type\": \"repository\",\n      \"version\": \"submittedVersion\",\n      \"license\": \"cc-by\"\n    },\n    {\n      \"url\": \"https://doi.org/10.25504/fairsharing.246086\",\n      \"url_for_pdf\": null,\n      \"host_type\": \"repository\",\n   …[truncated]"
+          },
+          {
+            "probe_id": "obs-32683",
+            "similarity": 0.983,
+            "task_text": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
+            "adapted_input": "{\"title\": \"molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells\", \"author\": \"Zhang\", \"year\": 2026}",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 1088,
+            "truncated": false,
+            "created_at": "2026-08-29T10:36:59.959081Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.\",\n  \"provider\": \"Unpaywall (via Crossref top-DOI lookup)\",\n  \"tool_kind\": \"open-access PDF locator (DOI-keyed)\",\n  \"resolved_paper\": {\n    \"doi\": \"10.1002/aenm.70979\",\n    \"resolved_by\": \"crossref:query.title\",\n    \"title\": \"Molecular Design and Interfacial Functions of Self\\u2010Assembled Monolayers for Perovskite and Tandem Solar Cells\",\n    \"year\": 2026,\n    \"journal\": \"Advanced Energy Materials\",\n    \"is_open_access\": true,\n    \"oa_status\": \"hybrid\"\n  },\n  \"best_open_access_location\": {\n    \"url\": \"https://doi.org/10.1002/aenm.70979\",\n    \"url_for_pdf\": null,\n    \"host_type\": \"publisher\",\n    \"version\": \"publishedVersion\",\n    \"license\": \"cc-by\"\n  },\n  \"all_oa_locations\": [\n    {\n      \"url\": \"https://doi.org/10.1002/aenm.70979\",\n      \"url_for_pdf\": null,\n      \"host_type\": \"publisher\",\n      \"version\": \"publishedVersion\",\n      \"license\": \"cc-by\"\n    }\n  ]\n}"
+          },
+          {
+            "probe_id": "obs-32605",
+            "similarity": 0.982,
+            "task_text": "Locate the 2026 Applied Sciences paper by Duryagin et al. on nitrogen biostimulation of petroleum-contaminated sandy podzolic soil under boreal conditions. I need the DOI.",
+            "adapted_input": "{\"title\": \"nitrogen biostimulation of petroleum-contaminated sandy podzolic soil under boreal conditions\", \"author\": \"Duryagin\", \"year\": 2026}",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 1487,
+            "truncated": false,
+            "created_at": "2026-08-29T10:08:51.915591Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Locate the 2026 Applied Sciences paper by Duryagin et al. on nitrogen biostimulation of petroleum-contaminated sandy podzolic soil under boreal conditions. I need the DOI.\",\n  \"provider\": \"Unpaywall (via Crossref top-DOI lookup)\",\n  \"tool_kind\": \"open-access PDF locator (DOI-keyed)\",\n  \"resolved_paper\": {\n    \"doi\": \"10.3390/app16094190\",\n    \"resolved_by\": \"crossref:query.title\",\n    \"title\": \"Nitrogen Biostimulation of Petroleum-Contaminated Sandy Podzolic Soil Under Boreal Conditions: Effects of Temperature, Nitrogen Form, and Contamination Level\",\n    \"year\": 2026,\n    \"journal\": \"Applied Sciences\",\n    \"is_open_access\": true,\n    \"oa_status\": \"gold\"\n  },\n  \"best_open_access_location\": {\n    \"url\": \"https://www.mdpi.com/2076-3417/16/9/4190/pdf?version=1777038589\",\n    \"url_for_pdf\": \"https://www.mdpi.com/2076-3417/16/9/4190/pdf?version=1777038589\",\n    \"host_type\": \"publisher\",\n    \"version\": \"publishedVersion\",\n    \"license\": \"cc-by\"\n  },\n  \"all_oa_locations\": [\n    {\n      \"url\": \"https://www.mdpi.com/2076-3417/16/9/4190/pdf?version=1777038589\",\n      \"url_for_pdf\": \"https://www.mdpi.com/2076-3417/16/9/4190/pdf?version=1777038589\",\n      \"host_type\": \"publisher\",\n      \"version\": \"publishedVersion\",\n      \"license\": \"cc-by\"\n    },\n    {\n      \"url\": \"https://doaj.org/article/fa467b42a5714d798e0dabb225e61a11\",\n      \"url_for_pdf\": null,\n      \"host_type\": \"re …[truncated]"
+          }
+        ]
+      },
+      "evidence_teaser": {
+        "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+        "verdict": "present",
+        "score": 0.932,
+        "similarity": 0.983,
+        "n_real": 158
+      }
+    },
+    {
+      "tool_id": "ddg_search",
+      "name": "DuckDuckGo Search (MCP)",
+      "variant": null,
+      "capabilities": [
+        "web_search",
+        "realtime"
+      ],
+      "description": "Privacy-focused web search via self-hosted MCP server. Scrapes DuckDuckGo HTML results. No API key required.",
+      "kind": "external_tool",
+      "endpoint": {
+        "api_type": "mcp_stdio",
+        "base_url": "https://duckduckgo.com",
+        "status_url": "https://duckduckgo.com"
+      },
+      "reason": "lower capability (0.91 vs 0.98).",
+      "capability": 0.9056,
+      "band": 0.192,
+      "cap_lcb": 0.7136,
+      "rank": 0.8785,
+      "price": {
+        "amount": 0,
+        "per_query_usd": 0,
+        "currency": "USD",
+        "confidence": "high",
+        "selected_plan": "free",
+        "held": false,
+        "estimated": true,
+        "cost_unknown": false,
+        "breakdown": [
+          {
+            "plan_id": "free",
+            "kind": "free",
+            "plan_group": null,
+            "effective_usd": 0,
+            "held": false,
+            "currency": "USD",
+            "confidence": "high",
+            "overridden": false
+          }
+        ]
+      },
+      "calling": {
+        "tool_id": "ddg_search",
+        "coordinator_class": false,
+        "executable": false,
+        "endpoint": {
+          "base_url": "https://duckduckgo.com",
+          "api_type": "mcp_stdio"
+        },
+        "adapter": {
+          "type": "llm"
+        },
+        "auth": {
+          "method": "none"
+        },
+        "summary": {
+          "usability": "add_mcp",
+          "auth_method": "none",
+          "api_type": "mcp_stdio",
+          "connected": false,
+          "free": true,
+          "how": "free · one-time: add the DuckDuckGo Search (MCP) MCP server (duckduckgo.com)",
+          "signup_url": "https://github.com/nickclyde/duckduckgo-mcp-server"
+        },
+        "mcp_install": {
+          "transport": "stdio",
+          "command": "uvx",
+          "args": [
+            "duckduckgo-mcp-server"
+          ],
+          "package": {
+            "registry": "pypi",
+            "name": "duckduckgo-mcp-server",
+            "version": null
+          },
+          "server_name": "ddg",
+          "tools": [
+            "search",
+            "fetch_content"
+          ],
+          "env": [],
+          "docs_url": "https://github.com/nickclyde/duckduckgo-mcp-server",
+          "instructions": [
+            "Add the DuckDuckGo MCP server: claude mcp add ddg -- uvx duckduckgo-mcp-server",
+            "Restart the coordinator so the server connects.",
+            "Re-run the task — the search tool is now available."
+          ]
+        }
+      },
+      "facets": [
+        {
+          "name": "capability",
+          "kano": "must_be",
+          "weight": 1,
+          "threshold": 0.5,
+          "raw": 0.7136,
+          "contribution": 0.599
+        },
+        {
+          "name": "price",
+          "kano": "performance",
+          "weight": 0.3,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 0.3
+        },
+        {
+          "name": "no_machine_harm",
+          "kano": "must_be",
+          "weight": 2,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 2
+        }
+      ],
+      "evidence": {
+        "n_real": 863,
+        "n_near": 24,
+        "near_mean": 0.827,
+        "dist": [
+          0.983,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0.933,
+          0.983,
+          0.967,
+          0.933,
+          0.967,
+          1,
+          0.983,
+          1,
+          0.975,
+          0.933,
+          0.933,
+          0.967,
+          1,
+          0.5,
+          0.8
+        ],
+        "probes": [
+          {
+            "probe_id": "obs-5263",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "score": 0.983,
+            "redacted": null,
+            "output_chars": 4950,
+            "truncated": false,
+            "created_at": "2026-05-21T12:10:18.291893Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 0.983,
+                "rationale": "The tool provided the exact canonical source requested. The first result is the direct link to the N | The tool returns the canonical Nature paper (s41586-021-03819-2) as the first result, along with Dee | The tool returned the canonical Nature paper as the top result with correct URL and title, exactly m",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool provided the exact canonical source requested. The first result is the direct link to the Nature article (https://www.nature.com/articles/s41586-021-03819-2), which matches the title, journal, and year specified in the ground truth. Subsequent results also confirm the same paper and provide…",
+                    "score": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returns the canonical Nature paper (s41586-021-03819-2) as the first result, along with DeepMind's official page, a PDF, and other authoritative mirrors. All results are directly relevant, accurate, and cover the query comprehensively. The only minor deduction is that the snippet for the fi…",
+                    "score": 0.95
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returned the canonical Nature paper as the top result with correct URL and title, exactly matching the ground truth. It also provided diverse relevant sources, fulfilling the tool's contract perfectly.",
+                    "score": 1
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "The top result is the exact Nature paper requested, and the subsequent results provide direct links to the paper, the official DeepMind page, and the PDF version.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The top result is the exact Nature paper requested, and the subsequent results provide direct links to the paper, the official DeepMind page, and the PDF version.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The top three results include the actual Nature paper and a direct link to DeepMind's official page, directly and accurately addressing the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The top results directly include the exact Nature paper from a high-quality source, fully answering the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "The tool provides direct links to the peer-reviewed paper published in the journal Nature, which is a primary scientific source.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool provides direct links to the peer-reviewed paper published in the journal Nature, which is a primary scientific source.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool's output directly cites the peer-reviewed Nature paper (s41586-021-03819-2) and other authoritative sources like the DeepMind official site and PubMed Central, which are primary sources.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool's output cites the peer-reviewed Nature paper directly, which is a primary source.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "The tool output provides multiple explicit source references, including direct URLs to Nature and Semantic Scholar, as well as specific paper titles and DOI information.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool output provides multiple explicit source references, including direct URLs to Nature and Semantic Scholar, as well as specific paper titles and DOI information.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool's output provides explicit URLs and document titles such as the Nature paper link, which are direct references to the underlying source material.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The output contains explicit URLs to the Nature paper and other sources, providing clear, followable references for readers.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "The tool returned a list of search results containing the requested information regarding the AlphaFold 2 Nature paper.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool returned a list of search results containing the requested information regarding the AlphaFold 2 Nature paper.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned a JSON response containing a query, provider, total_results count of 10, and an array of search results with titles, URLs, and snippets, which is non-empty and usable output.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool output contains a non-empty JSON object with search results, indicating usable output was returned for the query.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"provider\": \"DuckDuckGo (MCP)\",\n  \"total_results\": 10,\n  \"results\": [\n    {\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold - Nature\",\n      \"url\": \"https://www.nature.com/articles/s41586-021-03819-2\",\n      \"snippet\": \"AlphaFoldpredictsproteinstructureswith an accuracy competitive with experimentalstructuresin the majority of cases using a novel deep learning architecture.\"\n    },\n    {\n      \"title\": \"AlphaFold \\u2014 Google DeepMind\",\n      \"url\": \"https://deepmind.google/science/alphafold/\",\n      \"snippet\": \"NaturepublishesAlphaFold'sdetailed methodology in thepaper\\\"HighlyaccurateproteinstructurepredictionwithAlphaFold\\\" andDeepMindopen sources the code along with 60 pages of supplemental information.\"\n    },\n    {\n      \"title\": \"PDFHighly accurate protein structure prediction with AlphaFold\",\n      \"url\": \"https://dasher.wustl.edu/chem430/readings/nature-596-583-21.pdf\",\n      \"snippet\": \"By developing anaccurateproteinstructurepredictionalgorithm, coupled with existing large and well-curatedstructureandsequence databases assembled by the experimental community, we hope to accelerate the advancement of structural bioinformatics that can keep pace with the genomics revolution.\"\n    },\n    {\n      \"title\": \"Highly accurat …[truncated]"
+          },
+          {
+            "probe_id": "obs-32676",
+            "similarity": 0.983,
+            "task_text": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
+            "adapted_input": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 4889,
+            "truncated": false,
+            "created_at": "2026-08-29T10:34:01.217994Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.\",\n  \"adapted_query\": \"Zhang 2026 Advanced Energy Materials self-assembled monolayers molecular design interfacial perovskite tandem solar cells DOI\",\n  \"provider\": \"DuckDuckGo (MCP)\",\n  \"total_results\": 10,\n  \"top_documents\": [],\n  \"results\": [\n    {\n      \"title\": \"Molecular Design and Interfacial Functions of Self-Assembled Monolayers ...\",\n      \"url\": \"https://advanced.onlinelibrary.wiley.com/doi/abs/10.1002/aenm.70979\",\n      \"snippet\": \"ABSTRACT As a potentinterfacialplatform at the crossroads ofmolecularengineering and device physics,self-assembledmonolayers(SAMs) have been demonstrated to enablemolecular-level control over buried interfaces inperovskitesolarcells(PSCs), whilst overcoming the intrinsic limitations of conventional charge transport layers (CTLs). Over the past two years, SAM-enabled interface ...\"\n    },\n    {\n      \"title\": \"Self-Assembled Monolayers for Perovskite-Based Tandem Solar Cells\",\n      \"url\": \"https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202600042\",\n      \"snippet\": \"Perovskitetandemsolarcells(TSCs) are pivotal for breaking the S-Q limit and enabling low-cost, high-efficiency photovoltaics. In this pursuit,self-assembledmo …[truncated]"
+          },
+          {
+            "probe_id": "obs-32795",
+            "similarity": 0.982,
+            "task_text": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "adapted_input": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 5951,
+            "truncated": false,
+            "created_at": "2026-08-29T11:40:30.705127Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?\",\n  \"adapted_query\": \"Xu et al 2026 Journal of Clinical Medicine intrahepatic cholestasis pregnancy early precise prediction severe risk stratification PMID\",\n  \"provider\": \"DuckDuckGo (MCP)\",\n  \"total_results\": 10,\n  \"top_documents\": [\n    {\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/42589990/\",\n      \"title\": \"Early Precise Prediction and Severe Risk Stratification of Intrahepatic ...\",\n      \"text\": \"pubmed.ncbi.nlm.nih.gov Cookies must be enabled Enable cookies for pubmed.ncbi.nlm.nih.gov and reload this page to continue.\\n\\n---\\n[Content info: Showing characters 0-124 of 124 total]\",\n      \"truncated\": false\n    },\n    {\n      \"url\": \"https://www.mdpi.com/2077-0383/15/15/5887\",\n      \"title\": \"Early Precise Prediction and Severe Risk Stratification of Intrahepatic ...\",\n      \"text\": \"---\\n[Content info: Showing characters 0-0 of 0 total]\",\n      \"truncated\": false\n    }\n  ],\n  \"results\": [\n    {\n      \"title\": \"Early Precise Prediction and Severe Risk Stratification of Intrahepatic ...\",\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/42589990/\",\n      \"snippet\": \"However, most existingpredictionmodels are based on single-center, retrospective studies with small sample sizes and ins …[truncated]"
+          }
+        ]
+      },
+      "evidence_teaser": {
+        "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+        "verdict": "present",
+        "score": 0.983,
+        "similarity": 0.983,
+        "n_real": 863
       }
     },
     {
@@ -3854,10 +1379,10 @@ Example output:
         "status_url": "https://status.openalex.org"
       },
       "reason": "lower capability (0.86 vs 0.98).",
-      "capability": 0.8577,
-      "band": 0.0389,
-      "cap_lcb": 0.8188,
-      "rank": 0.9231,
+      "capability": 0.8614,
+      "band": 0.2385,
+      "cap_lcb": 0.6229,
+      "rank": 0.84,
       "price": {
         "amount": 0,
         "per_query_usd": 0,
@@ -3910,8 +1435,8 @@ Example output:
           "kano": "must_be",
           "weight": 1,
           "threshold": 0.5,
-          "raw": 0.8188,
-          "contribution": 0.7463
+          "raw": 0.6229,
+          "contribution": 0.472
         },
         {
           "name": "price",
@@ -3931,208 +1456,67 @@ Example output:
         }
       ],
       "evidence": {
-        "n_real": 195,
+        "n_real": 287,
         "n_near": 24,
-        "near_mean": 0.71,
+        "near_mean": 0.756,
         "dist": [
-          0.233,
-          0.933,
+          1,
+          1,
+          0.983,
+          1,
+          1,
           1,
           1,
           1,
           0.983,
           1,
+          1,
+          1,
+          0.978,
+          1,
           0.983,
           1,
-          1,
-          1,
-          1,
-          0.983,
-          0.983,
+          0.994,
+          0,
+          0.5,
+          0.396,
           0.133,
-          0,
-          0,
-          0.75,
-          0,
-          0,
-          1,
           0.1,
-          0.983,
-          0.967
+          0.1,
+          0
         ],
         "probes": [
           {
-            "probe_id": "obs-28653",
-            "similarity": 0.97,
-            "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-            "adapted_input": "{\"search\": \"neural networks deep learning\"}",
-            "score": 0.233,
-            "redacted": null,
-            "output_chars": 19797,
-            "truncated": false,
-            "created_at": "2026-08-12T17:34:57.049433Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "fail",
-                "score": 0.233,
-                "rationale": "The tool failed significantly to address the core constraints of the query. It ignored the specific  | The tool returned a generic search for 'neural networks deep learning' without filtering by author G | The tool returned papers on neural networks but failed to adequately filter for Geoffrey Hinton as a",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool failed significantly to address the core constraints of the query. It ignored the specific author 'Geoffrey Hinton' in its search adaptation (using only 'neural networks deep learning'), resulting in a list of highly cited papers on the topic that do not feature Hinton as a primary author. …",
-                    "score": 0.2
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a generic search for 'neural networks deep learning' without filtering by author Geoffrey Hinton or recency. Only one result (ImageNet classification, 2017) includes Hinton, but it is not recent (last few years). The vast majority of results are irrelevant, failing to address the q…",
-                    "score": 0.2
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned papers on neural networks but failed to adequately filter for Geoffrey Hinton as an author. Only one paper in the top results includes Hinton, and it is an older publication (2017) not matching the recent works highlighted in the ground truth (e.g., capsule networks, forward-forwar…",
-                    "score": 0.3
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "partial",
-                "score": 0.5,
-                "rationale": "The top results include many papers on neural networks but only one (the 4th result) has Geoffrey Hinton as a co-author, and the query specifically asks for papers by Hinton, so the results are mixed with off-topic items.",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top results include many papers on neural networks but only one (the 4th result) has Geoffrey Hinton as a co-author, and the query specifically asks for papers by Hinton, so the results are mixed with off-topic items.",
-                    "label": "partial",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "While one result includes Geoffrey Hinton as an author, the majority of the top results are general papers on neural networks that do not feature him, failing to prioritize the specific author requested.",
-                    "label": "partial",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returns some relevant papers by Geoffrey Hinton, such as a 2017 publication, but the top results are largely dominated by non-Hinton papers, mixing relevance with noise.",
-                    "label": "partial",
-                    "value": 0.5
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool's output includes citations to peer-reviewed papers and academic venues, which are primary authoritative sources.",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes citations to peer-reviewed papers and academic venues, which are primary authoritative sources.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides citations to peer-reviewed academic papers from journals and conferences such as CVPR and Communications of the ACM.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output cites peer-reviewed academic papers from reputable journals and conferences, which are primary sources.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool output provides explicit source references including DOIs and OpenAlex URLs for each paper listed.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output provides explicit source references including DOIs and OpenAlex URLs for each paper listed.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output includes explicit source references such as DOIs, OpenAlex IDs, and open access URLs for each paper, allowing a reader to follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The output includes explicit URLs and DOIs for each paper, which are direct source references that a reader can follow.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool returned a non-empty JSON output containing multiple paper results, indicating a usable response.",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a non-empty JSON output containing multiple paper results, indicating a usable response.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool provided a detailed JSON response with multiple results, which is non-empty output for the query.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a non-empty list of search results containing academic papers.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find recent papers by Geoffrey Hinton on neural networks published in the last few years.\",\n  \"adapted_spec\": {\n    \"search\": \"neural networks deep learning\"\n  },\n  \"lookup_mode\": \"keyword\",\n  \"provider\": \"OpenAlex\",\n  \"tool_kind\": \"academic paper search (all fields, citation graph)\",\n  \"total_results\": 1793304,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"id\": \"https://openalex.org/W2194775991\",\n      \"doi\": \"https://doi.org/10.1109/cvpr.2016.90\",\n      \"title\": \"Deep Residual Learning for Image Recognition\",\n      \"authors\": [\n        \"Kaiming He\",\n        \"Xiangyu Zhang\",\n        \"Shaoqing Ren\",\n        \"Jian Sun\"\n      ],\n      \"publication_year\": 2016,\n      \"publication_date\": \"2016-06-01\",\n      \"venue\": null,\n      \"venue_type\": null,\n      \"cited_by_count\": 225525,\n      \"open_access_url\": \"https://repositorio.unal.edu.co/handle/unal/81443\",\n      \"is_open_access\": true,\n      \"abstract\": \"Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. We explicitly reformulate the layers as learning residual functions with reference to the layer inputs, instead of learning unreferenced functions. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize, and can gain accuracy from c …[truncated]"
-          },
-          {
-            "probe_id": "obs-28372",
-            "similarity": 0.968,
-            "task_text": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-            "adapted_input": "{\"search\": \"graphene field-effect transistor biosensing\"}",
-            "score": 0.933,
+            "probe_id": "obs-12380",
+            "similarity": 0.99,
+            "task_text": "Find the 2025 NANO Select paper on heat-sterilizable antibacterial coatings based on Nafion and graphene quantum dots.",
+            "adapted_input": "{\"search\": \"Nafion graphene quantum dots antibacterial\", \"year\": 2025}",
+            "score": 1,
             "redacted": null,
             "output_chars": 20000,
             "truncated": true,
-            "created_at": "2026-08-12T10:40:04.218083Z",
+            "created_at": "2026-06-27T00:46:30.189166Z",
             "judges": [
               {
                 "facet": "capability",
                 "verdict": "pass",
-                "score": 0.933,
-                "rationale": "The tool successfully identified highly relevant, high-quality scientific literature that matches al | The tool returned highly relevant, correctly indexed papers on graphene FET biosensors, with accurat | The tool returned multiple relevant, real peer-reviewed papers on graphene field-effect transistors ",
+                "score": 1,
+                "rationale": "The tool successfully identified the exact paper requested in the query. The first result in the lis | The tool correctly returned the exact paper as the first result, with correct title, authors, year,  | The tool returned the exact paper as specified in the ground truth, with correct title, authors, yea",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool successfully identified highly relevant, high-quality scientific literature that matches all components of the query (graphene, field-effect transistors, and biosensing). The results include specific research papers and reviews with correct metadata (titles, authors, DOIs, and abstracts) an…",
+                    "rationale": "The tool successfully identified the exact paper requested in the query. The first result in the list matches the title, journal (Nano Select), year (2025), authors, and DOI specified in the ground truth perfectly.",
                     "score": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned highly relevant, correctly indexed papers on graphene FET biosensors, with accurate metadata (titles, authors, years, DOIs, venues). The top results directly match the query, and the output is well-structured. Minor note: the first result is broader but still relevant. Overall, exc…",
-                    "score": 0.9
+                    "rationale": "The tool correctly returned the exact paper as the first result, with correct title, authors, year, DOI (10.1002/nano.70012), and venue (Nano Select). The abstract confirms the topic of heat-sterilizable antibacterial coatings based on Nafion and graphene quantum dots. This fully addresses the query…",
+                    "score": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned multiple relevant, real peer-reviewed papers on graphene field-effect transistors for biosensing, with accurate metadata including titles, authors, years, DOIs, and venues. It successfully surfaced indexed literature matching the query, and the top results include canonical and spe…",
-                    "score": 0.9
+                    "rationale": "The tool returned the exact paper as specified in the ground truth, with correct title, authors, year, DOI, and venue as the top result, perfectly matching all query criteria and metadata.",
+                    "score": 1
                   }
                 ]
               },
@@ -4140,25 +1524,25 @@ Example output:
                 "facet": "relevance",
                 "verdict": "excellent",
                 "score": 1,
-                "rationale": "The top three results are highly specific and directly address the query, covering graphene biosensing, graphene-based FET biosensors for cancer, and rGO FETs for biosensing applications.",
+                "rationale": "The very first result is the exact paper requested by the user, matching the title, journal, year, and subject matter perfectly.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The top three results are highly specific and directly address the query, covering graphene biosensing, graphene-based FET biosensors for cancer, and rGO FETs for biosensing applications.",
-                    "label": "excellent",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The top three results are directly relevant peer-reviewed papers on graphene field-effect transistors for biosensing, with correct titles, authors, and venues, perfectly matching the query intent.",
+                    "rationale": "The very first result is the exact paper requested by the user, matching the title, journal, year, and subject matter perfectly.",
                     "label": "excellent",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top three results directly address graphene field-effect transistors for biosensing, with high-quality sources like Materials Today, Carbon, and Biosensors and Bioelectronics.",
+                    "rationale": "The first result is the exact 2025 NANO Select paper on heat-sterilizable antibacterial coatings based on Nafion and graphene quantum dots, directly matching the query intent.",
                     "label": "excellent",
                     "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool's top results include the exact paper as the first result, but the second and third results are not directly relevant to the specific query, showing a mix of relevant and off-topic items.",
+                    "label": "partial",
+                    "value": 0.5
                   }
                 ]
               },
@@ -4166,23 +1550,23 @@ Example output:
                 "facet": "source_quality",
                 "verdict": "primary",
                 "score": 1,
-                "rationale": "The tool provides citations to peer-reviewed scientific journal articles from reputable publishers like Elsevier (Carbon, Biosensors and Bioelectronics) and ACS (ACS Nano).",
+                "rationale": "The tool provides citations to peer-reviewed academic papers from journals such as Nano Select, Polymers, and Biosensors.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides citations to peer-reviewed scientific journal articles from reputable publishers like Elsevier (Carbon, Biosensors and Bioelectronics) and ACS (ACS Nano).",
+                    "rationale": "The tool provides citations to peer-reviewed academic papers from journals such as Nano Select, Polymers, and Biosensors.",
                     "label": "primary",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool outputs peer-reviewed journal articles, which are primary authoritative sources in scientific literature.",
+                    "rationale": "The tool's output includes a peer-reviewed paper from the journal NANO Select, which is a primary authoritative source.",
                     "label": "primary",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output consists of peer-reviewed academic papers, which are primary sources as defined in the rubric.",
+                    "rationale": "The tool's output cites peer-reviewed academic papers, which are primary sources as defined in the rubric.",
                     "label": "primary",
                     "value": 1
                   }
@@ -4192,23 +1576,23 @@ Example output:
                 "facet": "references_present",
                 "verdict": "present",
                 "score": 1,
-                "rationale": "The output includes explicit source references such as DOIs, URLs, and document IDs for each result, allowing a reader to follow back to the original papers.",
+                "rationale": "The tool output provides explicit source references including DOIs, OpenAlex IDs, and direct URLs for the papers found.",
                 "panel": [
                   {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The output includes explicit source references such as DOIs, URLs, and document IDs for each result, allowing a reader to follow back to the original papers.",
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool output provides explicit source references including DOIs, OpenAlex IDs, and direct URLs for the papers found.",
                     "label": "present",
                     "value": 1
                   },
                   {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides explicit source references including DOIs, OpenAlex IDs, and URLs for each paper listed.",
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The output includes explicit DOIs, OpenAlex IDs, and open access URLs for each paper, allowing a reader to directly access the underlying sources.",
                     "label": "present",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit source references such as DOIs and OpenAlex URLs for each listed paper, allowing readers to directly access the underlying material.",
+                    "rationale": "The tool's output provides explicit URLs, including DOI and open access links, which are clear source references for readers to access the underlying material.",
                     "label": "present",
                     "value": 1
                   }
@@ -4218,34 +1602,34 @@ Example output:
                 "facet": "output_was_returned",
                 "verdict": "returned",
                 "score": 1,
-                "rationale": "The tool returned a structured JSON object containing a list of relevant scientific papers with titles, authors, and DOIs.",
+                "rationale": "The tool returned a list of search results, including the specific paper requested in the query.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a structured JSON object containing a list of relevant scientific papers with titles, authors, and DOIs.",
+                    "rationale": "The tool returned a list of search results, including the specific paper requested in the query.",
                     "label": "returned",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a non-empty output with a list of 30 results and a total count of 9076, so it provided usable output.",
+                    "rationale": "The tool returned a non-empty list of search results including the exact paper requested.",
                     "label": "returned",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes a structured list of academic papers with titles, authors, and other details, which is non-empty and usable for the query.",
+                    "rationale": "The tool returned a non-empty JSON response containing search results and paper details, indicating usable output.",
                     "label": "returned",
                     "value": 1
                   }
                 ]
               }
             ],
-            "raw_output": "{\n  \"query\": \"Find scientific literature on graphene field-effect transistors for biosensing applications.\",\n  \"adapted_spec\": {\n    \"search\": \"graphene field-effect transistor biosensing\"\n  },\n  \"lookup_mode\": \"keyword\",\n  \"provider\": \"OpenAlex\",\n  \"tool_kind\": \"academic paper search (all fields, citation graph)\",\n  \"total_results\": 9076,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"id\": \"https://openalex.org/W2122857078\",\n      \"doi\": \"https://doi.org/10.1016/s1369-7021(11)70160-2\",\n      \"title\": \"Graphene in biosensing\",\n      \"authors\": [\n        \"Martin Pumera\"\n      ],\n      \"publication_year\": 2011,\n      \"publication_date\": \"2011-07-01\",\n      \"venue\": \"Materials Today\",\n      \"venue_type\": \"journal\",\n      \"cited_by_count\": 844,\n      \"open_access_url\": \"https://www.sciencedirect.com/science/article/pii/S1369702111701602/pdf\",\n      \"is_open_access\": true,\n      \"abstract\": \"Biosensing is paramount for improving the quality of human life. Biosensors and biosensing protocols are able to detect a wide range of compounds, sensitively and selectively, with applications in security, health care for point-of-care analyses of diseases, and environmental safety. Here, we describe biosensors and biosensing systems employing graphene. Graphene is a zero-gap semiconductor material, which is electroactive and transparent. Because of its interesting properties, graphene h …[truncated]"
+            "raw_output": "{\n  \"query\": \"Find the 2025 NANO Select paper on heat-sterilizable antibacterial coatings based on Nafion and graphene quantum dots.\",\n  \"adapted_spec\": {\n    \"search\": \"Nafion graphene quantum dots antibacterial\",\n    \"year\": 2025\n  },\n  \"lookup_mode\": \"keyword\",\n  \"provider\": \"OpenAlex\",\n  \"tool_kind\": \"academic paper search (all fields, citation graph)\",\n  \"total_results\": 110,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"id\": \"https://openalex.org/W4409052526\",\n      \"doi\": \"https://doi.org/10.1002/nano.70012\",\n      \"title\": \"Heat Sterilizable Coatings Based on Nafion and Graphene Quantum Dots With Advanced Antibacterial Performance\",\n      \"authors\": [\n        \"Mohammed Suleman Beg\",\n        \"Ella N. Gibbons\",\n        \"James Duncalf\",\n        \"Spyridon Gavalas\",\n        \"Daniel W. Redman\",\n        \"Mark A. Holden\",\n        \"Antonios Kelarakis\"\n      ],\n      \"publication_year\": 2025,\n      \"publication_date\": \"2025-03-31\",\n      \"venue\": \"Nano Select\",\n      \"venue_type\": \"journal\",\n      \"cited_by_count\": 1,\n      \"open_access_url\": \"https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/nano.70012\",\n      \"is_open_access\": true,\n      \"abstract\": \"ABSTRACT The study focuses on the preparation of electrostatically assembled layer\\u2010by\\u2010layer waterborne nanocoatings comprising negatively charged Nafion and positively charged imidazole modified\\u2010graphene …[truncated]"
           },
           {
             "probe_id": "obs-12382",
-            "similarity": 0.966,
+            "similarity": 0.985,
             "task_text": "Find the 2024 Quaternary Science Reviews paper reporting isotope analysis of remains from the A14 road project in Cambridgeshire, UK.",
             "adapted_input": "{\"search\": \"A14 isotope Cambridgeshire\", \"year\": 2024}",
             "score": 1,
@@ -4383,54 +1767,193 @@ Example output:
               }
             ],
             "raw_output": "{\n  \"query\": \"Find the 2024 Quaternary Science Reviews paper reporting isotope analysis of remains from the A14 road project in Cambridgeshire, UK.\",\n  \"adapted_spec\": {\n    \"search\": \"A14 isotope Cambridgeshire\",\n    \"year\": 2024\n  },\n  \"lookup_mode\": \"keyword\",\n  \"provider\": \"OpenAlex\",\n  \"tool_kind\": \"academic paper search (all fields, citation graph)\",\n  \"total_results\": 1,\n  \"returned_results\": 1,\n  \"results\": [\n    {\n      \"id\": \"https://openalex.org/W4404281390\",\n      \"doi\": \"https://doi.org/10.1016/j.quascirev.2024.109059\",\n      \"title\": \"Revealing continuity and sustainability through isotope analysis on the A14 project, Cambridgeshire, UK\",\n      \"authors\": [\n        \"Michael Wallace\",\n        \"Janet Montgomery\",\n        \"B. Rogers\",\n        \"Joanna Moore\",\n        \"Geoff Nowell\",\n        \"David Bowsher\",\n        \"Albert E. Smith\"\n      ],\n      \"publication_year\": 2024,\n      \"publication_date\": \"2024-11-13\",\n      \"venue\": \"Quaternary Science Reviews\",\n      \"venue_type\": \"journal\",\n      \"cited_by_count\": 1,\n      \"open_access_url\": \"https://doi.org/10.1016/j.quascirev.2024.109059\",\n      \"is_open_access\": true,\n      \"abstract\": \"The A14 archaeological project was the largest commercial archaeological programme in the UK - spanning a 25 km stretch of rural Cambridgeshire, which included a pioneering and ambitious multi-isotope programme to examine crop, livestoc …[truncated]"
+          },
+          {
+            "probe_id": "obs-7336",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "{\"search\": \"AlphaFold protein structure\", \"year\": 2021}",
+            "score": 0.983,
+            "redacted": null,
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-05-23T23:07:01.471140Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 0.983,
+                "rationale": "The tool successfully identified the exact canonical paper requested. The first result in the list m | The tool returned the exact canonical paper (Jumper et al., 'Highly accurate protein structure predi | The tool returned the exact paper specified in the ground truth as the top result with correct title",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool successfully identified the exact canonical paper requested. The first result in the list matches the title, authors (starting with John Jumper), year (2021), venue (Nature), and DOI provided in the ground truth. It also provided the correct abstract and metadata.",
+                    "score": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned the exact canonical paper (Jumper et al., 'Highly accurate protein structure prediction with AlphaFold', Nature 2021) as the top result, with correct title, authors, year, DOI, and abstract. The second result is related but not the primary paper; however, the query is fully satisfi…",
+                    "score": 0.95
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returned the exact paper specified in the ground truth as the top result with correct title, authors, year, venue (Nature), and DOI, fully satisfying the query with accurate and complete metadata.",
+                    "score": 1
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "The very first result is the exact paper requested by the user, including the correct title, journal (Nature), year (2021), and authors.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The very first result is the exact paper requested by the user, including the correct title, journal (Nature), year (2021), and authors.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The top result is precisely the requested DeepMind 2021 Nature paper on AlphaFold 2, directly and accurately addressing the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The first result directly matches the ground truth paper, fulfilling the query intent with high accuracy and relevance.",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "The tool provides a direct citation to a peer-reviewed paper published in the journal Nature, which is a primary scientific source.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool provides a direct citation to a peer-reviewed paper published in the journal Nature, which is a primary scientific source.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool's output includes a peer-reviewed Nature paper with a DOI, which is a primary source.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool cites a peer-reviewed paper in Nature, which is a primary source according to the facet description.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "The tool output provides explicit source references including DOIs, OpenAlex IDs, and direct URLs to the papers.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool output provides explicit source references including DOIs, OpenAlex IDs, and direct URLs to the papers.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool output includes explicit source references such as DOIs and open access URLs for the identified papers.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool's output includes explicit source references such as URLs (e.g., open_access_url) and DOIs for each paper, allowing readers to directly access the underlying material.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "The tool returned a JSON object containing a list of search results, including the specific paper requested.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool returned a JSON object containing a list of search results, including the specific paper requested.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned a list of 30 results including the requested AlphaFold paper, so output is non-empty.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool output is a non-empty JSON object containing structured search results with the requested paper, fulfilling the requirement for usable output.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"adapted_spec\": {\n    \"search\": \"AlphaFold protein structure\",\n    \"year\": 2021\n  },\n  \"provider\": \"OpenAlex\",\n  \"tool_kind\": \"academic paper search (all fields, citation graph)\",\n  \"total_results\": 970,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"id\": \"https://openalex.org/W3177828909\",\n      \"doi\": \"https://doi.org/10.1038/s41586-021-03819-2\",\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold\",\n      \"authors\": [\n        \"John Jumper\",\n        \"Richard Evans\",\n        \"Alexander Pritzel\",\n        \"Tim Green\",\n        \"Michael Figurnov\",\n        \"Olaf Ronneberger\",\n        \"Kathryn Tunyasuvunakool\",\n        \"Russ Bates\",\n        \"Augustin \\u017d\\u00eddek\",\n        \"Anna Potapenko\",\n        \"Alex Bridgland\",\n        \"Clemens Meyer\",\n        \"Simon K\\u00f6hl\",\n        \"Andrew J. Ballard\",\n        \"Andrew Cowie\",\n        \"Bernardino Romera\\u2010Paredes\",\n        \"Stanislav Nikolov\",\n        \"Rishub Jain\",\n        \"Jonas Adler\",\n        \"Trevor Back\",\n        \"Stig Petersen\",\n        \"David Reiman\",\n        \"Ellen Clancy\",\n        \"Micha\\u0142 Zieli\\u0144ski\",\n        \"Martin Steinegger\",\n        \"Michalina Pacholska\",\n        \"Tamas Berghammer\",\n        \"Sebastian W. Bodenstein\",\n        \"David Silver\",\n        \"Oriol Vin …[truncated]"
           }
         ]
       },
       "evidence_teaser": {
-        "task_text": "Find recent papers by Geoffrey Hinton on neural networks published in the last few years.",
-        "verdict": "returned",
-        "score": 0.233,
-        "similarity": 0.97,
-        "n_real": 195
+        "task_text": "Find the 2025 NANO Select paper on heat-sterilizable antibacterial coatings based on Nafion and graphene quantum dots.",
+        "verdict": "present",
+        "score": 1,
+        "similarity": 0.99,
+        "n_real": 287
       }
     },
     {
-      "tool_id": "unpaywall",
-      "name": "Unpaywall (via Crossref)",
+      "tool_id": "tavily_search",
+      "name": "Tavily Search API",
       "variant": null,
       "capabilities": [
-        "pdf_locator",
-        "open_access",
-        "references",
-        "academic"
+        "web_search",
+        "realtime"
       ],
-      "description": "Open-access PDF locator. Resolves a query to the top-ranked Crossref DOI, then asks Unpaywall for the best legally-available open-access copy (publisher OA, repository deposit, preprint). Reports whether a paywalled paper has a free alternative, and reports a DOI Unpaywall does not index (DataCite-registered, figure/supplement component DOIs) as not held rather than as an error.",
+      "description": "AI-optimized search API designed for LLM applications. Returns clean, relevant results with high snippet quality.",
       "kind": "external_tool",
       "endpoint": {
         "api_type": "rest",
-        "base_url": "https://api.unpaywall.org",
-        "status_url": "https://unpaywall.org"
+        "base_url": "https://api.tavily.com",
+        "status_url": "https://app.tavily.com"
       },
-      "reason": "lower capability (0.85 vs 0.98).",
-      "capability": 0.8526,
-      "band": 0.0378,
-      "cap_lcb": 0.8148,
-      "rank": 0.9214,
+      "reason": "lower capability (0.83 vs 0.98); pricier ($0.0080 vs $0.0000/query).",
+      "capability": 0.8332,
+      "band": 0.2892,
+      "cap_lcb": 0.544,
+      "rank": 0.8055,
       "price": {
-        "amount": 0,
-        "per_query_usd": 0,
+        "amount": 0.008,
+        "per_query_usd": 0.008,
         "currency": "USD",
         "confidence": "high",
-        "selected_plan": "free",
+        "selected_plan": "pay_as_you_go",
         "held": false,
         "estimated": true,
         "cost_unknown": false,
         "breakdown": [
           {
-            "plan_id": "free",
-            "kind": "free",
-            "plan_group": null,
-            "effective_usd": 0,
+            "plan_id": "pay_as_you_go",
+            "kind": "metered",
+            "plan_group": "tavily",
+            "effective_usd": 0.008,
             "held": false,
             "currency": "USD",
             "confidence": "high",
@@ -4439,27 +1962,77 @@ Example output:
         ]
       },
       "calling": {
-        "tool_id": "unpaywall",
+        "tool_id": "tavily_search",
         "coordinator_class": false,
         "executable": true,
         "endpoint": {
-          "base_url": "https://api.unpaywall.org",
+          "base_url": "https://api.tavily.com",
           "api_type": "rest"
         },
         "adapter": {
           "type": "llm"
         },
         "auth": {
-          "method": "none"
+          "method": "api_key",
+          "env_var": "TAVILY_API_KEY",
+          "connected": false
         },
         "summary": {
-          "usability": "ready",
-          "auth_method": "none",
+          "usability": "connect_key",
+          "auth_method": "api_key",
           "api_type": "rest",
           "connected": false,
-          "free": true,
-          "how": "free · ready to use",
-          "signup_url": null
+          "free": false,
+          "how": "connect a key → app.tavily.com/home",
+          "signup_url": "https://app.tavily.com/home"
+        },
+        "connect": {
+          "tool_id": "tavily_search",
+          "name": "Tavily Search API",
+          "auth_method": "api_key",
+          "signup_url": "https://app.tavily.com/home",
+          "instructions": "  1. Create a Tavily account — it comes with free monthly credits.\n  2. Open the API Keys section of the dashboard.\n  3. Create a key and copy it.",
+          "methods": [
+            {
+              "auth_method": "api_key",
+              "label": "Tavily API key",
+              "signup_url": "https://app.tavily.com/home",
+              "instructions": [
+                "Create a Tavily account — it comes with free monthly credits.",
+                "Open the API Keys section of the dashboard.",
+                "Create a key and copy it."
+              ],
+              "fields": [
+                {
+                  "key": "TAVILY_API_KEY",
+                  "label": "Tavily API key",
+                  "secret": true,
+                  "required": true,
+                  "help": "Dashboard → API Keys → Create"
+                }
+              ]
+            }
+          ],
+          "fields": [
+            {
+              "key": "TAVILY_API_KEY",
+              "label": "Tavily API key",
+              "secret": true,
+              "required": true,
+              "help": "Dashboard → API Keys → Create"
+            }
+          ],
+          "source": "evaluator",
+          "connect_via": {
+            "surface": "POST /credentials/connect",
+            "method": "Tavily API key",
+            "field_key": "TAVILY_API_KEY",
+            "payload": {
+              "tool_id": "tavily_search",
+              "api_key": "<paste your key here>"
+            },
+            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"tavily_search\",\"api_key\":\"<YOUR_KEY>\"}'"
+          }
         }
       },
       "facets": [
@@ -4468,16 +2041,16 @@ Example output:
           "kano": "must_be",
           "weight": 1,
           "threshold": 0.5,
-          "raw": 0.8148,
-          "contribution": 0.7407
+          "raw": 0.544,
+          "contribution": 0.3616
         },
         {
           "name": "price",
           "kano": "performance",
           "weight": 0.3,
           "threshold": 0.5,
-          "raw": 1,
-          "contribution": 0.3
+          "raw": 0.9885,
+          "contribution": 0.2965
         },
         {
           "name": "no_machine_harm",
@@ -4489,239 +2062,119 @@ Example output:
         }
       ],
       "evidence": {
-        "n_real": 113,
+        "n_real": 906,
         "n_near": 24,
-        "near_mean": 0.67,
+        "near_mean": 0.833,
         "dist": [
-          1,
-          1,
-          0.1,
-          0.233,
-          1,
-          1,
-          1,
-          1,
           0.933,
-          0.2,
-          0.267,
-          0.267,
-          0,
+          1,
           0,
           1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.9,
           0.933,
-          0.883,
+          0.95,
+          0.85,
+          0.833,
+          0.983,
+          1,
+          0.983,
+          0.892,
+          0.833,
           0.967,
+          0.933,
           0,
-          0.767,
-          0.8,
-          0.767,
-          1,
-          0.967
+          0.5,
+          0.5
         ],
         "probes": [
           {
-            "probe_id": "obs-32706",
-            "similarity": 0.966,
-            "task_text": "Find the 2026 Applied Energy paper by Chen et al. on turning current mismatch into an advantage to suppress hysteresis in two-terminal tandem cells, and give me its DOI.",
-            "adapted_input": "{\"title\": \"current mismatch suppress hysteresis two-terminal tandem solar cells\", \"author\": \"Chen\", \"year\": 2026}",
-            "score": 1,
+            "probe_id": "obs-5270",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "score": 0.933,
             "redacted": null,
-            "output_chars": 1124,
-            "truncated": false,
-            "created_at": "2026-08-29T10:47:57.929256Z",
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-05-21T12:18:08.601076Z",
             "judges": [
               {
                 "facet": "capability",
                 "verdict": "pass",
-                "score": 1,
-                "rationale": "Deterministic check — matched 1/1 required string(s).",
-                "panel": null
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find the 2026 Applied Energy paper by Chen et al. on turning current mismatch into an advantage to suppress hysteresis in two-terminal tandem cells, and give me its DOI.\",\n  \"provider\": \"Unpaywall (via Crossref top-DOI lookup)\",\n  \"tool_kind\": \"open-access PDF locator (DOI-keyed)\",\n  \"resolved_paper\": {\n    \"doi\": \"10.1016/j.apenergy.2026.128576\",\n    \"resolved_by\": \"crossref:query.title\",\n    \"title\": \"Turning current mismatch into advantage: suppressing hysteresis and improving operational stability in two-terminal perovskite/silicon tandem solar cells\",\n    \"year\": 2026,\n    \"journal\": \"Applied Energy\",\n    \"is_open_access\": true,\n    \"oa_status\": \"hybrid\"\n  },\n  \"best_open_access_location\": {\n    \"url\": \"https://doi.org/10.1016/j.apenergy.2026.128576\",\n    \"url_for_pdf\": null,\n    \"host_type\": \"publisher\",\n    \"version\": \"publishedVersion\",\n    \"license\": \"cc-by\"\n  },\n  \"all_oa_locations\": [\n    {\n      \"url\": \"https://doi.org/10.1016/j.apenergy.2026.128576\",\n      \"url_for_pdf\": null,\n      \"host_type\": \"publisher\",\n      \"version\": \"publishedVersion\",\n      \"license\": \"cc-by\"\n    }\n  ]\n}"
-          },
-          {
-            "probe_id": "obs-32683",
-            "similarity": 0.959,
-            "task_text": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
-            "adapted_input": "{\"title\": \"molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells\", \"author\": \"Zhang\", \"year\": 2026}",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 1088,
-            "truncated": false,
-            "created_at": "2026-08-29T10:36:59.959081Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "Deterministic check — matched 1/1 required string(s).",
-                "panel": null
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.\",\n  \"provider\": \"Unpaywall (via Crossref top-DOI lookup)\",\n  \"tool_kind\": \"open-access PDF locator (DOI-keyed)\",\n  \"resolved_paper\": {\n    \"doi\": \"10.1002/aenm.70979\",\n    \"resolved_by\": \"crossref:query.title\",\n    \"title\": \"Molecular Design and Interfacial Functions of Self\\u2010Assembled Monolayers for Perovskite and Tandem Solar Cells\",\n    \"year\": 2026,\n    \"journal\": \"Advanced Energy Materials\",\n    \"is_open_access\": true,\n    \"oa_status\": \"hybrid\"\n  },\n  \"best_open_access_location\": {\n    \"url\": \"https://doi.org/10.1002/aenm.70979\",\n    \"url_for_pdf\": null,\n    \"host_type\": \"publisher\",\n    \"version\": \"publishedVersion\",\n    \"license\": \"cc-by\"\n  },\n  \"all_oa_locations\": [\n    {\n      \"url\": \"https://doi.org/10.1002/aenm.70979\",\n      \"url_for_pdf\": null,\n      \"host_type\": \"publisher\",\n      \"version\": \"publishedVersion\",\n      \"license\": \"cc-by\"\n    }\n  ]\n}"
-          },
-          {
-            "probe_id": "obs-1805",
-            "similarity": 0.958,
-            "task_text": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-            "adapted_input": "Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).",
-            "score": 0.1,
-            "redacted": null,
-            "output_chars": 1154,
-            "truncated": false,
-            "created_at": "2026-05-20T02:19:30.850657Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "fail",
-                "score": 0.1,
-                "rationale": "The tool failed to identify the correct paper. Instead of finding the seminal 2016 Physical Review L | The tool returned a review paper (DOI 10.22541/au.161220228.87275329) that discusses the original GW | The tool returned a review paper from 2021 about GW150914 instead of the original 2016 LIGO Scientif",
+                "score": 0.933,
+                "rationale": "The tool provided the exact title, the correct journal (Nature), the correct year (2021), and the co | The tool correctly identified the paper title and DOI in its answer, and the top results include the | The tool accurately identified the paper with the correct title, publication, and DOI in the answer ",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool failed to identify the correct paper. Instead of finding the seminal 2016 Physical Review Letters paper (DOI: 10.1103/physrevlett.116.061102), it returned a 2021 review paper from Authorea. This is a significant error in accuracy and relevance.",
-                    "score": 0
+                    "rationale": "The tool provided the exact title, the correct journal (Nature), the correct year (2021), and the correct DOI (10.1038/s41586-021-03819-2) which leads directly to the canonical paper. The search results also included the direct link to the Nature article as the top relevant result.",
+                    "score": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a review paper (DOI 10.22541/au.161220228.87275329) that discusses the original GW150914 observation but is not the actual LIGO Scientific Collaboration paper reporting the discovery. The ground truth expects the 2016 Physical Review Letters paper by Abbott et al. (DOI 10.1103/phys…",
-                    "score": 0
+                    "rationale": "The tool correctly identified the paper title and DOI in its answer, and the top results include the canonical Nature page (result #4) and a relevant Reddit post. The answer is concise and accurate, matching the ground truth. Minor note: the first result is a Facebook post, but the authoritative sou…",
+                    "score": 0.9
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a review paper from 2021 about GW150914 instead of the original 2016 LIGO Scientific Collaboration paper in Physical Review Letters, misidentifying the specific paper requested in the query.",
-                    "score": 0.3
-                  }
-                ]
-              },
-              {
-                "facet": "format",
-                "verdict": "structured",
-                "score": 1,
-                "rationale": "The tool output is a valid JSON object containing all the expected fields for a machine-parseable response.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output is a valid JSON object containing all the expected fields for a machine-parseable response.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool output is a valid JSON object with well-defined fields such as resolved_paper, best_open_access_location, and all_oa_locations, making it machine-parseable and structured.",
-                    "label": "structured",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output is a complete JSON object with clearly defined fields like doi, title, year, and access locations, making it fully machine-parseable.",
-                    "label": "structured",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "freshness",
-                "verdict": "not_applicable",
-                "score": 1,
-                "rationale": "The query asks for a specific historical scientific paper, which is a static fact where freshness is not a relevant metric.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The query asks for a specific historical scientific paper, which is a static fact where freshness is not a relevant metric.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The query asks for a static historical fact (the original 2016 paper), so the freshness of the tool's output is irrelevant to evaluating its correctness.",
-                    "label": "not_applicable",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The query is about a historical scientific paper from 2016, which is a static fact where freshness is irrelevant.",
-                    "label": "not_applicable",
-                    "value": 1
+                    "rationale": "The tool accurately identified the paper with the correct title, publication, and DOI in the answer field, and the top results include the canonical Nature link (s41586-021-03819-2). It directly addresses the query with relevant and authoritative results, though minor details like author names or pa…",
+                    "score": 0.9
                   }
                 ]
               },
               {
                 "facet": "relevance",
-                "verdict": "poor",
-                "score": 0.25,
-                "rationale": "The tool returned a review paper about reproducing the event rather than the actual primary research paper requested by the user.",
+                "verdict": "good",
+                "score": 0.75,
+                "rationale": "The tool provides a correct answer with the exact paper title, journal, and DOI, but the top three search results include a Facebook post and a Reddit discussion rather than the primary Nature article, and the third result is a related but different Nature paper.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a review paper about reproducing the event rather than the actual primary research paper requested by the user.",
-                    "label": "poor",
-                    "value": 0.25
+                    "rationale": "The top results directly provide the exact paper title, the correct journal (Nature), the correct year (2021), and the specific DOI requested by the user.",
+                    "label": "excellent",
+                    "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returns a 2021 review of the GW150914 paper rather than the original 2016 LIGO Scientific Collaboration paper, so it is topically relevant but not the exact requested source.",
-                    "label": "partial",
-                    "value": 0.5
+                    "rationale": "The tool provides a correct answer with the exact paper title, journal, and DOI, but the top three search results include a Facebook post and a Reddit discussion rather than the primary Nature article, and the third result is a related but different Nature paper.",
+                    "label": "good",
+                    "value": 0.75
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a review article from 2021 instead of the original 2016 paper, making the result only tangentially related to the query intent.",
-                    "label": "poor",
-                    "value": 0.25
+                    "rationale": "The tool's answer directly provides the accurate paper details, and the top results contain relevant references despite mixed source quality and one off-topic item.",
+                    "label": "good",
+                    "value": 0.75
                   }
                 ]
               },
               {
                 "facet": "source_quality",
-                "verdict": "reputable_secondary",
-                "score": 0.75,
-                "rationale": "The tool failed to find the primary peer-reviewed paper and instead provided a review/reproduction paper from Authorea, which acts as a secondary source regarding the original discovery.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool failed to find the primary peer-reviewed paper and instead provided a review/reproduction paper from Authorea, which acts as a secondary source regarding the original discovery.",
-                    "label": "reputable_secondary",
-                    "value": 0.75
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a review article on Authorea instead of the original peer-reviewed Physical Review Letters paper, thus citing a low-quality source.",
-                    "label": "low_quality",
-                    "value": 0
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a review paper from Authorea, which is a secondary source analyzing the primary research, rather than the original peer-reviewed publication.",
-                    "label": "reputable_secondary",
-                    "value": 0.75
-                  }
-                ]
-              },
-              {
-                "facet": "snippet_quality",
-                "verdict": "informative",
+                "verdict": "primary",
                 "score": 1,
-                "rationale": "The output provides specific metadata including the DOI, title, year, journal, and open access status, allowing the user to evaluate the relevance of the result.",
+                "rationale": "The tool provides the direct DOI and URL to the peer-reviewed paper published in the journal Nature, which is a primary source.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The output provides specific metadata including the DOI, title, year, journal, and open access status, allowing the user to evaluate the relevance of the result.",
-                    "label": "informative",
+                    "rationale": "The tool provides the direct DOI and URL to the peer-reviewed paper published in the journal Nature, which is a primary source.",
+                    "label": "primary",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output provides a detailed title, DOI, year, journal, and open-access status, allowing the reader to see that it is a review article rather than the original GW150914 paper, thus enabling relevance assessment without clicking through.",
-                    "label": "informative",
+                    "rationale": "The tool cites the actual peer-reviewed Nature paper and its DOI, which is a primary authoritative source.",
+                    "label": "primary",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output provides structured metadata such as title and URL but lacks any descriptive text snippets that would let the reader assess relevance without clicking.",
-                    "label": "absent",
-                    "value": 0
+                    "rationale": "The tool explicitly cites a peer-reviewed paper in Nature, which is a primary source, despite including some low-quality search results.",
+                    "label": "primary",
+                    "value": 1
                   }
                 ]
               },
@@ -4729,23 +2182,23 @@ Example output:
                 "facet": "references_present",
                 "verdict": "present",
                 "score": 1,
-                "rationale": "The tool output provides a specific DOI, a title, and multiple direct URLs to the document.",
+                "rationale": "The tool provides the specific paper title, the DOI, and multiple direct URLs to the source material.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool output provides a specific DOI, a title, and multiple direct URLs to the document.",
+                    "rationale": "The tool provides the specific paper title, the DOI, and multiple direct URLs to the source material.",
                     "label": "present",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes a DOI, a URL for the PDF, and a named document title, all of which are explicit source references that a reader can follow back to the underlying material.",
+                    "rationale": "The output includes explicit references such as the DOI (10.1038/s41586-021-03819-2) and a direct URL to the Nature article.",
                     "label": "present",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit URLs and a DOI that serve as source references for the paper.",
+                    "rationale": "The output explicitly includes the DOI and multiple URLs pointing to the Nature paper and other sources, allowing readers to follow back to the underlying material.",
                     "label": "present",
                     "value": 1
                   }
@@ -4755,39 +2208,650 @@ Example output:
                 "facet": "output_was_returned",
                 "verdict": "returned",
                 "score": 1,
-                "rationale": "The tool provided a structured JSON response containing a resolved paper, DOI, and URL, even though it identified a review paper rather than the original discovery paper.",
+                "rationale": "The tool returned a detailed answer including the paper title, publication, and DOI, along with several search results.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provided a structured JSON response containing a resolved paper, DOI, and URL, even though it identified a review paper rather than the original discovery paper.",
+                    "rationale": "The tool returned a detailed answer including the paper title, publication, and DOI, along with several search results.",
                     "label": "returned",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a non-empty JSON object containing metadata and open-access location details for a paper.",
+                    "rationale": "The tool returned a detailed answer and multiple search results, including the correct paper title, DOI, and a direct link to the Nature article.",
                     "label": "returned",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned a non-empty JSON object containing paper details, which is usable output regardless of correctness.",
+                    "rationale": "The tool output contains a detailed answer, search results, and metadata, which constitutes non-empty and usable output.",
                     "label": "returned",
                     "value": 1
                   }
                 ]
               }
             ],
-            "raw_output": "{\n  \"query\": \"Find the LIGO Scientific Collaboration paper reporting the first direct observation of gravitational waves from a binary black hole merger (GW150914).\",\n  \"provider\": \"Unpaywall (via Crossref top-DOI lookup)\",\n  \"tool_kind\": \"open-access PDF locator (DOI-keyed)\",\n  \"resolved_paper\": {\n    \"doi\": \"10.22541/au.161220228.87275329/v1\",\n    \"title\": \"Review: \\\"Reproducing GW150914: the first observation of gravitational waves from a binary black hole merger\\\"\",\n    \"year\": 2021,\n    \"journal\": \"Authorea, Inc.\",\n    \"is_open_access\": true,\n    \"oa_status\": \"gold\"\n  },\n  \"best_open_access_location\": {\n    \"url\": \"https://www.authorea.com/doi/pdf/10.22541/au.161220228.87275329\",\n    \"url_for_pdf\": \"https://www.authorea.com/doi/pdf/10.22541/au.161220228.87275329\",\n    \"host_type\": null,\n    \"version\": \"acceptedVersion\",\n    \"license\": null\n  },\n  \"all_oa_locations\": [\n    {\n      \"url\": \"https://www.authorea.com/doi/pdf/10.22541/au.161220228.87275329\",\n      \"url_for_pdf\": \"https://www.authorea.com/doi/pdf/10.22541/au.161220228.87275329\",\n      \"host_type\": null,\n      \"version\": \"acceptedVersion\",\n      \"license\": null\n    }\n  ]\n}"
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"provider\": \"Tavily\",\n  \"answer\": \"DeepMind's 2021 Nature paper announced AlphaFold 2, achieving highly accurate protein structure predictions. The paper is titled \\\"Highly accurate protein structure prediction with AlphaFold\\\" and published in Nature. The DOI is 10.1038/s41586-021-03819-2.\",\n  \"total_results\": 20,\n  \"api_params\": {\n    \"search_depth\": \"advanced\",\n    \"include_answer\": true,\n    \"include_raw_content\": false,\n    \"max_results\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold ...\",\n      \"url\": \"https://www.facebook.com/groups/DeepNetGroup/posts/1518854118507465\",\n      \"snippet\": \"Highly accurate protein structure prediction with AlphaFold (DeepMind, Nature 2021) Paper: https://www.nature.com/articles/s41586-021-03819-2\",\n      \"score\": 0.99993396,\n      \"published_date\": \"\"\n    },\n    {\n      \"title\": \"\\\"Highly accurate protein structure prediction with AlphaFold ... - Reddit\",\n      \"url\": \"https://www.reddit.com/r/genomics/comments/ol07ac/highly_accurate_protein_structure_prediction_with\",\n      \"snippet\": \"\\\"Highly accurate protein structure prediction with AlphaFold\\\", Jumper et al 2021 {DM} (AlphaFold 2 paper, source code) \\u00b7 Comments Section \\u00b7 More\",\n      \"score\": 0. …[truncated]"
+          },
+          {
+            "probe_id": "obs-32681",
+            "similarity": 0.983,
+            "task_text": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
+            "adapted_input": "Zhang 2026 Advanced Energy Materials self-assembled monolayers perovskite tandem solar cells molecular design interfacial",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-08-29T10:36:04.540377Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Zhang 2026 Advanced Energy Materials self-assembled monolayers perovskite tandem solar cells molecular design interfacial\",\n  \"adapted_query\": \"Zhang 2026 Advanced Energy Materials self-assembled monolayers perovskite tandem solar cells molecular design interfacial\",\n  \"provider\": \"Tavily\",\n  \"answer\": \"Self-assembled monolayers (SAMs) enhance perovskite solar cell efficiency through molecular design and interface engineering. They improve charge transport and stability. SAMs enable record efficiencies in tandem solar cells.\",\n  \"total_results\": 15,\n  \"api_params\": {\n    \"search_depth\": \"advanced\",\n    \"include_answer\": true,\n    \"include_raw_content\": \"markdown\",\n    \"max_results\": 20\n  },\n  \"top_documents\": [\n    {\n      \"url\": \"https://discovery.researcher.life/article/molecular-design-and-interfacial-functions-of-self-assembled-monolayers-for-perovskite-and-tandem-solar-cells/dadaee216a693bddad460a625fd298a6\",\n      \"title\": \"Molecular Design and Interfacial Functions of Self\\u2010Assembled Monolayers for Perovskite and Tandem Solar Cells\",\n      \"text\": \"[![Image 1: Discovery Logo menu](https://cdn.researcher.life/logos/discovery-by-editage.svg)](https://discovery.researcher.life/)\\n\\n[Sign In](https://sso.editage.com/login?continue=https%3A%2F%2Fdiscovery.researcher.life%2Farticle%2Fmolecular-design-and-interfacial-functions-of-self-assembled-monolayers-for- …[truncated]"
+          },
+          {
+            "probe_id": "obs-32800",
+            "similarity": 0.982,
+            "task_text": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "adapted_input": "Xu et al 2026 Journal of Clinical Medicine intrahepatic cholestasis pregnancy early precise prediction severe risk stratification PMID",
+            "score": 0,
+            "redacted": null,
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-08-29T11:45:01.942990Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "fail",
+                "score": 0,
+                "rationale": "Deterministic check — matched 0/1 required string(s); missing: 42589990.",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Xu et al 2026 Journal of Clinical Medicine intrahepatic cholestasis pregnancy early precise prediction severe risk stratification PMID\",\n  \"adapted_query\": \"Xu et al 2026 Journal of Clinical Medicine intrahepatic cholestasis pregnancy early precise prediction severe risk stratification PMID\",\n  \"provider\": \"Tavily\",\n  \"answer\": \"Xu et al. 2026 in the Journal of Clinical Medicine developed a precise prediction model for early identification of severe risk in intrahepatic cholestasis of pregnancy. The study utilized clinical and laboratory indicators. PMID for the article is 41788159.\",\n  \"total_results\": 18,\n  \"api_params\": {\n    \"search_depth\": \"advanced\",\n    \"include_answer\": true,\n    \"include_raw_content\": \"markdown\",\n    \"max_results\": 20\n  },\n  \"top_documents\": [\n    {\n      \"url\": \"https://gorm.com.tr/index.php/GORM/article/download/1715/1150\",\n      \"title\": \"[PDF] 55 1715 G2025-023 Intrahepatic Cholestasis of Pregnancy_Layout 1\",\n      \"text\": \"55 Review Intrahepatic Cholestasis of Pregnancy: A Narrative Review Gorkem ARICA1, Ismail YILMAZ1, Dilek BULDUM1, Adil BARUT1, Riza MADAZLI1 Istanbul, T\\u00fcrkiye ABSTRACT This narrative review synthesizes current literature on the pathogenesis and management of Intrahepatic Cholestasis of Pregnancy (ICP). ICP is a multifactorial liver disorder. It is characterized by intense pruritus and elevated serum bile acids …[truncated]"
           }
         ]
       },
       "evidence_teaser": {
-        "task_text": "Find the 2026 Applied Energy paper by Chen et al. on turning current mismatch into an advantage to suppress hysteresis in two-terminal tandem cells, and give me its DOI.",
-        "verdict": "pass",
-        "score": 1,
-        "similarity": 0.966,
-        "n_real": 113
+        "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+        "verdict": "present",
+        "score": 0.933,
+        "similarity": 0.983,
+        "n_real": 906
+      }
+    },
+    {
+      "tool_id": "sonar_deep_research",
+      "name": "Perplexity Agent API (medium / deep-research preset)",
+      "variant": null,
+      "capabilities": [
+        "deep_research",
+        "web_search",
+        "realtime",
+        "references",
+        "synthesis",
+        "fact_check"
+      ],
+      "description": "Composite deep-research agent on Perplexity's Agent API, `medium` preset (their rename of deep-research; model pinned to openai/gpt-6-luna as a preset override, served model checked per response). Issues multiple web searches and page fetches per query, cross-checks claims, and synthesises a long-form answer with inline citations. Shares the PERPLEXITY_API_KEY credential with perplexity_sonar.",
+      "kind": "external_tool",
+      "endpoint": {
+        "api_type": "rest",
+        "base_url": "https://api.perplexity.ai",
+        "status_url": "https://status.perplexity.com"
+      },
+      "reason": "lower capability (0.78 vs 0.98); pricier ($0.0200 vs $0.0000/query).",
+      "capability": 0.7795,
+      "band": 0.2329,
+      "cap_lcb": 0.5466,
+      "rank": 0.8051,
+      "price": {
+        "amount": 0.02,
+        "per_query_usd": 0.02,
+        "currency": "USD",
+        "confidence": "medium",
+        "selected_plan": "api",
+        "held": false,
+        "estimated": true,
+        "cost_unknown": false,
+        "breakdown": [
+          {
+            "plan_id": "api",
+            "kind": "metered",
+            "plan_group": "perplexity_api",
+            "effective_usd": 0.02,
+            "held": false,
+            "currency": "USD",
+            "confidence": "medium",
+            "overridden": false
+          }
+        ]
+      },
+      "calling": {
+        "tool_id": "sonar_deep_research",
+        "coordinator_class": false,
+        "executable": true,
+        "endpoint": {
+          "base_url": "https://api.perplexity.ai",
+          "api_type": "rest"
+        },
+        "adapter": {
+          "type": "none"
+        },
+        "auth": {
+          "method": "api_key",
+          "env_var": "PERPLEXITY_API_KEY",
+          "connected": false
+        },
+        "summary": {
+          "usability": "connect_key",
+          "auth_method": "api_key",
+          "api_type": "rest",
+          "connected": false,
+          "free": false,
+          "how": "connect a key → www.perplexity.ai/settings/api",
+          "signup_url": "https://www.perplexity.ai/settings/api"
+        },
+        "connect": {
+          "tool_id": "sonar_deep_research",
+          "name": "Perplexity Agent API (medium / deep-research preset)",
+          "auth_method": "api_key",
+          "signup_url": "https://www.perplexity.ai/settings/api",
+          "instructions": "  1. Create a Perplexity account, or sign in.\n  2. Open the API settings page.\n  3. Add a payment method and buy some API credit.\n  4. Generate an API key and copy it.",
+          "methods": [
+            {
+              "auth_method": "api_key",
+              "label": "Perplexity API key",
+              "signup_url": "https://www.perplexity.ai/settings/api",
+              "instructions": [
+                "Create a Perplexity account, or sign in.",
+                "Open the API settings page.",
+                "Add a payment method and buy some API credit.",
+                "Generate an API key and copy it."
+              ],
+              "fields": [
+                {
+                  "key": "PERPLEXITY_API_KEY",
+                  "label": "Perplexity API key",
+                  "secret": true,
+                  "required": true,
+                  "help": "Settings → API → Generate"
+                }
+              ]
+            }
+          ],
+          "fields": [
+            {
+              "key": "PERPLEXITY_API_KEY",
+              "label": "Perplexity API key",
+              "secret": true,
+              "required": true,
+              "help": "Settings → API → Generate"
+            }
+          ],
+          "source": "evaluator",
+          "connect_via": {
+            "surface": "POST /credentials/connect",
+            "method": "Perplexity API key",
+            "field_key": "PERPLEXITY_API_KEY",
+            "payload": {
+              "tool_id": "sonar_deep_research",
+              "api_key": "<paste your key here>"
+            },
+            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"sonar_deep_research\",\"api_key\":\"<YOUR_KEY>\"}'"
+          }
+        }
+      },
+      "facets": [
+        {
+          "name": "capability",
+          "kano": "must_be",
+          "weight": 1,
+          "threshold": 0.5,
+          "raw": 0.5466,
+          "contribution": 0.3653
+        },
+        {
+          "name": "price",
+          "kano": "performance",
+          "weight": 0.3,
+          "threshold": 0.5,
+          "raw": 0.9714,
+          "contribution": 0.2914
+        },
+        {
+          "name": "no_machine_harm",
+          "kano": "must_be",
+          "weight": 2,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 2
+        }
+      ],
+      "evidence": {
+        "n_real": 577,
+        "n_near": 24,
+        "near_mean": 0.814,
+        "dist": [
+          0.948,
+          0.979,
+          1,
+          0.5,
+          0.528,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0.887,
+          1,
+          0.963,
+          0.968,
+          0.988,
+          0.974,
+          0.969,
+          0,
+          0.966,
+          1,
+          1,
+          0.858,
+          1
+        ],
+        "probes": [
+          {
+            "probe_id": "obs-42595",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "score": 0.948,
+            "redacted": null,
+            "output_chars": 14137,
+            "truncated": false,
+            "created_at": "2026-10-08T06:27:34.238220Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 0.948,
+                "rationale": "jev score 3.78/4 p=0.00/0.00/0.01/0.20/0.79 conf=0.82 | The answer correctly identifies the exact paper: 'Highly accurate protein structure prediction with  | The tool correctly identified the exact paper: 'Highly accurate protein structure prediction with Al",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev score 3.78/4 p=0.00/0.00/0.01/0.20/0.79 conf=0.82",
+                    "score": 0.945
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The answer correctly identifies the exact paper: 'Highly accurate protein structure prediction with AlphaFold' by John Jumper et al., Nature 596(7873):583-589 (2021), with the correct DOI (10.1038/s41586-021-03819-2) and working links to the Nature article and PubMed record. It matches the ground tr…",
+                    "score": 0.95
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool correctly identified the exact paper: 'Highly accurate protein structure prediction with AlphaFold' by Jumper et al., Nature 596(7873), 583–589 (2021), with the correct DOI (10.1038/s41586-021-03819-2) and direct links to the Nature article and correct PubMed record (34265844). It also adde…",
+                    "score": 0.95
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "jev choice=excellent p{excellent=0.86, good=0.09, partial=0.05, irrelevant=0.00, poor=0.00} conf=0.82",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=excellent p{excellent=0.86, good=0.09, partial=0.05, irrelevant=0.00, poor=0.00} conf=0.82",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool correctly identifies the exact AlphaFold 2 paper (Jumper et al., Nature 596:583-589, 2021) with the right DOI and high-quality sources (Nature, PubMed), directly answering the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The synthesized answer directly and correctly identifies the exact paper (Jumper et al., 'Highly accurate protein structure prediction with AlphaFold,' Nature 596:583–589, DOI 10.1038/s41586-021-03819-2) with authoritative Nature and PubMed links, and the top results are all closely relevant AlphaFo…",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "jev choice=primary p{primary=1.00, tertiary=0.00, not_applicable=0.00, low_quality=0.00, reputable_secondary=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=primary p{primary=1.00, tertiary=0.00, not_applicable=0.00, low_quality=0.00, reputable_secondary=0.00} conf=1.00",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The citations include the Nature paper itself (nature.com/articles/s41586-021-03819-2), PubMed and PMC records, and other peer-reviewed journal articles, all of which are primary/authoritative sources.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The citations are dominated by primary, authoritative sources — the actual Nature paper (s41586-021-03819-2), PubMed/PMC records of peer-reviewed articles, PNAS, and DeepMind's official page — with no blogs or social media.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The output provides explicit followable references including the DOI (10.1038/s41586-021-03819-2) and URLs to the Nature article, PubMed record, and a list of citations.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The output contains multiple explicit source references, including the DOI (10.1038/s41586-021-03819-2), direct URLs to the Nature article and PubMed record, and a citations list of 15 URLs.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool produced a complete, non-empty answer identifying the AlphaFold 2 Nature paper with title, authors, journal details, DOI, and supporting citations.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool returned a non-empty, structured response containing an answer identifying the AlphaFold 2 Nature paper, along with citations and search results.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"provider\": \"Perplexity Agent API (medium / deep-research preset; model openai/gpt-6-luna)\",\n  \"model_requested\": \"openai/gpt-6-luna\",\n  \"model_served\": \"openai/gpt-6-luna\",\n  \"tool_kind\": \"composite deep-research agent (multi-step search + LLM synthesis)\",\n  \"answer\": \"The paper is **\\u201cHighly accurate protein structure prediction with AlphaFold\\u201d** by John Jumper and colleagues, published in *Nature* **596**(7873), 583\\u2013589 (2021). DOI: [10.1038/s41586-021-03819-2](https://doi.org/10.1038/s41586-021-03819-2). [Nature article](https://www.nature.com/articles/s41586-021-03819-2) \\u00b7 [PubMed record](https://pubmed.ncbi.nlm.nih.gov/34265844/)\\n\\nThis is the AlphaFold 2 paper: the authors say their redesigned model competed with experimental structures in most CASP14 cases and greatly outperformed other methods. The paper reports median backbone accuracy of **0.96 \\u00c5 r.m.s.d.** for AlphaFold, compared with **2.8 \\u00c5** for the next-best method. [Nature article](https://www.nature.com/articles/s41586-021-03819-2)\",\n  \"citations\": [\n    \"https://pubmed.ncbi.nlm.nih.gov/34293799/\",\n    \"https://pmc.ncbi.nlm.nih.gov/articles/PMC8387240/\",\n    \"https://www.nature.com/articles/s41592-021-01380-4\",\n    \"https://ideas.repec.org/a/nat/nature/v596y …[truncated]"
+          },
+          {
+            "probe_id": "obs-43138",
+            "similarity": 0.978,
+            "task_text": "Find the 1986 Nature paper by Rumelhart, Hinton and Williams that introduced back-propagation for training multi-layer neural networks.",
+            "adapted_input": "Find the 1986 Nature paper by Rumelhart, Hinton and Williams that introduced back-propagation for training multi-layer neural networks.",
+            "score": 0.979,
+            "redacted": null,
+            "output_chars": 13287,
+            "truncated": false,
+            "created_at": "2026-10-08T14:36:02.698809Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 0.979,
+                "rationale": "jev score 3.95/4 p=0.00/0.00/0.00/0.04/0.96 conf=0.96 | The tool correctly identified the paper 'Learning representations by back-propagating errors' by Rum | The tool returned exactly the expected paper with all key fields matching ground truth: title ('Lear",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev score 3.95/4 p=0.00/0.00/0.00/0.04/0.96 conf=0.96",
+                    "score": 0.988
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool correctly identified the paper 'Learning representations by back-propagating errors' by Rumelhart, Hinton, and Williams, published in Nature 323, 533–536 (1986), with the correct DOI (10.1038/323533a0) and URL. All ground-truth elements—title, authors, year, venue, and persistent identifier…",
+                    "score": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool returned exactly the expected paper with all key fields matching ground truth: title ('Learning representations by back-propagating errors'), full author list (Rumelhart, Hinton, Williams), year (1986), venue and volume/pages (Nature 323, 533–536), and the persistent identifier (DOI 10.1038…",
+                    "score": 0.95
+                  }
+                ]
+              },
+              {
+                "facet": "format",
+                "verdict": "structured",
+                "score": 1,
+                "rationale": "jev choice=structured p{structured=0.60, semi_structured=0.36, unstructured=0.04} conf=0.40",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=structured p{structured=0.60, semi_structured=0.36, unstructured=0.04} conf=0.40",
+                    "label": "structured",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool returned valid JSON with all expected fields populated, including an answer, a citations list, and search_results entries each containing title, URL, and snippet, making it fully machine-parseable.",
+                    "label": "structured",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool returns a valid JSON object with populated fields (query, answer, citations, and search_results each containing title/URL/snippet), making it fully machine-parseable.",
+                    "label": "structured",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "freshness",
+                "verdict": "not_applicable",
+                "score": 1,
+                "rationale": "jev choice=not_applicable p{not_applicable=0.99, current=0.01, slightly_stale=0.00, stale=0.00} conf=0.99",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=not_applicable p{not_applicable=0.99, current=0.01, slightly_stale=0.00, stale=0.00} conf=0.99",
+                    "label": "not_applicable",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The query concerns a static historical fact (a 1986 Nature paper), so the currency of the evidence is irrelevant to correctness.",
+                    "label": "not_applicable",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The query asks about a fixed historical fact (the 1986 Nature back-propagation paper), whose title, authors, year, and DOI do not change over time, so freshness of the result is irrelevant to judging correctness.",
+                    "label": "not_applicable",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "jev choice=excellent p{excellent=1.00, irrelevant=0.00, partial=0.00, good=0.00, poor=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=excellent p{excellent=1.00, irrelevant=0.00, partial=0.00, good=0.00, poor=0.00} conf=1.00",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool's top results directly surface the exact 1986 Nature paper with correct title, authors, year, volume/pages, DOI, and URL, fully answering the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The top result is the exact Nature page for 'Learning representations by back-propagating errors' (Nature 323, 533–536, 1986, DOI 10.1038/323533a0), and the answer correctly identifies the title, all three authors, year, venue, and persistent identifier, directly and fully satisfying the query inten…",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "jev choice=primary p{primary=1.00, not_applicable=0.00, reputable_secondary=0.00, tertiary=0.00, low_quality=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=primary p{primary=1.00, not_applicable=0.00, reputable_secondary=0.00, tertiary=0.00, low_quality=0.00} conf=1.00",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The citations are led by the Nature article page itself (the peer-reviewed 1986 paper) and include academic sources like Semantic Scholar, ACM Digital Library, and PNAS, making the cited sources predominantly primary/authoritative.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool's citations center on the peer-reviewed Nature paper itself (nature.com article page and DOI 10.1038/323533a0), which is a primary source, with supporting academic indexes like Semantic Scholar.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "snippet_quality",
+                "verdict": "informative",
+                "score": 1,
+                "rationale": "jev choice=informative p{informative=1.00, absent=0.00, generic=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=informative p{informative=1.00, absent=0.00, generic=0.00} conf=1.00",
+                    "label": "informative",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The snippets include the paper's abstract text plus full citation details (authors, Nature volume 323, pages 533–536, year 1986, and DOI), providing specific facts that let a reader assess relevance without clicking through.",
+                    "label": "informative",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The snippets include the paper's abstract text plus full citation details (authors, journal, volume, pages, year, DOI), giving enough specific facts to assess relevance without clicking through.",
+                    "label": "informative",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=present p{present=1.00, implied=0.00, absent=0.00} conf=1.00",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The output explicitly includes a Nature article URL, a DOI link (10.1038/323533a0), and a citations array with 15 source URLs, all of which a reader can follow back to the underlying material.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The output includes explicit followable references such as the Nature article URL, the DOI link, and a list of citations.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
+                "panel": [
+                  {
+                    "model": "typesafe/jev-1.13.0",
+                    "rationale": "jev choice=returned p{returned=1.00, empty=0.00} conf=1.00",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "z-ai/glm-5.3-flash",
+                    "rationale": "The tool returned a complete, non-empty response including an answer identifying the paper, citations, and search results, so usable output was clearly returned.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4.1-flash",
+                    "rationale": "The tool produced a complete non-empty answer identifying the paper's title, authors, year, venue, and DOI.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find the 1986 Nature paper by Rumelhart, Hinton and Williams that introduced back-propagation for training multi-layer neural networks.\",\n  \"provider\": \"Perplexity Agent API (medium / deep-research preset; model openai/gpt-6-luna)\",\n  \"model_requested\": \"openai/gpt-6-luna\",\n  \"model_served\": \"openai/gpt-6-luna\",\n  \"tool_kind\": \"composite deep-research agent (multi-step search + LLM synthesis)\",\n  \"answer\": \"The paper is **\\u201cLearning representations by back-propagating errors\\u201d** by David E. Rumelhart, Geoffrey E. Hinton, and Ronald J. Williams, published in *Nature* **323**, 533\\u2013536 (1986).\\n\\n[Read the paper\\u2019s Nature page](https://www.nature.com/articles/323533a0) \\u00b7 [DOI: 10.1038/323533a0](https://doi.org/10.1038/323533a0)\\n\\nNature\\u2019s abstract describes back-propagation as a procedure for adjusting network connection weights so hidden units learn useful representations. **Historical note:** the paper is a landmark account of the method, but back-propagation had been explored in earlier work. ([Nature](https://www.nature.com/articles/323533a0))\",\n  \"citations\": [\n    \"https://www.nature.com/articles/323533a0\",\n    \"https://www.semanticscholar.org/paper/Learning-representations-by-back-propagating-errors-Rumelhart-Hinton/052b1d8ce63b07fec3de9dbb583772d860b7c769\",\n    \"https://papernex.us/paper/01cLHi\",\n    \"https://www.centerconsulting.c …[truncated]"
+          },
+          {
+            "probe_id": "obs-43060",
+            "similarity": 0.975,
+            "task_text": "Find the August 2026 Diabetes, Obesity & Metabolism paper by Liao et al. asking whether more treatment translates to better outcomes for continuous glucose monitoring in gestational diabetes. PMID please.",
+            "adapted_input": "Find the August 2026 Diabetes, Obesity & Metabolism paper by Liao et al. asking whether more treatment translates to better outcomes for continuous glucose monitoring in gestational diabetes. PMID please.",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-10-08T13:21:35.724816Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find the August 2026 Diabetes, Obesity & Metabolism paper by Liao et al. asking whether more treatment translates to better outcomes for continuous glucose monitoring in gestational diabetes. PMID please.\",\n  \"provider\": \"Perplexity Agent API (medium / deep-research preset; model openai/gpt-6-luna)\",\n  \"model_requested\": \"openai/gpt-6-luna\",\n  \"model_served\": \"openai/gpt-6-luna\",\n  \"tool_kind\": \"composite deep-research agent (multi-step search + LLM synthesis)\",\n  \"answer\": \"The PMID is **42642349**. The PubMed record lists the article by Jie Liao, Qinqin Yuan, and Yanmei Xia, published online August 25, 2026, with DOI [10.1111/dom.71282](https://pubmed.ncbi.nlm.nih.gov/?term=10.1111%2Fdom.71282).\",\n  \"citations\": [\n    \"https://pubmed.ncbi.nlm.nih.gov/41178671/\",\n    \"https://amedeo.com/medicine/diab/j1307.htm\",\n    \"https://pubmed.ncbi.nlm.nih.gov/41421368/\",\n    \"https://pubmed.ncbi.nlm.nih.gov/42015100/\",\n    \"https://pubmed.ncbi.nlm.nih.gov/41505847/\",\n    \"https://pubmed.ncbi.nlm.nih.gov/42631793/\",\n    \"https://link.springer.com/journal/11154/articles?error=cookies_not_supported&code=1ae30208-1daa-4362-a411-7140af860d4c\",\n    \"https://assets.ctfassets.net/1p0t6jhbvwk9/6oPIxOGohAzlVs78UWPIw3/0635cd12d4a0767c22f9064ab9278e9a/MCT2D_GDM_2026_final.pdf\",\n    \"https://pmc.ncbi.nlm.nih.gov/articles/PMC13556021/\",\n    \"https://pmc.ncbi.nlm.nih.gov/articles/PMC13448 …[truncated]"
+          }
+        ]
+      },
+      "evidence_teaser": {
+        "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+        "verdict": "present",
+        "score": 0.948,
+        "similarity": 0.983,
+        "n_real": 577
       }
     },
     {
@@ -4810,11 +2874,11 @@ Example output:
         "base_url": "https://www.ebi.ac.uk/europepmc",
         "status_url": "https://europepmc.org"
       },
-      "reason": "lower capability (0.83 vs 0.98).",
-      "capability": 0.8261,
-      "band": 0.0477,
-      "cap_lcb": 0.7784,
-      "rank": 0.906,
+      "reason": "falls short of the required capability bar for this task.",
+      "capability": 0.753,
+      "band": 0.4113,
+      "cap_lcb": 0.3417,
+      "rank": 0.5188,
       "price": {
         "amount": 0,
         "per_query_usd": 0,
@@ -4867,8 +2931,8 @@ Example output:
           "kano": "must_be",
           "weight": 1,
           "threshold": 0.5,
-          "raw": 0.7784,
-          "contribution": 0.6898
+          "raw": 0.3417,
+          "contribution": 0.205
         },
         {
           "name": "price",
@@ -4888,207 +2952,66 @@ Example output:
         }
       ],
       "evidence": {
-        "n_real": 91,
+        "n_real": 165,
         "n_near": 24,
-        "near_mean": 0.873,
+        "near_mean": 0.819,
         "dist": [
-          0.733,
-          1,
-          1,
-          0.5,
           0.983,
           1,
-          0.95,
+          1,
+          0,
           1,
           1,
-          1,
-          0.967,
           1,
           0.983,
-          0.833,
+          1,
+          0.96,
+          1,
           1,
           1,
           1,
           0,
-          0.933,
-          0.167,
-          0.967,
           1,
-          0.967,
-          0.967
+          1,
+          0.233,
+          1,
+          0.5,
+          1,
+          0,
+          1,
+          1
         ],
         "probes": [
           {
-            "probe_id": "obs-28353",
-            "similarity": 0.968,
-            "task_text": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-            "adapted_input": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-            "score": 0.733,
+            "probe_id": "obs-7286",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "score": 0.983,
             "redacted": null,
-            "output_chars": 18045,
+            "output_chars": 19508,
             "truncated": false,
-            "created_at": "2026-08-12T09:54:28.112732Z",
+            "created_at": "2026-05-23T21:36:21.759814Z",
             "judges": [
               {
                 "facet": "capability",
                 "verdict": "pass",
-                "score": 0.733,
-                "rationale": "The tool returned a large number of results (2410) and the top results are real indexed papers, but  | The tool successfully identified highly relevant scientific literature. The first result is a specif | The tool successfully returns real, indexed peer-reviewed papers with correct metadata (DOIs, PMIDs)",
-                "panel": [
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a large number of results (2410) and the top results are real indexed papers, but their relevance to the specific query 'graphene field-effect transistors for biosensing' is mixed. The first result is about a FET-based biosensor for SARS-CoV-2 but does not explicitly mention graphe…",
-                    "score": 0.6
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool successfully identified highly relevant scientific literature. The first result is a specific paper on FET-based biosensors (though it focuses on SARS-CoV-2, it fits the technology profile), and the third result is a highly relevant review on graphene biofunctionalization and biosensors. Th…",
-                    "score": 0.9
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool successfully returns real, indexed peer-reviewed papers with correct metadata (DOIs, PMIDs) and adapts the query effectively, yielding 2410 results. However, the top results shown include some papers not specifically focused on graphene FETs (e.g., one on carbon nanotubes, another on genera…",
-                    "score": 0.7
-                  }
-                ]
-              },
-              {
-                "facet": "relevance",
-                "verdict": "partial",
-                "score": 0.5,
-                "rationale": "While the first and third results are highly relevant to graphene and biosensing, the second result focuses on carbon nanotubes rather than graphene, introducing off-topic noise into the top results.",
+                "score": 0.983,
+                "rationale": "The tool successfully identified the exact canonical paper requested. The first result in the list m | The tool correctly identified the canonical DeepMind 2021 Nature paper (PMID 34265844, DOI 10.1038/s | The tool's top result exactly matches the ground truth paper in title, authors, year, and DOI, provi",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "While the first and third results are highly relevant to graphene and biosensing, the second result focuses on carbon nanotubes rather than graphene, introducing off-topic noise into the top results.",
-                    "label": "partial",
-                    "value": 0.5
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The top results include highly relevant papers like the FET-based SARS-CoV-2 biosensor and graphene bioapplications, but the second result focuses on carbon nanotubes rather than graphene FETs, reducing perfect targeting.",
-                    "label": "good",
-                    "value": 0.75
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The top results include some relevant items like graphene bioapplications but mixed with off-topic results like carbon nanotubes and non-graphene FET biosensors, not perfectly targeted to the query.",
-                    "label": "partial",
-                    "value": 0.5
-                  }
-                ]
-              },
-              {
-                "facet": "source_quality",
-                "verdict": "primary",
-                "score": 1,
-                "rationale": "The tool provides citations to peer-reviewed scientific papers from indexed databases like MED/PubMed.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides citations to peer-reviewed scientific papers from indexed databases like MED/PubMed.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returns peer-reviewed papers from Europe PMC (MED), which are authoritative primary sources in scientific literature.",
-                    "label": "primary",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool cites peer-reviewed scientific papers from Europe PMC, which are primary sources as per the rubric.",
-                    "label": "primary",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "references_present",
-                "verdict": "present",
-                "score": 1,
-                "rationale": "The tool's output includes explicit citation markers like DOIs and PMIDs for each paper, allowing readers to follow back to the underlying material.",
-                "panel": [
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit citation markers like DOIs and PMIDs for each paper, allowing readers to follow back to the underlying material.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides explicit source references including DOIs, PMIDs, and PMCID identifiers for each scientific paper listed.",
-                    "label": "present",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes explicit references such as PubMed IDs (PMID), DOIs, and publication details for each of the returned results, allowing a reader to follow back to the original papers.",
-                    "label": "present",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "facet": "output_was_returned",
-                "verdict": "returned",
-                "score": 1,
-                "rationale": "The tool returned a structured JSON object containing a list of relevant scientific papers and metadata.",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool returned a structured JSON object containing a list of relevant scientific papers and metadata.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned a non-empty JSON object containing 30 results with titles and metadata.",
-                    "label": "returned",
-                    "value": 1
-                  },
-                  {
-                    "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool output contains a non-empty JSON object with a list of scientific literature results, indicating that usable output was returned.",
-                    "label": "returned",
-                    "value": 1
-                  }
-                ]
-              }
-            ],
-            "raw_output": "{\n  \"query\": \"Find scientific literature on graphene field-effect transistors for biosensing applications.\",\n  \"adapted_query\": \"graphene field-effect transistor biosensor\",\n  \"provider\": \"Europe PMC\",\n  \"tool_kind\": \"life-science literature search (papers + preprints + OA full text)\",\n  \"total_results\": 2410,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"id\": \"32293168\",\n      \"source\": \"MED\",\n      \"pmid\": \"32293168\",\n      \"pmcid\": null,\n      \"doi\": \"10.1021/acsnano.0c02823\",\n      \"title\": \"Rapid Detection of COVID-19 Causative Virus (SARS-CoV-2) in Human Nasopharyngeal Swab Specimens Using Field-Effect Transistor-Based Biosensor.\",\n      \"authors\": \"Seo G, Lee G, Kim MJ, Baek SH, Choi M, Ku KB, Lee CS, Jun S, Park D, Kim HG, Kim SJ, Lee JO, Kim BT, Park EC, Kim SI.\",\n      \"journal\": null,\n      \"publication_year\": \"2020\",\n      \"publication_type\": null,\n      \"cited_by_count\": 1029,\n      \"is_open_access\": false,\n      \"abstract\": \"Coronavirus disease 2019 (COVID-19) is a newly emerging human infectious disease caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2, previously called 2019-nCoV). Based on the rapid increase in the rate of human infection, the World Health Organization (WHO) has classified the COVID-19 outbreak as a pandemic. Because no specific drugs or vaccines for COVID-19 are yet available, early diagnosis and management are cruc …[truncated]"
-          },
-          {
-            "probe_id": "obs-7287",
-            "similarity": 0.965,
-            "task_text": "Find Maude et al. 2014 NEJM paper showing chimeric antigen receptor (CAR) T-cell therapy producing sustained remissions in children and young adults with B-cell acute lymphoblastic leukemia.",
-            "adapted_input": "Find Maude et al. 2014 NEJM paper showing chimeric antigen receptor (CAR) T-cell therapy producing sustained remissions in children and young adults with B-cell acute lymphoblastic leukemia.",
-            "score": 1,
-            "redacted": null,
-            "output_chars": 3857,
-            "truncated": false,
-            "created_at": "2026-05-23T21:38:38.417660Z",
-            "judges": [
-              {
-                "facet": "capability",
-                "verdict": "pass",
-                "score": 1,
-                "rationale": "The tool successfully identified the exact paper requested. The first result in the list matches the | Exactly retrieved the target Maude et al. 2014 NEJM paper (PMID 25317870, DOI 10.1056/nejmoa1407222) | The tool returned the exact Maude et al. 2014 NEJM paper as the top result with correct title, autho",
-                "panel": [
-                  {
-                    "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool successfully identified the exact paper requested. The first result in the list matches the title, author (Maude SL et al.), year (2014), and DOI (10.1056/nejmoa1407222) of the canonical NEJM paper described in the ground truth.",
+                    "rationale": "The tool successfully identified the exact canonical paper requested. The first result in the list matches the title, authors (Jumper J et al.), year (2021), and DOI/PMID of the ground truth paper. The tool's adapted query was effective and the metadata provided is complete and accurate.",
                     "score": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "Exactly retrieved the target Maude et al. 2014 NEJM paper (PMID 25317870, DOI 10.1056/nejmoa1407222) as the top result with correct title, authors, year, and identifiers. The additional results are relevant but not incorrect. No fabrication or emptiness issues.",
-                    "score": 1
+                    "rationale": "The tool correctly identified the canonical DeepMind 2021 Nature paper (PMID 34265844, DOI 10.1038/s41586-021-03819-2) as the top result, with exact title, authors, year, and abstract matching the ground truth. The adapted query was appropriate, and the result was returned with correct identifiers a…",
+                    "score": 0.95
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool returned the exact Maude et al. 2014 NEJM paper as the top result with correct title, authors, year, and identifiers (DOI, PMID) that match the ground truth, fulfilling all query requirements perfectly.",
+                    "rationale": "The tool's top result exactly matches the ground truth paper in title, authors, year, and DOI, providing accurate and complete metadata as per the API's intended function, with no irrelevant records or fabricated identifiers.",
                     "score": 1
                   }
                 ]
@@ -5097,23 +3020,23 @@ Example output:
                 "facet": "relevance",
                 "verdict": "excellent",
                 "score": 1,
-                "rationale": "The first result is the exact paper requested by the user, including the correct title, author, year, and DOI.",
+                "rationale": "The first result is the exact paper requested by the user, including the correct title, authors, year, and DOI.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The first result is the exact paper requested by the user, including the correct title, author, year, and DOI.",
+                    "rationale": "The first result is the exact paper requested by the user, including the correct title, authors, year, and DOI.",
                     "label": "excellent",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The first result is exactly the requested Maude et al. 2014 NEJM paper on CAR T-cell therapy for sustained remissions in leukemia, directly answering the query intent.",
+                    "rationale": "The top result is the exact AlphaFold 2 Nature paper from 2021, directly matching the query intent with high relevance and quality.",
                     "label": "excellent",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The first result is the exact paper requested, and the other two are relevant articles by the same author on the same topic but not the specific NEJM publication.",
+                    "rationale": "The first result directly matches the ground truth paper, but the other top results are relevant to protein structure prediction yet not the specific AlphaFold 2 announcement, making the overall relevance useful but not perfectly targeted.",
                     "label": "good",
                     "value": 0.75
                   }
@@ -5123,23 +3046,23 @@ Example output:
                 "facet": "source_quality",
                 "verdict": "primary",
                 "score": 1,
-                "rationale": "The tool provides citations to peer-reviewed medical journal articles from PubMed/Europe PMC, which are primary scientific sources.",
+                "rationale": "The tool provides citations to peer-reviewed scientific papers from PubMed/Europe PMC, which are primary sources.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides citations to peer-reviewed medical journal articles from PubMed/Europe PMC, which are primary scientific sources.",
+                    "rationale": "The tool provides citations to peer-reviewed scientific papers from PubMed/Europe PMC, which are primary sources.",
                     "label": "primary",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "All returned results are peer-reviewed papers from authoritative journals (NEJM, Cancer Journal, ASH Education Book), which are primary sources.",
+                    "rationale": "The tool's output directly returns a peer-reviewed Nature paper (PMID 34265844) from 2021, which is a primary authoritative source for the query.",
                     "label": "primary",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output lists search results that are peer-reviewed medical journal articles, which are primary sources.",
+                    "rationale": "The tool's output cites peer-reviewed papers, such as the Jumper et al. 2021 Nature paper, which are primary sources according to the rubric.",
                     "label": "primary",
                     "value": 1
                   }
@@ -5149,23 +3072,23 @@ Example output:
                 "facet": "references_present",
                 "verdict": "present",
                 "score": 1,
-                "rationale": "The tool provides explicit source references including PMIDs, PMCIDs, and DOIs for the search results.",
+                "rationale": "The tool output provides explicit source references including PMIDs, PMCIDs, and DOIs for the search results.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool provides explicit source references including PMIDs, PMCIDs, and DOIs for the search results.",
+                    "rationale": "The tool output provides explicit source references including PMIDs, PMCIDs, and DOIs for the search results.",
                     "label": "present",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool's output includes explicit source references such as PMID, PMCID, and DOI for each result, allowing a reader to locate the underlying papers.",
+                    "rationale": "The output includes explicit DOIs, PMIDs, and other identifiers for the papers, allowing direct access to the underlying material.",
                     "label": "present",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool's output includes explicit citation markers like pmid, pmcid, and doi for the relevant paper, enabling readers to access the source directly.",
+                    "rationale": "The tool's output includes explicit source references such as DOI, PMID, and PMCIDs for each paper, which are specific identifiers that a reader can follow to access the underlying material.",
                     "label": "present",
                     "value": 1
                   }
@@ -5175,41 +3098,62 @@ Example output:
                 "facet": "output_was_returned",
                 "verdict": "returned",
                 "score": 1,
-                "rationale": "The tool successfully returned a list of three relevant search results including the specific paper requested.",
+                "rationale": "The tool returned a JSON object containing a list of search results, including the specific paper requested.",
                 "panel": [
                   {
                     "model": "google/gemma-4-26b-a4b-it",
-                    "rationale": "The tool successfully returned a list of three relevant search results including the specific paper requested.",
+                    "rationale": "The tool returned a JSON object containing a list of search results, including the specific paper requested.",
                     "label": "returned",
                     "value": 1
                   },
                   {
                     "model": "deepseek/deepseek-v4-flash",
-                    "rationale": "The tool returned three search results, including the target paper, so output is non-empty.",
+                    "rationale": "The tool returned a list of 30 results, including the correct AlphaFold paper, so it produced non-empty output.",
                     "label": "returned",
                     "value": 1
                   },
                   {
                     "model": "xiaomi/mimo-v2.5",
-                    "rationale": "The tool provided a non-empty JSON response with search results, which is usable output regardless of correctness.",
+                    "rationale": "The tool's output provides a detailed JSON response with multiple search results, confirming that non-empty output was returned.",
                     "label": "returned",
                     "value": 1
                   }
                 ]
               }
             ],
-            "raw_output": "{\n  \"query\": \"Find Maude et al. 2014 NEJM paper showing chimeric antigen receptor (CAR) T-cell therapy producing sustained remissions in children and young adults with B-cell acute lymphoblastic leukemia.\",\n  \"adapted_query\": \"AUTH:\\\"Maude\\\" PUB_YEAR:2014 CAR-T leukemia\",\n  \"provider\": \"Europe PMC\",\n  \"tool_kind\": \"life-science literature search (papers + preprints + OA full text)\",\n  \"total_results\": 3,\n  \"returned_results\": 3,\n  \"results\": [\n    {\n      \"id\": \"25317870\",\n      \"source\": \"MED\",\n      \"pmid\": \"25317870\",\n      \"pmcid\": \"PMC4267531\",\n      \"doi\": \"10.1056/nejmoa1407222\",\n      \"title\": \"Chimeric antigen receptor T cells for sustained remissions in leukemia.\",\n      \"authors\": \"Maude SL, Frey N, Shaw PA, Aplenc R, Barrett DM, Bunin NJ, Chew A, Gonzalez VE, Zheng Z, Lacey SF, Mahnke YD, Melenhorst JJ, Rheingold SR, Shen A, Teachey DT, Levine BL, June CH, Porter DL, Grupp SA.\",\n      \"journal\": null,\n      \"publication_year\": \"2014\",\n      \"publication_type\": null,\n      \"cited_by_count\": 4154,\n      \"is_open_access\": false,\n      \"abstract\": \"<h4>Background</h4>Relapsed acute lymphoblastic leukemia (ALL) is difficult to treat despite the availability of aggressive therapies. Chimeric antigen receptor-modified T cells targeting CD19 may overcome many limitations of conventional therapies and induce remission in patients with refractory disease.<h4>Methods</h4>We in …[truncated]"
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"adapted_query\": \"AlphaFold protein structure PUB_YEAR:2021\",\n  \"provider\": \"Europe PMC\",\n  \"tool_kind\": \"life-science literature search (papers + preprints + OA full text)\",\n  \"total_results\": 507,\n  \"returned_results\": 30,\n  \"results\": [\n    {\n      \"id\": \"34265844\",\n      \"source\": \"MED\",\n      \"pmid\": \"34265844\",\n      \"pmcid\": \"PMC8371605\",\n      \"doi\": \"10.1038/s41586-021-03819-2\",\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold.\",\n      \"authors\": \"Jumper J, Evans R, Pritzel A, Green T, Figurnov M, Ronneberger O, Tunyasuvunakool K, Bates R, \\u017d\\u00eddek A, Potapenko A, Bridgland A, Meyer C, Kohl SAA, Ballard AJ, Cowie A, Romera-Paredes B, Nikolov S, Jain R, Adler J, Back T, Petersen S, Reiman D, Clancy E, Zielinski M, Steinegger M, Pacholska M, Berghammer T, Bodenstein S, Silver D, Vinyals O, Senior AW, Kavukcuoglu K, Kohli P, Hassabis D.\",\n      \"journal\": null,\n      \"publication_year\": \"2021\",\n      \"publication_type\": null,\n      \"cited_by_count\": 31765,\n      \"is_open_access\": true,\n      \"abstract\": \"Proteins are essential to life, and understanding their structure can facilitate a mechanistic understanding of their function. Through an enormous experimental effort<sup>1-4</sup>, the structures of around 100,000 …[truncated]"
           },
           {
-            "probe_id": "obs-32816",
-            "similarity": 0.964,
-            "task_text": "Find the 2026 Phytomedicine paper by Meng et al. showing obacunone attenuates cholestatic liver disease via PPARα activation and gut microbiota remodeling. Give me the PubMed ID.",
-            "adapted_input": "Find the 2026 Phytomedicine paper by Meng et al. showing obacunone attenuates cholestatic liver disease via PPARα activation and gut microbiota remodeling. Give me the PubMed ID.",
+            "probe_id": "obs-20024",
+            "similarity": 0.983,
+            "task_text": "Find Anzalone et al. 2019 Nature paper on prime editing: search-and-replace genome editing without double-strand breaks or donor DNA.",
+            "adapted_input": "Find Anzalone et al. 2019 Nature paper on prime editing: search-and-replace genome editing without double-strand breaks or donor DNA.",
             "score": 1,
             "redacted": null,
-            "output_chars": 1584,
+            "output_chars": 1566,
             "truncated": false,
-            "created_at": "2026-08-29T11:55:26.244923Z",
+            "created_at": "2026-07-05T09:19:32.979025Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 3/3 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find Anzalone et al. 2019 Nature paper on prime editing: search-and-replace genome editing without double-strand breaks or donor DNA.\",\n  \"adapted_query\": \"AUTH:\\\"Anzalone\\\" PUB_YEAR:2019 prime editing genome\",\n  \"provider\": \"Europe PMC\",\n  \"tool_kind\": \"life-science literature search (papers + preprints + OA full text)\",\n  \"total_results\": 1,\n  \"returned_results\": 1,\n  \"results\": [\n    {\n      \"id\": \"31634902\",\n      \"source\": \"MED\",\n      \"pmid\": \"31634902\",\n      \"pmcid\": \"PMC6907074\",\n      \"doi\": \"10.1038/s41586-019-1711-4\",\n      \"title\": \"Search-and-replace genome editing without double-strand breaks or donor DNA.\",\n      \"authors\": \"Anzalone AV, Randolph PB, Davis JR, Sousa AA, Koblan LW, Levy JM, Chen PJ, Wilson C, Newby GA, Raguram A, Liu DR.\",\n      \"journal\": null,\n      \"publication_year\": \"2019\",\n      \"publication_type\": null,\n      \"cited_by_count\": 3370,\n      \"is_open_access\": true,\n      \"abstract\": \"Most genetic variants that contribute to disease<sup>1</sup> are challenging to correct efficiently and without excess byproducts<sup>2-5</sup>. Here we describe prime editing, a versatile and precise genome editing method that directly writes new genetic information into a specified DNA site using a catalytically impaired Cas9 endonuclease fused to an engineered reverse transcriptase, programmed with a prime editing guide RNA (pegRNA) that both spe …[truncated]"
+          },
+          {
+            "probe_id": "obs-32793",
+            "similarity": 0.982,
+            "task_text": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "adapted_input": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 7233,
+            "truncated": false,
+            "created_at": "2026-08-29T11:39:48.167254Z",
             "judges": [
               {
                 "facet": "capability",
@@ -5219,58 +3163,867 @@ Example output:
                 "panel": null
               }
             ],
-            "raw_output": "{\n  \"query\": \"Find the 2026 Phytomedicine paper by Meng et al. showing obacunone attenuates cholestatic liver disease via PPAR\\u03b1 activation and gut microbiota remodeling. Give me the PubMed ID.\",\n  \"adapted_query\": \"AUTH:\\\"Meng\\\" PUB_YEAR:2026 obacunone cholestatic PPAR\\u03b1\",\n  \"provider\": \"Europe PMC\",\n  \"tool_kind\": \"life-science literature search (papers + preprints + OA full text)\",\n  \"total_results\": 1,\n  \"returned_results\": 1,\n  \"results\": [\n    {\n      \"id\": \"42551234\",\n      \"source\": \"MED\",\n      \"pmid\": \"42551234\",\n      \"pmcid\": null,\n      \"doi\": \"10.1016/j.phymed.2026.158648\",\n      \"title\": \"Obacunone attenuates Cholestatic liver disease via PPAR\\u03b1 activation and gut microbiota remodeling.\",\n      \"authors\": \"Meng X, Zeng C, Deng H, Jiang S, Du X, Xiao Y, Liu C.\",\n      \"journal\": null,\n      \"publication_year\": \"2026\",\n      \"publication_type\": null,\n      \"cited_by_count\": 0,\n      \"is_open_access\": false,\n      \"abstract\": \"<h4>Background</h4>Cholestatic liver disease (CLD) comprises a collection of disorders marked by impaired bile formation or flow, which can progress to fibrosis, cirrhosis, and liver failure if left untreated. Although there have been significant advances in understanding its pathogenesis, effective pharmacotherapies are still limited; ursodeoxycholic acid (UDCA), the first-line treatment, exhibits an incomplete response in approxi …[truncated]"
+            "raw_output": "{\n  \"query\": \"What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?\",\n  \"adapted_query\": \"AUTH:\\\"Xu\\\" PUB_YEAR:2026 intrahepatic cholestasis pregnancy prediction\",\n  \"provider\": \"Europe PMC\",\n  \"tool_kind\": \"life-science literature search (papers + preprints + OA full text)\",\n  \"total_results\": 9,\n  \"returned_results\": 9,\n  \"results\": [\n    {\n      \"id\": \"41864912\",\n      \"source\": \"MED\",\n      \"pmid\": \"41864912\",\n      \"pmcid\": \"PMC13130792\",\n      \"doi\": \"10.1186/s12916-026-04794-z\",\n      \"title\": \"Artificial intelligence-based prediction of fetal hypoxia: a multicenter model development and nationwide AI-human comparison.\",\n      \"authors\": \"Lin S, Di X, Yao M, Xu Y, Wei H, Shi Z, Hao R, Wu N, Wang D, Wang Z, Liu B.\",\n      \"journal\": null,\n      \"publication_year\": \"2026\",\n      \"publication_type\": null,\n      \"cited_by_count\": 1,\n      \"is_open_access\": true,\n      \"abstract\": \"<h4>Background</h4>Fetal hypoxia is a leading cause of neonatal morbidity and mortality. Cardiotocography (CTG) is widely used to predict fetal hypoxia during labor, but its interpretation remains suboptimal. Artificial intelligence (AI) models have been developed for CTG interpretation, but their clinical utility is limited by two major challenges: demonstrating superiority o …[truncated]"
           }
         ]
       },
       "evidence_teaser": {
-        "task_text": "Find scientific literature on graphene field-effect transistors for biosensing applications.",
-        "verdict": "pass",
-        "score": 0.733,
-        "similarity": 0.968,
-        "n_real": 91
+        "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+        "verdict": "present",
+        "score": 0.983,
+        "similarity": 0.983,
+        "n_real": 165
+      }
+    },
+    {
+      "tool_id": "arxiv",
+      "name": "arXiv API",
+      "variant": null,
+      "capabilities": [
+        "paper_search",
+        "academic",
+        "references",
+        "abstracts"
+      ],
+      "description": "Open-access preprint repository search. STEM-heavy: physics, mathematics, computer science, quantitative biology, statistics, electrical engineering. Returns title, authors, abstract, publication date, and the arXiv ID / URL per paper.",
+      "kind": "external_tool",
+      "endpoint": {
+        "api_type": "rest",
+        "base_url": "http://export.arxiv.org",
+        "status_url": "https://status.arxiv.org"
+      },
+      "reason": "falls short of the required capability bar for this task.",
+      "capability": 0.5031,
+      "band": 0.3505,
+      "cap_lcb": 0.1526,
+      "rank": 0.2212,
+      "price": {
+        "amount": 0,
+        "per_query_usd": 0,
+        "currency": "USD",
+        "confidence": "high",
+        "selected_plan": "free",
+        "held": false,
+        "estimated": true,
+        "cost_unknown": false,
+        "breakdown": [
+          {
+            "plan_id": "free",
+            "kind": "free",
+            "plan_group": null,
+            "effective_usd": 0,
+            "held": false,
+            "currency": "USD",
+            "confidence": "high",
+            "overridden": false
+          }
+        ]
+      },
+      "calling": {
+        "tool_id": "arxiv",
+        "coordinator_class": false,
+        "executable": true,
+        "endpoint": {
+          "base_url": "http://export.arxiv.org",
+          "api_type": "rest"
+        },
+        "adapter": {
+          "type": "llm"
+        },
+        "auth": {
+          "method": "none"
+        },
+        "summary": {
+          "usability": "ready",
+          "auth_method": "none",
+          "api_type": "rest",
+          "connected": false,
+          "free": true,
+          "how": "free · ready to use",
+          "signup_url": null
+        }
+      },
+      "facets": [
+        {
+          "name": "capability",
+          "kano": "must_be",
+          "weight": 1,
+          "threshold": 0.5,
+          "raw": 0.1526,
+          "contribution": 0.0916
+        },
+        {
+          "name": "price",
+          "kano": "performance",
+          "weight": 0.3,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 0.3
+        },
+        {
+          "name": "no_machine_harm",
+          "kano": "must_be",
+          "weight": 2,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 2
+        }
+      ],
+      "evidence": {
+        "n_real": 153,
+        "n_near": 24,
+        "near_mean": 0.631,
+        "dist": [
+          0.267,
+          0.833,
+          0.733,
+          0.6,
+          1,
+          0.333,
+          1,
+          1,
+          0.867,
+          0.171,
+          0.333,
+          0.167,
+          0,
+          1,
+          0.983,
+          0,
+          0.367,
+          0,
+          0.867,
+          0.733,
+          1,
+          0.933,
+          0.983,
+          0.967
+        ],
+        "probes": [
+          {
+            "probe_id": "obs-19860",
+            "similarity": 0.987,
+            "task_text": "find recent physics preprints on quantum error correction",
+            "adapted_input": "quantum error correction 2025 2026",
+            "score": 0.267,
+            "redacted": null,
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-07-05T09:11:34.308144Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "fail",
+                "score": 0.267,
+                "rationale": "The tool failed significantly on the 'recent' constraint. The user requested recent preprints, but t | The tool returned preprints on quantum error correction but none are recent (all from 2003–2016), fa | The tool returned relevant papers on quantum error correction with structured metadata (titles, auth",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool failed significantly on the 'recent' constraint. The user requested recent preprints, but the tool's adapted query ('quantum error correction 2025 2026') resulted in papers from 2003, 2006, 2013, and 2016. This suggests the tool's internal logic for handling temporal queries is broken, as i…",
+                    "score": 0.2
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned preprints on quantum error correction but none are recent (all from 2003–2016), failing the query's explicit 'recent' requirement. While the metadata is accurate for those papers, the lack of recency makes the output largely irrelevant to the user's request.",
+                    "score": 0.2
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returned relevant papers on quantum error correction with structured metadata (titles, authors, abstracts, dates), but failed to provide recent preprints as specified in the query. The results include older papers from 2003-2016, not aligning with the 'recent' requirement, and the adapted q…",
+                    "score": 0.4
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"find recent physics preprints on quantum error correction\",\n  \"adapted_query\": \"quantum error correction 2025 2026\",\n  \"provider\": \"arXiv (export.arxiv.org)\",\n  \"tool_kind\": \"academic paper search (STEM/CS/physics/math)\",\n  \"total_results\": 1090438,\n  \"returned_results\": 15,\n  \"results\": [\n    {\n      \"arxiv_id\": \"1311.2485v2\",\n      \"title\": \"Continuous-time quantum error correction\",\n      \"abstract\": \"Continuous-time quantum error correction (CTQEC) is an approach to protecting quantum information from noise in which both the noise and the error correcting operations are treated as processes that are continuous in time. This chapter investigates CTQEC based on continuous weak measurements and feedback from the point of view of the subsystem principle, which states that protected quantum information is contained in a subsystem of the Hilbert space. We study how to approach the problem of constructing CTQEC protocols by looking at the evolution of the state of the system in an encoded basis in which the subsystem containing the protected information is explicit. This point of view allows us to reduce the problem to that of protecting a known state, and to design CTQEC procedures from protocols for the protection of a single qubit. We show how previously studied CTQEC schemes with both direct and indirect feedback can be obtained from strategies for the protection …[truncated]"
+          },
+          {
+            "probe_id": "obs-20502",
+            "similarity": 0.985,
+            "task_text": "find arXiv preprints on reinforcement learning from human feedback for language models",
+            "adapted_input": "RLHF language models reinforcement learning human feedback",
+            "score": 0.833,
+            "redacted": null,
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-07-05T09:51:43.968950Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 0.833,
+                "rationale": "The tool successfully interpreted the query and provided highly relevant arXiv preprints specificall | The tool returned multiple relevant arXiv preprints on RLHF for language models, with correct metada | The tool returned relevant RLHF papers with correct metadata (titles, authors, abstracts, dates), sh",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool successfully interpreted the query and provided highly relevant arXiv preprints specifically focused on RLHF for language models (e.g., 'RRHF: Rank Responses to Align Language Models with Human Feedback'). The results include all required metadata (title, authors, abstract, ID). The output …",
+                    "score": 0.9
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned multiple relevant arXiv preprints on RLHF for language models, with correct metadata (title, authors, date, abstract), matching the query intent. The results are highly relevant and accurate, though the total_results count appears inflated, which does not affect the quality of the …",
+                    "score": 0.9
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returned relevant RLHF papers with correct metadata (titles, authors, abstracts, dates), showing good relevance and accuracy. However, it did not include the canonical InstructGPT paper (e.g., 2203.02155) in the top results shown, which is mentioned in the ground truth, indicating a gap in …",
+                    "score": 0.7
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "The top results are highly relevant, specifically addressing RLHF and language model alignment as requested in the query.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The top results are highly relevant, specifically addressing RLHF and language model alignment as requested in the query.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The top two results are directly about RLHF for language models, matching the query intent precisely.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The top results are directly about reinforcement learning from human feedback for language models, which perfectly matches the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "The tool provides citations to arXiv preprints, which are primary scientific research papers.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool provides citations to arXiv preprints, which are primary scientific research papers.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The arXiv tool returns academic preprints, which are peer-reviewed primary sources.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returns arXiv preprint papers, which are primary sources as they represent original research outputs in academic contexts.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "The tool output includes explicit URLs (e.g., http://arxiv.org/abs/2308.04332v1) and arXiv IDs for the retrieved papers.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool output includes explicit URLs (e.g., http://arxiv.org/abs/2308.04332v1) and arXiv IDs for the retrieved papers.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The output includes explicit URLs (e.g., http://arxiv.org/abs/2308.04332v1) for each arXiv preprint, which are direct references a reader can follow.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The output includes explicit URLs in the 'url' field for each paper, such as http://arxiv.org/abs/2308.04332v1, which are direct references to the underlying material.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "The tool returned a JSON object containing a list of search results with relevant arXiv paper details.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool returned a JSON object containing a list of search results with relevant arXiv paper details.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned a JSON object with 15 results containing titles, authors, and abstracts, so output is non-empty.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool output is a non-empty JSON structure with detailed search results, including titles, abstracts, and metadata, indicating usable output was returned.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"find arXiv preprints on reinforcement learning from human feedback for language models\",\n  \"adapted_query\": \"RLHF language models reinforcement learning human feedback\",\n  \"provider\": \"arXiv (export.arxiv.org)\",\n  \"tool_kind\": \"academic paper search (STEM/CS/physics/math)\",\n  \"total_results\": 1441023,\n  \"returned_results\": 15,\n  \"results\": [\n    {\n      \"arxiv_id\": \"2308.04332v1\",\n      \"title\": \"RLHF-Blender: A Configurable Interactive Interface for Learning from Diverse Human Feedback\",\n      \"abstract\": \"To use reinforcement learning from human feedback (RLHF) in practical applications, it is crucial to learn reward models from diverse sources of human feedback and to consider human factors involved in providing feedback of different types. However, the systematic study of learning from diverse types of feedback is held back by limited standardized tooling available to researchers. To bridge this gap, we propose RLHF-Blender, a configurable, interactive interface for learning from human feedback. RLHF-Blender provides a modular experimentation framework and implementation that enables researchers to systematically investigate the properties and qualities of human feedback for reward learning. The system facilitates the exploration of various feedback types, including demonstrations, rankings, comparisons, and natural language instructions, as well as studies co …[truncated]"
+          },
+          {
+            "probe_id": "obs-20216",
+            "similarity": 0.981,
+            "task_text": "find arXiv preprints on selective state space models for sequence modeling",
+            "adapted_input": "selective state space Mamba sequence modeling",
+            "score": 0.733,
+            "redacted": null,
+            "output_chars": 20000,
+            "truncated": true,
+            "created_at": "2026-07-05T09:35:18.168191Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 0.733,
+                "rationale": "The tool successfully interpreted the query by adapting it to more effective search terms ('selectiv | The tool returned relevant results related to selective state space models (Mamba), but the canonica | The tool returned relevant structured records on selective state space models for sequence modeling,",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool successfully interpreted the query by adapting it to more effective search terms ('selective state space Mamba sequence modeling'). It returned highly relevant, high-quality results that directly address the user's request for selective state space models (specifically Mamba) for sequence m…",
+                    "score": 0.9
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned relevant results related to selective state space models (Mamba), but the canonical Mamba paper (2312.00752) is missing from the top results. The total_results count is implausibly high (1.8M), suggesting a query adaptation or API issue. The output is partially relevant but has sig…",
+                    "score": 0.4
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returned relevant structured records on selective state space models for sequence modeling, specifically papers on Mamba and related topics, with correct titles, authors, abstracts, and identifiers as per the arXiv API contract. The query was adapted appropriately, and the results align wit…",
+                    "score": 0.9
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "The top results are highly relevant, specifically addressing selective state space models (Mamba) in the context of sequence modeling and related tasks.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The top results are highly relevant, specifically addressing selective state space models (Mamba) in the context of sequence modeling and related tasks.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The top result focuses on few-shot class-incremental learning rather than sequence modeling, while the second result is relevant, so the mix of off-topic content makes the results only partially aligned with the query intent.",
+                    "label": "partial",
+                    "value": 0.5
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The top results are directly about selective state space models like Mamba for sequence modeling, providing relevant and high-quality sources from arXiv.",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "The tool provides citations to arXiv preprints, which are primary academic research papers/records in the STEM fields.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool provides citations to arXiv preprints, which are primary academic research papers/records in the STEM fields.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returns citations to arXiv preprints, which are peer-reviewed academic papers, a primary source.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool's output provides arXiv preprints, which are primary source scholarly papers.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "The tool output provides explicit URLs (e.g., http://arxiv.org/abs/2407.06136v4) and arXiv IDs for the retrieved papers.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool output provides explicit URLs (e.g., http://arxiv.org/abs/2407.06136v4) and arXiv IDs for the retrieved papers.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool's output includes explicit source references for each result, such as arXiv IDs (e.g., 2407.06136v4) and URLs (e.g., http://arxiv.org/abs/2407.06136v4), which allow a reader to directly access the underlying preprints.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool's output includes explicit URLs in the results that directly link to arXiv preprint pages, providing clear source references for follow-up.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "The tool returned a structured JSON object containing a list of relevant arXiv preprint results including titles, abstracts, and IDs.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool returned a structured JSON object containing a list of relevant arXiv preprint results including titles, abstracts, and IDs.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned a JSON object with a non-empty results array containing 15 entries, so output was returned.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool output is a non-empty JSON structure with multiple results, including titles and abstracts, confirming that usable output was returned.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"find arXiv preprints on selective state space models for sequence modeling\",\n  \"adapted_query\": \"selective state space Mamba sequence modeling\",\n  \"provider\": \"arXiv (export.arxiv.org)\",\n  \"tool_kind\": \"academic paper search (STEM/CS/physics/math)\",\n  \"total_results\": 1871677,\n  \"returned_results\": 15,\n  \"results\": [\n    {\n      \"arxiv_id\": \"2407.06136v4\",\n      \"title\": \"Mamba-FSCIL: Dynamic Adaptation with Selective State Space Model for Few-Shot Class-Incremental Learning\",\n      \"abstract\": \"Few-shot class-incremental learning (FSCIL) aims to incrementally learn novel classes from limited examples while preserving knowledge of previously learned classes. Existing methods face a critical dilemma: static architectures rely on a constant parameter space to learn from data that arrive sequentially, making them prone to overfitting to the current session, while dynamic architectures continually expand the parameter space, leading to increased complexity. In this study, we explore the potential of Selective State Space Models (SSMs) for FSCIL. Mamba leverages its input-dependent parameters to dynamically adjust its processing patterns and generate content-aware scan patterns without session-wise projector expansion. This enables it to configure distinct processing for base and novel classes, helping preserve existing knowledge while adapting to new ones. To leverage …[truncated]"
+          }
+        ]
+      },
+      "evidence_teaser": {
+        "task_text": "find recent physics preprints on quantum error correction",
+        "verdict": "fail",
+        "score": 0.267,
+        "similarity": 0.987,
+        "n_real": 153
+      }
+    },
+    {
+      "tool_id": "brave_search",
+      "name": "Brave Search API",
+      "variant": null,
+      "capabilities": [
+        "web_search",
+        "realtime"
+      ],
+      "description": "Privacy-focused web search API with structured results, snippets, and news. Independent web index.",
+      "kind": "external_tool",
+      "endpoint": {
+        "api_type": "rest",
+        "base_url": "https://api.search.brave.com",
+        "status_url": "https://search.brave.com"
+      },
+      "reason": "falls short of the required capability bar for this task.",
+      "capability": 0.5655,
+      "band": 0.4132,
+      "cap_lcb": 0.1523,
+      "rank": 0.2205,
+      "price": {
+        "amount": 0.005,
+        "per_query_usd": 0.005,
+        "currency": "USD",
+        "confidence": "high",
+        "selected_plan": "api",
+        "held": false,
+        "estimated": true,
+        "cost_unknown": false,
+        "breakdown": [
+          {
+            "plan_id": "api",
+            "kind": "metered",
+            "plan_group": "brave_search",
+            "effective_usd": 0.005,
+            "held": false,
+            "currency": "USD",
+            "confidence": "high",
+            "overridden": false
+          }
+        ]
+      },
+      "calling": {
+        "tool_id": "brave_search",
+        "coordinator_class": false,
+        "executable": true,
+        "endpoint": {
+          "base_url": "https://api.search.brave.com",
+          "api_type": "rest"
+        },
+        "adapter": {
+          "type": "llm"
+        },
+        "auth": {
+          "method": "api_key",
+          "env_var": "BRAVE_API_KEY",
+          "connected": false
+        },
+        "summary": {
+          "usability": "connect_key",
+          "auth_method": "api_key",
+          "api_type": "rest",
+          "connected": false,
+          "free": false,
+          "how": "connect a key → api-dashboard.search.brave.com/register",
+          "signup_url": "https://api-dashboard.search.brave.com/register"
+        },
+        "connect": {
+          "tool_id": "brave_search",
+          "name": "Brave Search API",
+          "auth_method": "api_key",
+          "signup_url": "https://api-dashboard.search.brave.com/register",
+          "instructions": "  1. Create a Brave Search account.\n  2. Subscribe to a plan — the free tier is enough to start.\n  3. Open the API Keys page in the dashboard.\n  4. Generate a key and copy it.",
+          "methods": [
+            {
+              "auth_method": "api_key",
+              "label": "Brave Search API key",
+              "signup_url": "https://api-dashboard.search.brave.com/register",
+              "instructions": [
+                "Create a Brave Search account.",
+                "Subscribe to a plan — the free tier is enough to start.",
+                "Open the API Keys page in the dashboard.",
+                "Generate a key and copy it."
+              ],
+              "fields": [
+                {
+                  "key": "BRAVE_API_KEY",
+                  "label": "Brave Search API key",
+                  "secret": true,
+                  "required": true,
+                  "help": "Dashboard → API Keys → Add API key"
+                }
+              ]
+            }
+          ],
+          "fields": [
+            {
+              "key": "BRAVE_API_KEY",
+              "label": "Brave Search API key",
+              "secret": true,
+              "required": true,
+              "help": "Dashboard → API Keys → Add API key"
+            }
+          ],
+          "source": "evaluator",
+          "connect_via": {
+            "surface": "POST /credentials/connect",
+            "method": "Brave Search API key",
+            "field_key": "BRAVE_API_KEY",
+            "payload": {
+              "tool_id": "brave_search",
+              "api_key": "<paste your key here>"
+            },
+            "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"brave_search\",\"api_key\":\"<YOUR_KEY>\"}'"
+          }
+        }
+      },
+      "facets": [
+        {
+          "name": "capability",
+          "kano": "must_be",
+          "weight": 1,
+          "threshold": 0.5,
+          "raw": 0.1523,
+          "contribution": 0.0914
+        },
+        {
+          "name": "price",
+          "kano": "performance",
+          "weight": 0.3,
+          "threshold": 0.5,
+          "raw": 0.9928,
+          "contribution": 0.2978
+        },
+        {
+          "name": "no_machine_harm",
+          "kano": "must_be",
+          "weight": 2,
+          "threshold": 0.5,
+          "raw": 1,
+          "contribution": 2
+        }
+      ],
+      "evidence": {
+        "n_real": 847,
+        "n_near": 24,
+        "near_mean": 0.608,
+        "dist": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.967,
+          1,
+          0.967,
+          0.967,
+          0.95,
+          0.983,
+          0.95,
+          0.95,
+          0.952,
+          0.933,
+          0.931,
+          0.95,
+          0,
+          0.5,
+          0.333,
+          0.267
+        ],
+        "probes": [
+          {
+            "probe_id": "obs-5266",
+            "similarity": 0.983,
+            "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "adapted_input": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 11599,
+            "truncated": false,
+            "created_at": "2026-05-21T12:13:33.290511Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "The tool provided the exact canonical source requested in the very first result: 'Highly accurate pr | The tool returned the exact canonical Nature paper as the first result, with the correct title, URL, | The tool returned the canonical Nature paper (https://www.nature.com/articles/s41586-021-03819-2) as",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool provided the exact canonical source requested in the very first result: 'Highly accurate protein structure prediction with AlphaFold | Nature' with the correct URL (https://www.nature.com/articles/s41586-021-03819-2). It also provided supplementary results from PubMed and DeepMind that conf…",
+                    "score": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned the exact canonical Nature paper as the first result, with the correct title, URL, and relevant snippet. Other results (DeepMind official site, PubMed, Wikipedia) provide diverse authoritative sources. The output perfectly addresses the query and matches the ground truth.",
+                    "score": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returned the canonical Nature paper (https://www.nature.com/articles/s41586-021-03819-2) as the top result, directly matching the ground truth citation, and provided a diverse set of relevant sources including DeepMind, PubMed, and Wikipedia. All URLs are legitimate and on-topic, fully addr…",
+                    "score": 1
+                  }
+                ]
+              },
+              {
+                "facet": "relevance",
+                "verdict": "excellent",
+                "score": 1,
+                "rationale": "The top result is the exact Nature paper requested, and the subsequent results provide direct confirmation and citations for the specific paper and authors.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The top result is the exact Nature paper requested, and the subsequent results provide direct confirmation and citations for the specific paper and authors.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The top 3 results include the exact Nature paper, DeepMind's official page, and PubMed entry, all directly addressing the query with high-quality sources.",
+                    "label": "excellent",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The top results directly include the exact 2021 Nature paper from high-quality sources like Nature and PubMed, immediately answering the query intent.",
+                    "label": "excellent",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "source_quality",
+                "verdict": "primary",
+                "score": 1,
+                "rationale": "The tool provides direct links to the peer-reviewed paper in Nature and its corresponding entries in PubMed and PMC, which are primary scientific sources.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool provides direct links to the peer-reviewed paper in Nature and its corresponding entries in PubMed and PMC, which are primary scientific sources.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The output lists the original Nature paper (a peer-reviewed primary source) as the top result, along with other authoritative databases like PubMed.",
+                    "label": "primary",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool's output includes direct links to the peer-reviewed Nature paper, which is a primary source.",
+                    "label": "primary",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "references_present",
+                "verdict": "present",
+                "score": 1,
+                "rationale": "The tool output provides multiple explicit source references, including URLs, document titles, and specific journal citations.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool output provides multiple explicit source references, including URLs, document titles, and specific journal citations.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool output provides multiple explicit source references including URLs, source names, and citation markers such as 'Nature 2021, 596, 583–589'.",
+                    "label": "present",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The output includes multiple explicit URLs and document names for each search result, such as the Nature paper URL, which serve as direct source references.",
+                    "label": "present",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "facet": "output_was_returned",
+                "verdict": "returned",
+                "score": 1,
+                "rationale": "The tool returned a list of search results containing the requested information, including the specific Nature paper title and citation details.",
+                "panel": [
+                  {
+                    "model": "google/gemma-4-26b-a4b-it",
+                    "rationale": "The tool returned a list of search results containing the requested information, including the specific Nature paper title and citation details.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "deepseek/deepseek-v4-flash",
+                    "rationale": "The tool returned a list of search results, including the Nature paper, so it provided non-empty output.",
+                    "label": "returned",
+                    "value": 1
+                  },
+                  {
+                    "model": "xiaomi/mimo-v2.5",
+                    "rationale": "The tool returned a non-empty JSON object with multiple search results, providing usable output regardless of correctness.",
+                    "label": "returned",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.\",\n  \"provider\": \"Brave Search\",\n  \"total_results\": 20,\n  \"api_params\": {\n    \"count\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold | Nature\",\n      \"url\": \"https://www.nature.com/articles/s41586-021-03819-2\",\n      \"snippet\": \"Nature - <strong>AlphaFold predicts protein structures with an accuracy competitive with experimental structures in the majority of cases using a novel deep learning architecture</strong>.\",\n      \"age\": \"July 15, 2021\",\n      \"source\": \"Nature\"\n    },\n    {\n      \"title\": \"AlphaFold \\u2014 Google DeepMind\",\n      \"url\": \"https://deepmind.google/science/alphafold/\",\n      \"snippet\": \"... Nature publishes AlphaFold\\u2019s detailed methodology in the paper \\u201cHighly accurate protein structure prediction with AlphaFold\\u201d and <strong>DeepMind open sources the code along with 60 pages of supplemental information</strong>.\",\n      \"age\": \"\",\n      \"source\": \"Google DeepMind\"\n    },\n    {\n      \"title\": \"Highly accurate protein structure prediction with AlphaFold - PubMed\",\n      \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34265844/\",\n      \"snippet\": \"J.J., R.E., A. Pritzel, T.G., M.F., O.R., R.B., A.B., S.A.A.K., D.R. and A.W.S. have filed non-provisional patent applications 16/7 …[truncated]"
+          },
+          {
+            "probe_id": "obs-32677",
+            "similarity": 0.983,
+            "task_text": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
+            "adapted_input": "I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.",
+            "score": 1,
+            "redacted": null,
+            "output_chars": 12703,
+            "truncated": false,
+            "created_at": "2026-08-29T10:34:06.623430Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "pass",
+                "score": 1,
+                "rationale": "Deterministic check — matched 1/1 required string(s).",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"I'm after the 2026 Advanced Energy Materials paper by Zhang et al. on molecular design and interfacial functions of self-assembled monolayers for perovskite and tandem solar cells. Give me the DOI.\",\n  \"adapted_query\": \"Zhang 2026 Advanced Energy Materials self-assembled monolayers molecular design interfacial perovskite tandem solar cells DOI\",\n  \"provider\": \"Brave Search\",\n  \"total_results\": 19,\n  \"api_params\": {\n    \"count\": 20\n  },\n  \"results\": [\n    {\n      \"title\": \"Molecular Design and Interfacial Functions of Self\\u2010Assembled Monolayers for Perovskite and Tandem Solar Cells - Zhang - 2026 - Advanced Energy Materials - Wiley Online Library\",\n      \"url\": \"https://advanced.onlinelibrary.wiley.com/doi/10.1002/aenm.70979\",\n      \"snippet\": \"As a potent interfacial platform at the crossroads of molecular engineering and device physics, self-assembled monolayers (SAMs) have been demonstrated to <strong>enable molecular-level control over buried interfaces in perovskite solar cells (PSCs),</strong> whilst ...\",\n      \"age\": \"April 23, 2026\",\n      \"source\": \"Wiley Online Library\"\n    },\n    {\n      \"title\": \"Interface-Engineered Composite Self-Assembled Monolayers Driving Efficient and Stable Wide-Bandgap Perovskite and Tandem Solar Cells | ACS Applied Materials & Interfaces\",\n      \"url\": \"https://pubs.acs.org/doi/10.1021/acsami.5c21997\",\n      \"snippet\": \"In …[truncated]"
+          },
+          {
+            "probe_id": "obs-32796",
+            "similarity": 0.982,
+            "task_text": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "adapted_input": "What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?",
+            "score": 0,
+            "redacted": null,
+            "output_chars": 449,
+            "truncated": false,
+            "created_at": "2026-08-29T11:40:59.789042Z",
+            "judges": [
+              {
+                "facet": "capability",
+                "verdict": "fail",
+                "score": 0,
+                "rationale": "Deterministic check — matched 0/1 required string(s); missing: 42589990.",
+                "panel": null
+              }
+            ],
+            "raw_output": "{\n  \"query\": \"What is the PMID of the 2026 Journal of Clinical Medicine paper by Xu et al. on early precise prediction and severe risk stratification of intrahepatic cholestasis of pregnancy?\",\n  \"adapted_query\": \"Xu 2026 \\\"Journal of Clinical Medicine\\\" intrahepatic cholestasis pregnancy early prediction severe risk stratification PMID\",\n  \"provider\": \"Brave Search\",\n  \"total_results\": 0,\n  \"api_params\": {\n    \"count\": 20\n  },\n  \"results\": []\n}"
+          }
+        ]
+      },
+      "evidence_teaser": {
+        "task_text": "Find DeepMind's 2021 Nature paper announcing AlphaFold 2 and highly accurate protein structure prediction.",
+        "verdict": "present",
+        "score": 1,
+        "similarity": 0.983,
+        "n_real": 847
       }
     }
   ],
   "decidable": false,
-  "decide_margin": 0.0356,
+  "decide_margin": 0.0448,
   "not_checked": [],
   "flags": {
     "short_circuit": false,
     "digest_skipped": false,
     "digest_applied": false,
     "excluded": {
-      "count": 27,
+      "count": 15,
       "facets": [
         "no_machine_harm"
       ],
       "tool_ids": [
-        "abuseipdb_api",
         "anthropic_memory_server",
         "antv_mcp_server_chart",
-        "api_data_gov",
         "applescript_mcp",
         "browserbase_mcp",
-        "chroma_mcp",
         "chrome_devtools_mcp",
         "desktop_commander",
-        "dify",
         "docling",
-        "easypost",
         "excel_mcp_server",
         "git_reference_server",
         "gnews",
-        "neo4j_memory_mcp",
         "newsapi_ai",
         "openapi_mcp_server",
         "playwright_mcp",
-        "postgres_mcp_pro",
         "semgrep_mcp",
-        "skyvern",
-        "telegram_bot_api",
-        "tmdb_api",
-        "trello",
-        "usda_fooddata_central",
         "windows_mcp"
       ]
     },
@@ -5278,113 +4031,50 @@ Example output:
   },
   "disclaimer": "Scores are advisory, not guarantees. Bands reflect observation age, not certainty of outcome; consequential decisions need human review.",
   "calling": {
-    "tool_id": "tavily_search",
+    "tool_id": "pubmed",
     "coordinator_class": false,
     "executable": true,
     "endpoint": {
-      "base_url": "https://api.tavily.com",
+      "base_url": "https://eutils.ncbi.nlm.nih.gov",
       "api_type": "rest"
     },
     "adapter": {
       "type": "llm"
     },
     "auth": {
-      "method": "api_key",
-      "env_var": "TAVILY_API_KEY",
-      "connected": false
+      "method": "none"
     },
     "summary": {
-      "usability": "connect_key",
-      "auth_method": "api_key",
+      "usability": "ready",
+      "auth_method": "none",
       "api_type": "rest",
       "connected": false,
-      "free": false,
-      "how": "connect a key → app.tavily.com/home",
-      "signup_url": "https://app.tavily.com/home"
-    },
-    "connect": {
-      "tool_id": "tavily_search",
-      "name": "Tavily Search API",
-      "auth_method": "api_key",
-      "signup_url": "https://app.tavily.com/home",
-      "instructions": "  1. Create a Tavily account — it comes with free monthly credits.\n  2. Open the API Keys section of the dashboard.\n  3. Create a key and copy it.",
-      "methods": [
-        {
-          "auth_method": "api_key",
-          "label": "Tavily API key",
-          "signup_url": "https://app.tavily.com/home",
-          "instructions": [
-            "Create a Tavily account — it comes with free monthly credits.",
-            "Open the API Keys section of the dashboard.",
-            "Create a key and copy it."
-          ],
-          "fields": [
-            {
-              "key": "TAVILY_API_KEY",
-              "label": "Tavily API key",
-              "secret": true,
-              "required": true,
-              "help": "Dashboard → API Keys → Create"
-            }
-          ]
-        }
-      ],
-      "fields": [
-        {
-          "key": "TAVILY_API_KEY",
-          "label": "Tavily API key",
-          "secret": true,
-          "required": true,
-          "help": "Dashboard → API Keys → Create"
-        }
-      ],
-      "source": "evaluator",
-      "connect_via": {
-        "surface": "POST /credentials/connect",
-        "method": "Tavily API key",
-        "field_key": "TAVILY_API_KEY",
-        "payload": {
-          "tool_id": "tavily_search",
-          "api_key": "<paste your key here>"
-        },
-        "curl": "curl -s https://hyperroute.io/credentials/connect -H 'content-type: application/json' -d '{\"tool_id\":\"tavily_search\",\"api_key\":\"<YOUR_KEY>\"}'"
-      }
+      "free": true,
+      "how": "free · ready to use",
+      "signup_url": null
     }
   },
   "facet_form": {
     "reason": "these unset facets diverge across the shortlist and would reorder it; set any to refine with the full facet set, or proceed with the current best pick",
     "decidable": false,
-    "decide_margin": 0.0356,
+    "decide_margin": 0.0448,
     "shortlist": [
-      "tavily_search",
-      "sonar_deep_research",
       "pubmed",
-      "crossref+references"
+      "kagi_search",
+      "unpaywall",
+      "ddg_search"
     ],
     "fields": [
       {
         "name": "format",
         "optional": true,
         "default": "not applied — Pass 2 ranks with the engine's Kano defaults",
-        "spread": 0.7734,
-        "divergence_over_shortlist": {
-          "tavily_search": 0.991,
-          "sonar_deep_research": 0.217,
-          "pubmed": 0.974,
-          "crossref+references": 0.5
-        },
-        "note": "leave blank to accept the default; or set kano/weight/threshold to apply it"
-      },
-      {
-        "name": "output_was_returned",
-        "optional": true,
-        "default": "not applied — Pass 2 ranks with the engine's Kano defaults",
         "spread": 0.4932,
         "divergence_over_shortlist": {
-          "tavily_search": 0.993,
-          "sonar_deep_research": 0.917,
-          "pubmed": 0.93,
-          "crossref+references": 0.5
+          "pubmed": 0.5,
+          "kagi_search": 0.988,
+          "unpaywall": 0.979,
+          "ddg_search": 0.993
         },
         "note": "leave blank to accept the default; or set kano/weight/threshold to apply it"
       },
@@ -5392,12 +4082,25 @@ Example output:
         "name": "snippet_quality",
         "optional": true,
         "default": "not applied — Pass 2 ranks with the engine's Kano defaults",
-        "spread": 0.4804,
+        "spread": 0.4726,
         "divergence_over_shortlist": {
-          "tavily_search": 0.98,
-          "sonar_deep_research": 0.885,
-          "pubmed": 0.811,
-          "crossref+references": 0.5
+          "pubmed": 0.5,
+          "kagi_search": 0.959,
+          "unpaywall": 0.824,
+          "ddg_search": 0.973
+        },
+        "note": "leave blank to accept the default; or set kano/weight/threshold to apply it"
+      },
+      {
+        "name": "explanation_quality",
+        "optional": true,
+        "default": "not applied — Pass 2 ranks with the engine's Kano defaults",
+        "spread": 0.448,
+        "divergence_over_shortlist": {
+          "pubmed": 0.467,
+          "kagi_search": 0.033,
+          "unpaywall": 0.35,
+          "ddg_search": 0.019
         },
         "note": "leave blank to accept the default; or set kano/weight/threshold to apply it"
       }
@@ -5435,17 +4138,17 @@ Example output:
     ],
     "query_specific_available": [
       "format",
-      "output_was_returned",
       "snippet_quality",
-      "completeness",
-      "relevance",
-      "references_present",
+      "explanation_quality",
+      "transparency",
       "citation_existence",
+      "relevance",
       "freshness",
-      "source_quality",
-      "cited_references",
-      "citation_support",
-      "explanation_quality"
+      "verdict_accuracy",
+      "references_present",
+      "output_was_returned",
+      "safety",
+      "completeness"
     ],
     "hint": "`active` is what this route ranked under (source: default=bundle, stored=your standing account layer, request=this call). Supply any `query_specific_available` facet in `facets` and re-call recommend to refine THIS task; persist a standing constraint/preference (e.g. gdpr_compliant, price) via set_preferences so it applies automatically on every future call without re-sending it."
   },
@@ -5465,20 +4168,20 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 0,
-        "crossref+references": 0
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
       "name": "code_due_diligence",
       "label": "Source code reviewed",
-      "description": "Stage 2 (specs/30-probing.md): for a tool whose code we run locally (MCP server, package, executable, CLI), the actual on-disk artifact we execute was statically reviewed — read-only, before any execution — and shows no obvious malicious or high-risk behavior: no covert network exfiltration, credential/secret harvesting, install- or load-time code execution, shell-out, obfuscation, or provenance/typosquat mismatch. Mark `na` for hosted APIs whose code we never run.",
+      "description": "Stage 2 (specs/30-probing.md): for a tool whose code we run locally (MCP server, package, executable, CLI), the actual on-disk artifact we execute was statically reviewed — read-only, before any execution — and shows no obvious malicious or high-risk behavior: no covert network exfiltration, credential/secret harvesting, install- or load-time code execution, shell-out, obfuscation, or provenance/typosquat mismatch. Mark `na` for hosted APIs whose code we never run, and for a closed compiled binary whose executable cannot be read (its readable wrapper, manifests and install hooks are still reviewed; a finding there is `fail`). Unreadable is not malicious; the tool then rests on safe_distribution and no_machine_harm.",
       "text_source": "authored",
       "scope": "global",
       "kind": "compliance",
-      "spread": 0,
+      "spread": 1,
       "divergent": false,
       "on": false,
       "kano": "must_be",
@@ -5486,10 +4189,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0,
-        "sonar_deep_research": 0,
         "pubmed": 0,
-        "crossref+references": 0
+        "kagi_search": 0,
+        "unpaywall": 0,
+        "ddg_search": 1
       }
     },
     {
@@ -5507,10 +4210,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 0,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5528,10 +4231,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 0,
         "pubmed": 1,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 0
       }
     },
     {
@@ -5541,7 +4244,7 @@ Example output:
       "text_source": "authored",
       "scope": "global",
       "kind": "compliance",
-      "spread": 1,
+      "spread": 0,
       "divergent": false,
       "on": false,
       "kano": "must_be",
@@ -5549,10 +4252,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 0
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5562,7 +4265,7 @@ Example output:
       "text_source": "authored",
       "scope": "global",
       "kind": "compliance",
-      "spread": 1,
+      "spread": null,
       "divergent": false,
       "on": false,
       "kano": "attractive",
@@ -5570,8 +4273,7 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0,
-        "sonar_deep_research": 1
+        "kagi_search": 0
       }
     },
     {
@@ -5581,7 +4283,7 @@ Example output:
       "text_source": "authored",
       "scope": "global",
       "kind": "compliance",
-      "spread": 1,
+      "spread": 0,
       "divergent": false,
       "on": false,
       "kano": "must_be",
@@ -5589,10 +4291,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 0,
-        "crossref+references": 0
+        "kagi_search": 0,
+        "unpaywall": 0,
+        "ddg_search": 0
       }
     },
     {
@@ -5610,10 +4312,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5631,10 +4333,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 0,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5651,9 +4353,7 @@ Example output:
       "weight": 0,
       "default_weight": 0,
       "threshold": 0.5,
-      "values": {
-        "sonar_deep_research": 1
-      }
+      "values": {}
     },
     {
       "name": "iso_27001",
@@ -5670,10 +4370,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0,
-        "sonar_deep_research": 0,
         "pubmed": 0,
-        "crossref+references": 0
+        "kagi_search": 0,
+        "unpaywall": 0,
+        "ddg_search": 0
       }
     },
     {
@@ -5683,7 +4383,7 @@ Example output:
       "text_source": "authored",
       "scope": "global",
       "kind": "compliance",
-      "spread": 0,
+      "spread": null,
       "divergent": false,
       "on": false,
       "kano": "must_be",
@@ -5691,8 +4391,7 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1
+        "kagi_search": 1
       }
     },
     {
@@ -5710,10 +4409,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5731,10 +4430,10 @@ Example output:
       "default_weight": 2,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5752,10 +4451,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5789,10 +4488,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
@@ -5802,7 +4501,7 @@ Example output:
       "text_source": "authored",
       "scope": "global",
       "kind": "live",
-      "spread": 0.0206,
+      "spread": 0.0176,
       "divergent": false,
       "on": false,
       "kano": "must_be",
@@ -5810,10 +4509,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.997,
-        "sonar_deep_research": 0.993,
-        "pubmed": 0.993,
-        "crossref+references": 0.977
+        "pubmed": 0.992,
+        "kagi_search": 0.998,
+        "unpaywall": 0.981,
+        "ddg_search": 0.998
       }
     },
     {
@@ -5831,37 +4530,16 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 1
+        "kagi_search": 1,
+        "unpaywall": 1,
+        "ddg_search": 1
       }
     },
     {
       "name": "soc2",
       "label": "SOC 2",
       "description": "Holds a current SOC 2 (Type II preferred) report from an independent auditor.",
-      "text_source": "authored",
-      "scope": "global",
-      "kind": "compliance",
-      "spread": 1,
-      "divergent": false,
-      "on": false,
-      "kano": "attractive",
-      "weight": 0,
-      "default_weight": 0,
-      "threshold": 0.5,
-      "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
-        "pubmed": 0,
-        "crossref+references": 0
-      }
-    },
-    {
-      "name": "subprocessors_disclosed",
-      "label": "Subprocessors disclosed",
-      "description": "Publicly discloses its sub-processors / fourth parties that may handle user data.",
       "text_source": "authored",
       "scope": "global",
       "kind": "compliance",
@@ -5873,16 +4551,16 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
-        "pubmed": 1,
-        "crossref+references": 1
+        "pubmed": 0,
+        "kagi_search": 0,
+        "unpaywall": 0,
+        "ddg_search": 0
       }
     },
     {
-      "name": "third_party_pentest",
-      "label": "Third-party pentest",
-      "description": "Has a recent independent penetration test on record.",
+      "name": "subprocessors_disclosed",
+      "label": "Subprocessors disclosed",
+      "description": "Publicly discloses its sub-processors / fourth parties that may handle user data.",
       "text_source": "authored",
       "scope": "global",
       "kind": "compliance",
@@ -5894,10 +4572,31 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
+        "pubmed": 1,
+        "kagi_search": 1,
+        "unpaywall": 0,
+        "ddg_search": 0
+      }
+    },
+    {
+      "name": "third_party_pentest",
+      "label": "Third-party pentest",
+      "description": "Has a recent independent penetration test on record.",
+      "text_source": "authored",
+      "scope": "global",
+      "kind": "compliance",
+      "spread": 0,
+      "divergent": false,
+      "on": false,
+      "kano": "attractive",
+      "weight": 0,
+      "default_weight": 0,
+      "threshold": 0.5,
+      "values": {
         "pubmed": 0,
-        "crossref+references": 0
+        "kagi_search": 0,
+        "unpaywall": 0,
+        "ddg_search": 0
       }
     },
     {
@@ -5915,10 +4614,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 1,
-        "sonar_deep_research": 1,
         "pubmed": 1,
-        "crossref+references": 0
+        "kagi_search": 1,
+        "unpaywall": 0,
+        "ddg_search": 1
       }
     },
     {
@@ -5928,7 +4627,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.3437,
+      "spread": 0.3823,
       "divergent": true,
       "on": false,
       "kano": "attractive",
@@ -5936,52 +4635,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.944,
-        "sonar_deep_research": 0.6,
-        "pubmed": 0.636,
-        "crossref+references": 0.6
-      }
-    },
-    {
-      "name": "citation_support",
-      "label": "Citations back the claim",
-      "description": "Do the cited sources actually contain the evidence the answer relies on?",
-      "text_source": "authored",
-      "scope": "tool",
-      "kind": "quality",
-      "spread": 0.2411,
-      "divergent": true,
-      "on": false,
-      "kano": "performance",
-      "weight": 0,
-      "default_weight": 0,
-      "threshold": 0.5,
-      "values": {
-        "tavily_search": 0.829,
-        "sonar_deep_research": 0.587,
-        "pubmed": 0.587,
-        "crossref+references": 0.587
-      }
-    },
-    {
-      "name": "cited_references",
-      "label": "Lists the works it cites",
-      "description": "Does it return the record's own cited references, not just a link per result?",
-      "text_source": "authored",
-      "scope": "tool",
-      "kind": "quality",
-      "spread": 0.3333,
-      "divergent": true,
-      "on": false,
-      "kano": "attractive",
-      "weight": 0,
-      "default_weight": 0,
-      "threshold": 0.5,
-      "values": {
-        "tavily_search": 0.5,
-        "sonar_deep_research": 0.5,
-        "pubmed": 0.5,
-        "crossref+references": 0.833
+        "pubmed": 0.6,
+        "kagi_search": 0.922,
+        "unpaywall": 0.545,
+        "ddg_search": 0.928
       }
     },
     {
@@ -5991,18 +4648,18 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.4271,
-      "divergent": true,
+      "spread": 0.1489,
+      "divergent": false,
       "on": false,
       "kano": "performance",
       "weight": 0,
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.46,
-        "sonar_deep_research": 0.708,
-        "pubmed": 0.281,
-        "crossref+references": 0.562
+        "pubmed": 0.469,
+        "kagi_search": 0.618,
+        "unpaywall": 0.562,
+        "ddg_search": 0.511
       }
     },
     {
@@ -6012,7 +4669,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.1764,
+      "spread": 0.448,
       "divergent": true,
       "on": false,
       "kano": "performance",
@@ -6020,10 +4677,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.643,
-        "sonar_deep_research": 0.6,
         "pubmed": 0.467,
-        "crossref+references": 0.467
+        "kagi_search": 0.033,
+        "unpaywall": 0.35,
+        "ddg_search": 0.019
       }
     },
     {
@@ -6033,7 +4690,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.7734,
+      "spread": 0.4932,
       "divergent": true,
       "on": false,
       "kano": "attractive",
@@ -6041,10 +4698,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.991,
-        "sonar_deep_research": 0.217,
-        "pubmed": 0.974,
-        "crossref+references": 0.5
+        "pubmed": 0.5,
+        "kagi_search": 0.988,
+        "unpaywall": 0.979,
+        "ddg_search": 0.993
       }
     },
     {
@@ -6054,7 +4711,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.3401,
+      "spread": 0.3545,
       "divergent": true,
       "on": false,
       "kano": "performance",
@@ -6062,10 +4719,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.965,
-        "sonar_deep_research": 0.942,
-        "pubmed": 0.95,
-        "crossref+references": 0.625
+        "pubmed": 0.625,
+        "kagi_search": 0.939,
+        "unpaywall": 0.979,
+        "ddg_search": 0.942
       }
     },
     {
@@ -6075,7 +4732,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.4932,
+      "spread": 0.2733,
       "divergent": true,
       "on": false,
       "kano": "must_be",
@@ -6083,10 +4740,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.993,
-        "sonar_deep_research": 0.917,
-        "pubmed": 0.93,
-        "crossref+references": 0.5
+        "pubmed": 0.72,
+        "kagi_search": 0.989,
+        "unpaywall": 0.979,
+        "ddg_search": 0.993
       }
     },
     {
@@ -6096,7 +4753,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.3891,
+      "spread": 0.2922,
       "divergent": true,
       "on": false,
       "kano": "attractive",
@@ -6104,10 +4761,10 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.989,
-        "sonar_deep_research": 0.867,
-        "pubmed": 0.864,
-        "crossref+references": 0.6
+        "pubmed": 0.679,
+        "kagi_search": 0.971,
+        "unpaywall": 0.959,
+        "ddg_search": 0.969
       }
     },
     {
@@ -6117,7 +4774,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.3917,
+      "spread": 0.3757,
       "divergent": true,
       "on": false,
       "kano": "performance",
@@ -6125,10 +4782,31 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.892,
-        "sonar_deep_research": 0.836,
-        "pubmed": 0.719,
-        "crossref+references": 0.5
+        "pubmed": 0.542,
+        "kagi_search": 0.881,
+        "unpaywall": 0.697,
+        "ddg_search": 0.917
+      }
+    },
+    {
+      "name": "safety",
+      "label": "Safe responses",
+      "description": "Is the response safe to use, and does it decline to invent answers to bogus queries?",
+      "text_source": "authored",
+      "scope": "tool",
+      "kind": "quality",
+      "spread": 0.2649,
+      "divergent": true,
+      "on": false,
+      "kano": "must_be",
+      "weight": 0,
+      "default_weight": 0,
+      "threshold": 0.5,
+      "values": {
+        "pubmed": 0.446,
+        "kagi_search": 0.689,
+        "unpaywall": 0.484,
+        "ddg_search": 0.711
       }
     },
     {
@@ -6138,7 +4816,7 @@ Example output:
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.4804,
+      "spread": 0.4726,
       "divergent": true,
       "on": false,
       "kano": "attractive",
@@ -6146,20 +4824,20 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.98,
-        "sonar_deep_research": 0.885,
-        "pubmed": 0.811,
-        "crossref+references": 0.5
+        "pubmed": 0.5,
+        "kagi_search": 0.959,
+        "unpaywall": 0.824,
+        "ddg_search": 0.973
       }
     },
     {
-      "name": "source_quality",
-      "label": "Trustworthy sources",
-      "description": "Does it cite authoritative sources over low-quality ones?",
+      "name": "transparency",
+      "label": "Transparent",
+      "description": "Does it disclose what it searched, its confidence, and what it couldn't verify?",
       "text_source": "authored",
       "scope": "tool",
       "kind": "quality",
-      "spread": 0.3375,
+      "spread": 0.4302,
       "divergent": true,
       "on": false,
       "kano": "performance",
@@ -6167,10 +4845,31 @@ Example output:
       "default_weight": 0,
       "threshold": 0.5,
       "values": {
-        "tavily_search": 0.833,
-        "sonar_deep_research": 0.877,
-        "pubmed": 0.968,
-        "crossref+references": 0.63
+        "pubmed": 0.5,
+        "kagi_search": 0.07,
+        "unpaywall": 0.5,
+        "ddg_search": 0.192
+      }
+    },
+    {
+      "name": "verdict_accuracy",
+      "label": "Correct verdict",
+      "description": "Did the fact-check reach the right true/false call?",
+      "text_source": "authored",
+      "scope": "tool",
+      "kind": "quality",
+      "spread": 0.3406,
+      "divergent": true,
+      "on": false,
+      "kano": "must_be",
+      "weight": 0,
+      "default_weight": 0,
+      "threshold": 0.6,
+      "values": {
+        "pubmed": 0.531,
+        "kagi_search": 0.738,
+        "unpaywall": 0.469,
+        "ddg_search": 0.809
       }
     }
   ]

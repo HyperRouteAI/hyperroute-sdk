@@ -27,6 +27,14 @@ export class HyperRoute extends Transport {
     return this.request("POST", "/execute", body, undefined, "json", options);
   }
 
+  run(body: T.RunRequest, options: RequestOptions = {}): Promise<ApiResponse<T.RunResponse | string>> {
+    return this.request("POST", "/run", body, undefined, "auto", options);
+  }
+
+  ranking(body: T.RankingRequest, options: RequestOptions = {}): Promise<ApiResponse<T.RankingEvidence | string>> {
+    return this.request("POST", "/ranking", body, undefined, "auto", options);
+  }
+
   reportOutcome(body: T.ReportOutcomeRequest, options: RequestOptions = {}): Promise<ApiResponse<T.OutcomeReport>> {
     return this.request("POST", "/report_outcome", body, undefined, "json", options);
   }

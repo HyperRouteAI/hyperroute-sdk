@@ -297,6 +297,132 @@
         }
       }
     },
+    "/run": {
+      "post": {
+        "operationId": "run",
+        "summary": "Run",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResponse"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "headers": {
+              "X-HyperRoute-Caller": {
+                "description": "Resolved caller-profile reference, or unknown. Present when a caller profile is supplied.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "RunResponse",
+        "x-response-mode": "auto",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              }
+            }
+          }
+        },
+        "description": "Route each item on its own and act on its route in one call: the pick runs and its result returns, or the item is handed back, needs a key, or lists choices. A failed pick falls back to the next ready tool within the margin. Text when format is text."
+      }
+    },
+    "/ranking": {
+      "post": {
+        "operationId": "ranking",
+        "summary": "Ranking",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RankingEvidence"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "headers": {
+              "X-HyperRoute-Caller": {
+                "description": "Resolved caller-profile reference, or unknown. Present when a caller profile is supplied.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP error; details may be structured JSON or text",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-response-type": "RankingEvidence",
+        "x-response-mode": "auto",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RankingRequest"
+              }
+            }
+          }
+        },
+        "description": "The stored ranking behind one run item, as text; with evidence, JSON with the probes behind the top rows. 404 after 6 hours."
+      }
+    },
     "/report_outcome": {
       "post": {
         "operationId": "report_outcome",
@@ -4116,6 +4242,30 @@
           "mcp_install": {
             "type": "object",
             "additionalProperties": true
+          },
+          "verdict": {
+            "type": "string",
+            "description": "Present when the recommendation is to use your own agent or tool."
+          },
+          "baseline": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NativeBaseline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "instruction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NativeInstruction"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [],
@@ -4490,6 +4640,10 @@
           },
           "evidence_teaser": {
             "$ref": "#/components/schemas/EvidenceTeaser"
+          },
+          "instruction": {
+            "$ref": "#/components/schemas/NativeInstruction",
+            "description": "Present when the candidate is your own agent."
           }
         },
         "required": [
@@ -4622,6 +4776,10 @@
           },
           "outcome_health": {
             "$ref": "#/components/schemas/OutcomeHealth"
+          },
+          "instruction": {
+            "$ref": "#/components/schemas/NativeInstruction",
+            "description": "Present when the candidate is your own agent."
           }
         },
         "required": [
@@ -5014,6 +5172,10 @@
           },
           "preferred": {
             "$ref": "#/components/schemas/PreferredDecision"
+          },
+          "instruction": {
+            "$ref": "#/components/schemas/NativeInstruction",
+            "description": "Present when the best candidate is your own agent."
           }
         },
         "required": [
@@ -6971,7 +7133,15 @@
             "type": "string"
           },
           "adapted_query": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The query as rewritten for the tool; null when the tool takes the query as given."
           },
           "message": {
             "type": "string"
@@ -7027,7 +7197,15 @@
             "type": "string"
           },
           "adapted_query": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The query as rewritten for the tool; null when the tool takes the query as given."
           },
           "message": {
             "type": "string"
@@ -7084,7 +7262,15 @@
             "type": "string"
           },
           "adapted_query": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The query as rewritten for the tool; null when the tool takes the query as given."
           },
           "message": {
             "type": "string"
@@ -7526,6 +7712,728 @@
           }
         },
         "required": [],
+        "additionalProperties": true
+      },
+      "NativeInstructionAlternative": {
+        "type": "object",
+        "properties": {
+          "variant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label of the configuration this instruction belongs to."
+          },
+          "prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "System prompt to run the task with; null when the configuration uses the request alone."
+          },
+          "max_searches": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Web search budget for the configuration."
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tools the configuration may use."
+          },
+          "cap_lcb": {
+            "type": "number",
+            "description": "Risk-adjusted lower-confidence capability estimate for this configuration."
+          }
+        },
+        "required": [
+          "variant",
+          "prompt",
+          "max_searches",
+          "tools",
+          "cap_lcb"
+        ],
+        "additionalProperties": true
+      },
+      "NativeInstruction": {
+        "type": "object",
+        "properties": {
+          "variant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label of the configuration this instruction belongs to."
+          },
+          "prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "System prompt to run the task with; null when the configuration uses the request alone."
+          },
+          "max_searches": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Web search budget for the configuration."
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tools the configuration may use."
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NativeInstructionAlternative"
+            },
+            "description": "Other configurations available to the caller, best first."
+          }
+        },
+        "required": [
+          "variant",
+          "prompt",
+          "max_searches",
+          "tools",
+          "alternatives"
+        ],
+        "additionalProperties": true,
+        "description": "How to run a task with your own agent in the configuration that was evaluated."
+      },
+      "RunItem": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "One lookup, self-contained: the tool cannot see the caller's conversation."
+          },
+          "facets": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Per-item constraints, as on recommend."
+          },
+          "tool": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Run this row of the item's own ranking instead of the pick. A tool the route did not rank is refused."
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "RunReport": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "`<run>/<n>` from an earlier run reply."
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Or the route's session id, with tool_id."
+          },
+          "tool_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "score": {
+            "type": "string",
+            "enum": [
+              "full",
+              "partial",
+              "useless",
+              "not_used",
+              "blocked"
+            ],
+            "description": "useless or blocked on an item that ran reopens it: the reply carries the next tool's result or the item handed back."
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "wrong_output | missing_data | too_slow | error | redundant | safety; other text is kept as the comment."
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "score"
+        ],
+        "additionalProperties": false
+      },
+      "RunRequest": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunItem"
+            },
+            "default": [],
+            "maxItems": 50
+          },
+          "reports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunReport"
+            },
+            "default": [],
+            "description": "Reports owed from earlier runs."
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "ask"
+            ],
+            "default": "auto",
+            "description": "ask: nothing runs; each item lists the top three for the user to pick."
+          },
+          "format": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "text"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "text returns the reply text alone."
+          },
+          "caller": {
+            "default": null
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "RunFailure": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string",
+            "description": "The error, or the report score that reopened the item."
+          }
+        },
+        "required": [
+          "tool",
+          "error"
+        ],
+        "additionalProperties": true
+      },
+      "RunChoice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "use": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "why",
+          "use"
+        ],
+        "additionalProperties": true
+      },
+      "RunConnect": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "signup_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "field": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Name of the key field to fill in onboard."
+          }
+        },
+        "required": [
+          "tool",
+          "signup_url",
+          "steps"
+        ],
+        "additionalProperties": true
+      },
+      "RunReplyItem": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "run",
+              "do_yourself",
+              "use_own",
+              "needs_key",
+              "no_tool",
+              "advisory",
+              "choose",
+              "not_ranked"
+            ]
+          },
+          "tool": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The tool that ran, or the one the action is about."
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "query": {
+            "type": "string"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The item's route; one route per item."
+          },
+          "stakes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "high",
+                  "standard",
+                  "commodity"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "area_state": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "settled",
+                  "open"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "On an item that ran."
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "not_checked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "report": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "always",
+                  "on_failure",
+                  "done"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "always: report this item. on_failure: report only if wrong."
+          },
+          "out": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExecutionResult"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The execute response of the tool that ran."
+          },
+          "instruction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NativeInstruction"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "On do_yourself: how the caller's own tools were measured; it sets depth, not method."
+          },
+          "connect": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunConnect"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RunChoice"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "advisory: tool ids; choose: the top three."
+          },
+          "failed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunFailure"
+            },
+            "description": "Tools that failed, or were reported useless, on this item, in order."
+          },
+          "reopens": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The `<run>/<n>` a report reopened."
+          }
+        },
+        "required": [
+          "action",
+          "tool",
+          "name",
+          "note",
+          "query",
+          "session_id",
+          "stakes",
+          "area_state",
+          "confidence",
+          "not_checked",
+          "report",
+          "out",
+          "instruction",
+          "connect",
+          "tools",
+          "failed",
+          "reopens"
+        ],
+        "additionalProperties": true
+      },
+      "RunReports": {
+        "type": "object",
+        "properties": {
+          "accepted": {
+            "type": "integer"
+          },
+          "failed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "accepted",
+          "failed"
+        ],
+        "additionalProperties": true
+      },
+      "RunResponse": {
+        "type": "object",
+        "properties": {
+          "run": {
+            "type": "string",
+            "description": "Run id; items are addressed `<run>/<n>`, kept 6 hours."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunReplyItem"
+            },
+            "description": "The request's items in order, then any reopened by its reports."
+          },
+          "reports": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunReports"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "text": {
+            "type": "string",
+            "description": "The same reply as compact text."
+          }
+        },
+        "required": [
+          "run",
+          "items",
+          "reports",
+          "text"
+        ],
+        "additionalProperties": true
+      },
+      "RankingRequest": {
+        "type": "object",
+        "properties": {
+          "run": {
+            "type": "string"
+          },
+          "item": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "evidence": {
+            "type": "boolean",
+            "default": false,
+            "description": "Add the probes behind the top five rows."
+          }
+        },
+        "required": [
+          "run",
+          "item"
+        ],
+        "additionalProperties": false
+      },
+      "RankingEvidence": {
+        "type": "object",
+        "properties": {
+          "ranking": {
+            "type": "string",
+            "description": "The stored route as text."
+          },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProbeEvidence"
+            },
+            "description": "Probe evidence by tool id."
+          }
+        },
+        "required": [
+          "ranking",
+          "evidence"
+        ],
         "additionalProperties": true
       }
     }

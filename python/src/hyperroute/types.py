@@ -241,6 +241,9 @@ class CallingDescriptor(TypedDict):
     adapter_mode: NotRequired[Any]
     connect: NotRequired[JsonObject]
     mcp_install: NotRequired[JsonObject]
+    verdict: NotRequired[str]
+    baseline: NotRequired[NativeBaseline | None]
+    instruction: NotRequired[NativeInstruction | None]
 
 class OutcomeHealth(TypedDict):
     level: Literal['green', 'amber', 'red']
@@ -322,6 +325,7 @@ class FullCandidate(TypedDict):
     facets: list[FacetBreakdown]
     evidence: ProbeEvidence | None
     evidence_teaser: NotRequired[EvidenceTeaser]
+    instruction: NotRequired[NativeInstruction]
 
 class LeanCandidate(TypedDict):
     tool_id: str
@@ -341,6 +345,7 @@ class LeanCandidate(TypedDict):
     unrated: NotRequired[bool]
     field_health: NotRequired[str]
     outcome_health: NotRequired[OutcomeHealth]
+    instruction: NotRequired[NativeInstruction]
 
 class MinCandidate(TypedDict):
     id: str
@@ -402,6 +407,7 @@ class MinRecommendation(TypedDict):
     connect: NotRequired[JsonObject]
     consider: NotRequired[list[JsonObject]]
     preferred: NotRequired[PreferredDecision]
+    instruction: NotRequired[NativeInstruction]
 
 class LeanRecommendRequest(TypedDict):
     query: str
@@ -754,7 +760,7 @@ class ExecutionSuccess(TypedDict):
     error: NotRequired[str | None]
     latency_ms: NotRequired[float]
     query: NotRequired[str]
-    adapted_query: NotRequired[str]
+    adapted_query: NotRequired[str | None]
     message: NotRequired[str]
     status: NotRequired[str]
     credentials: NotRequired[list[str]]
@@ -767,7 +773,7 @@ class ExecutionOverflow(TypedDict):
     latency_ms: NotRequired[float]
     overflow: OverflowResult
     query: NotRequired[str]
-    adapted_query: NotRequired[str]
+    adapted_query: NotRequired[str | None]
     message: NotRequired[str]
     status: NotRequired[str]
     credentials: NotRequired[list[str]]
@@ -781,7 +787,7 @@ class ExecutionFailure(TypedDict):
     latency_ms: NotRequired[float]
     overflow: NotRequired[OverflowResult]
     query: NotRequired[str]
-    adapted_query: NotRequired[str]
+    adapted_query: NotRequired[str | None]
     message: NotRequired[str]
     status: NotRequired[str]
     credentials: NotRequired[list[str]]
@@ -883,6 +889,95 @@ class RoutingFlags(TypedDict):
     own: NotRequired[OwnToolDecision]
     consider: NotRequired[list[JsonObject]]
     baseline: NotRequired[NativeBaseline]
+
+class NativeInstructionAlternative(TypedDict):
+    variant: str | None
+    prompt: str | None
+    max_searches: int | None
+    tools: list[str] | None
+    cap_lcb: float
+
+class NativeInstruction(TypedDict):
+    variant: str | None
+    prompt: str | None
+    max_searches: int | None
+    tools: list[str] | None
+    alternatives: list[NativeInstructionAlternative]
+
+class RunItem(TypedDict):
+    query: str
+    facets: NotRequired[JsonObject | None]
+    tool: NotRequired[str | None]
+
+class RunReport(TypedDict):
+    item: NotRequired[str | None]
+    session_id: NotRequired[str | None]
+    tool_id: NotRequired[str | None]
+    score: Literal['full', 'partial', 'useless', 'not_used', 'blocked']
+    reason: NotRequired[str | None]
+    comment: NotRequired[str | None]
+
+class RunRequest(TypedDict):
+    items: NotRequired[list[RunItem]]
+    reports: NotRequired[list[RunReport]]
+    context: NotRequired[JsonObject | None]
+    project_id: NotRequired[str | None]
+    mode: NotRequired[Literal['auto', 'ask']]
+    format: NotRequired[Literal['json', 'text'] | None]
+    caller: NotRequired[Any]
+
+class RunFailure(TypedDict):
+    tool: str
+    error: str
+
+class RunChoice(TypedDict):
+    id: str
+    why: str
+    use: str
+
+class RunConnect(TypedDict):
+    tool: str | None
+    signup_url: str | None
+    steps: list[str]
+    field: NotRequired[str | None]
+
+class RunReplyItem(TypedDict):
+    action: Literal['run', 'do_yourself', 'use_own', 'needs_key', 'no_tool', 'advisory', 'choose', 'not_ranked']
+    tool: str | None
+    name: str | None
+    note: str | None
+    query: str
+    session_id: str | None
+    stakes: Literal['high', 'standard', 'commodity'] | None
+    area_state: Literal['settled', 'open'] | None
+    confidence: str | None
+    not_checked: list[str]
+    report: Literal['always', 'on_failure', 'done'] | None
+    out: ExecutionResult | None
+    instruction: NativeInstruction | None
+    connect: RunConnect | None
+    tools: list[str | RunChoice] | None
+    failed: list[RunFailure]
+    reopens: str | None
+
+class RunReports(TypedDict):
+    accepted: int
+    failed: list[str]
+
+class RunResponse(TypedDict):
+    run: str
+    items: list[RunReplyItem]
+    reports: RunReports | None
+    text: str
+
+class RankingRequest(TypedDict):
+    run: str
+    item: int
+    evidence: NotRequired[bool]
+
+class RankingEvidence(TypedDict):
+    ranking: str
+    evidence: dict[str, ProbeEvidence]
 
 
 class TestCredentialQuery(TypedDict):

@@ -59,6 +59,43 @@ through the `--execute` argument.
 Use `onboard_info` / `onboardInfo` to read connection requirements first. Recommendations may
 point to a native or private tool that your own application must run.
 
+## Several lookups in one call
+
+`run` routes each item on its own and acts on the route: the best tool runs and its result
+returns in the same response. One item is one lookup; send up to 50 in one call.
+
+```python
+from hyperroute import HyperRoute
+
+with HyperRoute() as client:
+    reply = client.run({"items": [
+        {"query": "EUR to GBP exchange rate on 2024-03-15"},
+        {"query": "Geocode 350 Fifth Avenue, New York to latitude and longitude"},
+    ]}).data
+    for n, item in enumerate(reply["items"], 1):
+        ref = f'{reply["run"]}/{n}'
+        if item["action"] == "run" and item["out"]["ok"]:
+            print(ref, item["out"]["result"])
+        else:
+            print(ref, item["action"], item["note"])
+```
+
+Each item's `action` says what happened: `run` (the tool ran; `out` is its execution response),
+`do_yourself` (your own tools are the best choice; `instruction` carries how they were measured),
+`use_own` (a tool you declared), `needs_key` (the best tool needs a credential; `connect` lists the
+steps; run the item again after `onboard`), `no_tool`, `advisory`, `choose` (with `mode: "ask"`,
+the top three for your user to pick; send the item again with `tool`) and `not_ranked`.
+
+When the best tool fails, the next ready tool within the same quality margin runs; `failed` lists
+the tools that failed. Report the items whose `report` is `always`, and the others only when the
+result was wrong, in `reports` on your next `run`, addressed `<run>/<n>`. A `useless` or `blocked`
+report reopens that item: the response carries the next tool's result, or the item handed back,
+as an extra item whose `reopens` names it. `ranking({"run": ..., "item": n})` returns the stored
+ranking behind an item as text; with `"evidence": true` it returns JSON with the probes behind the
+top rows. Runs are kept for six hours.
+
+`run` executes tools, so like `execute` it is never retried automatically.
+
 ## Polling
 
 ```python

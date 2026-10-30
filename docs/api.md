@@ -12,6 +12,8 @@ Body parameters are typed request objects. Path parameters precede the body or q
 | `recommendation_status` | `recommendationStatus` | `GET /recommend/status/{job_id}` | — | `RecommendationJob` |
 | `describe` | `describe` | `POST /describe` | `DescribeRequest` | `Description` |
 | `execute` | `execute` | `POST /execute` | `ExecuteRequest` | `ExecutionResult` |
+| `run` | `run` | `POST /run` | `RunRequest` | `RunResponse | str` |
+| `ranking` | `ranking` | `POST /ranking` | `RankingRequest` | `RankingEvidence | str` |
 | `report_outcome` | `reportOutcome` | `POST /report_outcome` | `ReportOutcomeRequest` | `OutcomeReport` |
 | `report_narrative` | `reportNarrative` | `POST /report_narrative` | `NarrativeReport` | `NarrativeResult` |
 | `health` | `health` | `GET /health` | — | `Health` |

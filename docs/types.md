@@ -372,6 +372,9 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `adapter_mode` | `unknown` | No |  |
 | `connect` | `JsonObject` | No |  |
 | `mcp_install` | `JsonObject` | No |  |
+| `verdict` | `string` | No | Present when the recommendation is to use your own agent or tool. |
+| `baseline` | `NativeBaseline \| null` | No |  |
+| `instruction` | `NativeInstruction \| null` | No |  |
 
 ## OutcomeHealth
 
@@ -477,6 +480,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `facets` | `Array<FacetBreakdown>` | Yes | Present in the full projection. |
 | `evidence` | `ProbeEvidence \| null` | Yes | Full projection only; null when probe evidence is unavailable or not requested. |
 | `evidence_teaser` | `EvidenceTeaser` | No |  |
+| `instruction` | `NativeInstruction` | No | Present when the candidate is your own agent. |
 
 ## LeanCandidate
 
@@ -499,6 +503,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `unrated` | `boolean` | No |  |
 | `field_health` | `string` | No |  |
 | `outcome_health` | `OutcomeHealth` | No |  |
+| `instruction` | `NativeInstruction` | No | Present when the candidate is your own agent. |
 
 ## MinCandidate
 
@@ -572,6 +577,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `connect` | `JsonObject` | No |  |
 | `consider` | `Array<JsonObject>` | No |  |
 | `preferred` | `PreferredDecision` | No |  |
+| `instruction` | `NativeInstruction` | No | Present when the best candidate is your own agent. |
 
 ## LeanRecommendRequest
 
@@ -1082,7 +1088,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `error` | `string \| null` | No |  |
 | `latency_ms` | `number` | No |  |
 | `query` | `string` | No |  |
-| `adapted_query` | `string` | No |  |
+| `adapted_query` | `string \| null` | No | The query as rewritten for the tool; null when the tool takes the query as given. |
 | `message` | `string` | No |  |
 | `status` | `string` | No |  |
 | `credentials` | `Array<string>` | No |  |
@@ -1098,7 +1104,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `latency_ms` | `number` | No |  |
 | `overflow` | `OverflowResult` | Yes |  |
 | `query` | `string` | No |  |
-| `adapted_query` | `string` | No |  |
+| `adapted_query` | `string \| null` | No | The query as rewritten for the tool; null when the tool takes the query as given. |
 | `message` | `string` | No |  |
 | `status` | `string` | No |  |
 | `credentials` | `Array<string>` | No |  |
@@ -1115,7 +1121,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `latency_ms` | `number` | No |  |
 | `overflow` | `OverflowResult` | No |  |
 | `query` | `string` | No |  |
-| `adapted_query` | `string` | No |  |
+| `adapted_query` | `string \| null` | No | The query as rewritten for the tool; null when the tool takes the query as given. |
 | `message` | `string` | No |  |
 | `status` | `string` | No |  |
 | `credentials` | `Array<string>` | No |  |
@@ -1253,3 +1259,131 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `own` | `OwnToolDecision` | No |  |
 | `consider` | `Array<JsonObject>` | No |  |
 | `baseline` | `NativeBaseline` | No |  |
+
+## NativeInstructionAlternative
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `variant` | `string \| null` | Yes | Label of the configuration this instruction belongs to. |
+| `prompt` | `string \| null` | Yes | System prompt to run the task with; null when the configuration uses the request alone. |
+| `max_searches` | `number \| null` | Yes | Web search budget for the configuration. |
+| `tools` | `Array<string> \| null` | Yes | Tools the configuration may use. |
+| `cap_lcb` | `number` | Yes | Risk-adjusted lower-confidence capability estimate for this configuration. |
+
+## NativeInstruction
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `variant` | `string \| null` | Yes | Label of the configuration this instruction belongs to. |
+| `prompt` | `string \| null` | Yes | System prompt to run the task with; null when the configuration uses the request alone. |
+| `max_searches` | `number \| null` | Yes | Web search budget for the configuration. |
+| `tools` | `Array<string> \| null` | Yes | Tools the configuration may use. |
+| `alternatives` | `Array<NativeInstructionAlternative>` | Yes | Other configurations available to the caller, best first. |
+
+## RunItem
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `query` | `string` | Yes | One lookup, self-contained: the tool cannot see the caller's conversation. |
+| `facets` | `JsonObject \| null` | No | Per-item constraints, as on recommend. |
+| `tool` | `string \| null` | No | Run this row of the item's own ranking instead of the pick. A tool the route did not rank is refused. |
+
+## RunReport
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `item` | `string \| null` | No | `<run>/<n>` from an earlier run reply. |
+| `session_id` | `string \| null` | No | Or the route's session id, with tool_id. |
+| `tool_id` | `string \| null` | No |  |
+| `score` | `"full" \| "partial" \| "useless" \| "not_used" \| "blocked"` | Yes | useless or blocked on an item that ran reopens it: the reply carries the next tool's result or the item handed back. |
+| `reason` | `string \| null` | No | wrong_output | missing_data | too_slow | error | redundant | safety; other text is kept as the comment. |
+| `comment` | `string \| null` | No |  |
+
+## RunRequest
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `items` | `Array<RunItem>` | No |  |
+| `reports` | `Array<RunReport>` | No | Reports owed from earlier runs. |
+| `context` | `JsonObject \| null` | No |  |
+| `project_id` | `string \| null` | No |  |
+| `mode` | `"auto" \| "ask"` | No | ask: nothing runs; each item lists the top three for the user to pick. |
+| `format` | `"json" \| "text" \| null` | No | text returns the reply text alone. |
+| `caller` | `unknown` | No |  |
+
+## RunFailure
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `tool` | `string` | Yes |  |
+| `error` | `string` | Yes | The error, or the report score that reopened the item. |
+
+## RunChoice
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `id` | `string` | Yes |  |
+| `why` | `string` | Yes |  |
+| `use` | `string` | Yes |  |
+
+## RunConnect
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `tool` | `string \| null` | Yes |  |
+| `signup_url` | `string \| null` | Yes |  |
+| `steps` | `Array<string>` | Yes |  |
+| `field` | `string \| null` | No | Name of the key field to fill in onboard. |
+
+## RunReplyItem
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `action` | `"run" \| "do_yourself" \| "use_own" \| "needs_key" \| "no_tool" \| "advisory" \| "choose" \| "not_ranked"` | Yes |  |
+| `tool` | `string \| null` | Yes | The tool that ran, or the one the action is about. |
+| `name` | `string \| null` | Yes |  |
+| `note` | `string \| null` | Yes |  |
+| `query` | `string` | Yes |  |
+| `session_id` | `string \| null` | Yes | The item's route; one route per item. |
+| `stakes` | `"high" \| "standard" \| "commodity" \| null` | Yes |  |
+| `area_state` | `"settled" \| "open" \| null` | Yes | On an item that ran. |
+| `confidence` | `string \| null` | Yes |  |
+| `not_checked` | `Array<string>` | Yes |  |
+| `report` | `"always" \| "on_failure" \| "done" \| null` | Yes | always: report this item. on_failure: report only if wrong. |
+| `out` | `ExecutionResult \| null` | Yes | The execute response of the tool that ran. |
+| `instruction` | `NativeInstruction \| null` | Yes | On do_yourself: how the caller's own tools were measured; it sets depth, not method. |
+| `connect` | `RunConnect \| null` | Yes |  |
+| `tools` | `Array<string \| RunChoice> \| null` | Yes | advisory: tool ids; choose: the top three. |
+| `failed` | `Array<RunFailure>` | Yes | Tools that failed, or were reported useless, on this item, in order. |
+| `reopens` | `string \| null` | Yes | The `<run>/<n>` a report reopened. |
+
+## RunReports
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `accepted` | `number` | Yes |  |
+| `failed` | `Array<string>` | Yes |  |
+
+## RunResponse
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `run` | `string` | Yes | Run id; items are addressed `<run>/<n>`, kept 6 hours. |
+| `items` | `Array<RunReplyItem>` | Yes | The request's items in order, then any reopened by its reports. |
+| `reports` | `RunReports \| null` | Yes |  |
+| `text` | `string` | Yes | The same reply as compact text. |
+
+## RankingRequest
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `run` | `string` | Yes |  |
+| `item` | `number` | Yes |  |
+| `evidence` | `boolean` | No | Add the probes behind the top five rows. |
+
+## RankingEvidence
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `ranking` | `string` | Yes | The stored route as text. |
+| `evidence` | `Record<string, ProbeEvidence>` | Yes | Probe evidence by tool id. |

@@ -1,4 +1,4 @@
-import { HyperRoute, type FullRecommendation, type LeanRecommendation, type MinRecommendation, type Probe, type ApiResponse } from '../src/index.js';
+import { HyperRoute, type FullRecommendation, type LeanRecommendation, type MinRecommendation, type NativeInstruction, type Probe, type ApiResponse } from '../src/index.js';
 
 const client = new HyperRoute();
 const full: Promise<ApiResponse<FullRecommendation>> = client.recommend({ query: 'research', detail: 'full' });
@@ -15,4 +15,11 @@ async function inspect() {
     return { score, band, facets, probes };
   }
 }
-void [lean, min, text, inspect];
+async function own() {
+  const { data } = await min;
+  const instruction: NativeInstruction | undefined = data.instruction;
+  const prompt: string | null | undefined = instruction?.prompt;
+  const alternatives = instruction?.alternatives.map(a => [a.variant, a.cap_lcb]);
+  return { prompt, alternatives };
+}
+void [lean, min, text, inspect, own];

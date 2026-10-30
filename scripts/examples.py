@@ -46,6 +46,12 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path=='/execute':
             assert body['tool_id']=='example_search'
             self.respond(fixtures['execution'])
+        elif self.path=='/run':
+            assert body['items'] and all(i['query'] for i in body['items'])
+            self.respond(fixtures['run']['text'],content_type='text/plain') if body.get('format')=='text' else self.respond(fixtures['run'])
+        elif self.path=='/ranking':
+            assert body['run']=='r_example1' and body['item']==1
+            self.respond('session: session-1\nverdict: interpose\n',content_type='text/plain')
         elif self.path=='/report_outcome':
             assert body['session_id']=='session-1'
             self.respond({'ok':True,'session_id':'session-1','tool_id':'example_search','accepted':{'score':body['score'],'reason':None,'counts_as_quality':True,'quality':1.0,'comment':False,'human_survey':False},'field_probe':None,'triggers_raised':[],'score_moved':False})
@@ -65,6 +71,8 @@ def main():
                 args=[sys.executable if language=='python' else 'node',str(path)]
                 if path.stem=='execute':args+=['--execute','--tool-id','example_search','--session-id','session-1','--query','fixture']
                 if path.stem=='feedback':args+=['--session-id','session-1','--tool-id','example_search','--score','full']
+                if path.stem=='run':args+=['EUR to GBP exchange rate on 2024-03-15']
+                if path.stem=='ranking':args+=['--run','r_example1','--item','1']
                 subprocess.run(args,env=env,check=True,stdout=subprocess.DEVNULL,timeout=20)
                 print(f'Passed {language}/{path.name}')
     finally:

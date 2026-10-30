@@ -160,3 +160,25 @@ def test_bad_configuration_and_invalid_json():
         with pytest.raises(ValueError):HyperRoute(**kwargs)
     with pytest.raises(ProtocolError):
         client(lambda r:httpx.Response(200,text='not JSON')).health()
+
+
+def test_run_json_or_text_reports_and_never_retried():
+    seen=[]
+    def handle(req):
+        seen.append(json.loads(req.content))
+        if seen[-1].get('format')=='text':return httpx.Response(200,content=FIX['run']['text'].encode(),headers={'content-type':'text/plain'})
+        if len(seen)==3:return httpx.Response(503,json={'detail':'busy'})
+        return httpx.Response(200,json=FIX['run'])
+    c=client(handle,max_retries=3)
+    body={'items':[{'query':'EUR to GBP exchange rate on 2024-03-15'}],'reports':[{'item':'r_example0/1','score':'useless'}]}
+    reply=c.run(body).data
+    assert reply['run']=='r_example1' and reply['items'][0]['out']['ok'] and seen[0]==body
+    assert c.run({**body,'format':'text'}).data.startswith('run r_example1')
+    with pytest.raises(ApiError):c.run(body)
+    assert len(seen)==3
+
+
+def test_ranking_text_or_evidence():
+    c=client(lambda r:httpx.Response(200,content=b'session: s\n',headers={'content-type':'text/plain'}) if not json.loads(r.content).get('evidence') else httpx.Response(200,json={'ranking':'session: s','evidence':{}}))
+    assert c.ranking({'run':'r_example1','item':1}).data=='session: s\n'
+    assert c.ranking({'run':'r_example1','item':1,'evidence':True}).data['ranking']=='session: s'

@@ -35,6 +35,12 @@ class HyperRoute(SyncTransport):
     def execute(self, body: ExecuteRequest, *, options: RequestOptions | None = None) -> ApiResponse[ExecutionResult]:
         return self._request('POST', '/execute', body=body, query=None, mode='json', options=options)
 
+    def run(self, body: RunRequest, *, options: RequestOptions | None = None) -> ApiResponse[RunResponse | str]:
+        return self._request('POST', '/run', body=body, query=None, mode='auto', options=options)
+
+    def ranking(self, body: RankingRequest, *, options: RequestOptions | None = None) -> ApiResponse[RankingEvidence | str]:
+        return self._request('POST', '/ranking', body=body, query=None, mode='auto', options=options)
+
     def report_outcome(self, body: ReportOutcomeRequest, *, options: RequestOptions | None = None) -> ApiResponse[OutcomeReport]:
         return self._request('POST', '/report_outcome', body=body, query=None, mode='json', options=options)
 
@@ -198,6 +204,12 @@ class AsyncHyperRoute(AsyncTransport):
 
     async def execute(self, body: ExecuteRequest, *, options: RequestOptions | None = None) -> ApiResponse[ExecutionResult]:
         return await self._request('POST', '/execute', body=body, query=None, mode='json', options=options)
+
+    async def run(self, body: RunRequest, *, options: RequestOptions | None = None) -> ApiResponse[RunResponse | str]:
+        return await self._request('POST', '/run', body=body, query=None, mode='auto', options=options)
+
+    async def ranking(self, body: RankingRequest, *, options: RequestOptions | None = None) -> ApiResponse[RankingEvidence | str]:
+        return await self._request('POST', '/ranking', body=body, query=None, mode='auto', options=options)
 
     async def report_outcome(self, body: ReportOutcomeRequest, *, options: RequestOptions | None = None) -> ApiResponse[OutcomeReport]:
         return await self._request('POST', '/report_outcome', body=body, query=None, mode='json', options=options)

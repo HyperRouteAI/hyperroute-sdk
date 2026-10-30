@@ -38,3 +38,15 @@ def test_job_terminal_states_require_payloads():
     validator('RecommendationJob').validate(value)
     value={'job':'job-1','state':'error','lane':'recommend','position':None,'eta_ms':0,'error':'failed'}
     validator('RecommendationJob').validate(value)
+
+
+def test_native_instruction_is_typed():
+    value=copy.deepcopy(FIX['min_recommendation'])
+    value['verdict']='use_native'
+    value['instruction']={'variant':'quick','prompt':'Answer briefly.','max_searches':3,'tools':['web_search'],
+        'alternatives':[{'variant':'deep','prompt':None,'max_searches':None,'tools':None,'cap_lcb':0.71}]}
+    validator('MinRecommendation').validate(value)
+    value['instruction']['alternatives'][0]['cap_lcb']='high'
+    with pytest.raises(ValidationError):validator('MinRecommendation').validate(value)
+    del value['instruction']['alternatives']
+    with pytest.raises(ValidationError):validator('MinRecommendation').validate(value)

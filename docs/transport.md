@@ -34,7 +34,7 @@ error is returned immediately. Without that header, exponential backoff starts a
 caps at 8 seconds, and uses jitter between half and the full delay.
 
 POST, PUT, PATCH, DELETE, transport errors, and streaming requests are never retried. This includes
-recommendation submission, execution, credential testing, and feedback. No idempotency key is
+recommendation submission, execution, `run`, credential testing, and feedback. No idempotency key is
 invented or sent by the SDK. HTTP 200 responses containing a business error are returned as data.
 
 ## HTTP and events

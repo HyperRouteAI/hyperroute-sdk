@@ -103,3 +103,19 @@ test('all operation methods match the shared contract',async()=>{
     if(op.requestBody)assert.deepEqual(JSON.parse(init.body),{query:'fixture'});
   }
 });
+
+test('run returns JSON or text and is never retried; ranking text or evidence',async()=>{
+  let calls=0;
+  const client=new HyperRoute({maxRetries:3,fetch:async(url,init)=>{calls++;const b=JSON.parse(init.body);
+    if(b.format==='text')return new Response(fix.run.text,{headers:{'content-type':'text/plain'}});
+    if(b.evidence)return json({ranking:'session: s',evidence:{}});
+    if(String(url).endsWith('/ranking'))return new Response('session: s\n',{headers:{'content-type':'text/plain'}});
+    return calls===3?json({detail:'busy'},503):json(fix.run);}});
+  const body={items:[{query:'EUR to GBP exchange rate on 2024-03-15'}],reports:[{item:'r_example0/1',score:'useless'}]};
+  assert.equal((await client.run(body)).data.items[0].out.ok,true);
+  assert.ok((await client.run({...body,format:'text'})).data.startsWith('run r_example1'));
+  await assert.rejects(client.run(body),e=>e instanceof ApiError&&e.statusCode===503);
+  assert.equal(calls,3);
+  assert.equal((await client.ranking({run:'r_example1',item:1})).data,'session: s\n');
+  assert.equal((await client.ranking({run:'r_example1',item:1,evidence:true})).data.ranking,'session: s');
+});

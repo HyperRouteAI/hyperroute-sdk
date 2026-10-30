@@ -12,3 +12,5 @@ Set `HYPERROUTE_API_KEY` for authenticated operations.
 - [`stream.py`](stream.py): Prints each event name and its complete data as it arrives. [Output](output/stream.md).
 - [`execute.py`](execute.py): Runs the specified tool and prints the complete execution response. This output shows a tool requiring a connected credential. [Output](output/execute.md).
 - [`feedback.py`](feedback.py): Reports a tool outcome and prints the complete feedback response. [Output](output/feedback.md).
+- [`run.py`](run.py): Sends several lookups in one call, optionally with reports owed from an earlier run, and prints the complete response. [Output](output/run.md).
+- [`ranking.py`](ranking.py): Prints the stored ranking behind one run item. [Output](output/ranking.md).

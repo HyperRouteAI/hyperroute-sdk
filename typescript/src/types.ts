@@ -854,7 +854,7 @@ export interface ExecutionSuccess {
   error?: string | null;
   latency_ms?: number;
   query?: string;
-  adapted_query?: string;
+  adapted_query?: string | null;
   message?: string;
   status?: string;
   credentials?: Array<string>;
@@ -868,7 +868,7 @@ export interface ExecutionOverflow {
   latency_ms?: number;
   overflow: OverflowResult;
   query?: string;
-  adapted_query?: string;
+  adapted_query?: string | null;
   message?: string;
   status?: string;
   credentials?: Array<string>;
@@ -883,7 +883,7 @@ export interface ExecutionFailure {
   latency_ms?: number;
   overflow?: OverflowResult;
   query?: string;
-  adapted_query?: string;
+  adapted_query?: string | null;
   message?: string;
   status?: string;
   credentials?: Array<string>;
@@ -1013,6 +1013,92 @@ export interface NativeInstruction {
   max_searches: number | null;
   tools: Array<string> | null;
   alternatives: Array<NativeInstructionAlternative>;
+}
+
+export interface RunItem {
+  query: string;
+  facets?: JsonObject | null;
+  tool?: string | null;
+}
+
+export interface RunReport {
+  item?: string | null;
+  session_id?: string | null;
+  tool_id?: string | null;
+  score: "full" | "partial" | "useless" | "not_used" | "blocked";
+  reason?: string | null;
+  comment?: string | null;
+}
+
+export interface RunRequest {
+  items?: Array<RunItem>;
+  reports?: Array<RunReport>;
+  context?: JsonObject | null;
+  project_id?: string | null;
+  mode?: "auto" | "ask";
+  format?: "json" | "text" | null;
+  caller?: unknown;
+}
+
+export interface RunFailure {
+  tool: string;
+  error: string;
+}
+
+export interface RunChoice {
+  id: string;
+  why: string;
+  use: string;
+}
+
+export interface RunConnect {
+  tool: string | null;
+  signup_url: string | null;
+  steps: Array<string>;
+  field?: string | null;
+}
+
+export interface RunReplyItem {
+  action: "run" | "do_yourself" | "use_own" | "needs_key" | "no_tool" | "advisory" | "choose" | "not_ranked";
+  tool: string | null;
+  name: string | null;
+  note: string | null;
+  query: string;
+  session_id: string | null;
+  stakes: "high" | "standard" | "commodity" | null;
+  area_state: "settled" | "open" | null;
+  confidence: string | null;
+  not_checked: Array<string>;
+  report: "always" | "on_failure" | "done" | null;
+  out: ExecutionResult | null;
+  instruction: NativeInstruction | null;
+  connect: RunConnect | null;
+  tools: Array<string | RunChoice> | null;
+  failed: Array<RunFailure>;
+  reopens: string | null;
+}
+
+export interface RunReports {
+  accepted: number;
+  failed: Array<string>;
+}
+
+export interface RunResponse {
+  run: string;
+  items: Array<RunReplyItem>;
+  reports: RunReports | null;
+  text: string;
+}
+
+export interface RankingRequest {
+  run: string;
+  item: number;
+  evidence?: boolean;
+}
+
+export interface RankingEvidence {
+  ranking: string;
+  evidence: Record<string, ProbeEvidence>;
 }
 
 

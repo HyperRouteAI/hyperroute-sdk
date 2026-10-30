@@ -20,3 +20,6 @@ if 'instruction' in minimal:
 async def check_async() -> None:
     async with AsyncHyperRoute() as client:
         assert_type(await client.recommend({'query':'research','detail':'full'}), ApiResponse[FullRecommendation])
+
+from hyperroute.types import RunResponse
+assert_type(client.run({'items': [{'query': 'q'}]}), ApiResponse[RunResponse | str])

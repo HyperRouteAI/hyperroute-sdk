@@ -11,3 +11,5 @@ Set `HYPERROUTE_API_KEY` for authenticated operations.
 - [`stream.mjs`](stream.mjs): Prints each event name and its complete data as it arrives. [Output](output/stream.md).
 - [`execute.mjs`](execute.mjs): Runs the specified tool and prints the complete execution response. This output shows a tool requiring a connected credential. [Output](output/execute.md).
 - [`feedback.mjs`](feedback.mjs): Reports a tool outcome and prints the complete feedback response. [Output](output/feedback.md).
+- [`run.mjs`](run.mjs): Sends several lookups in one call, optionally with reports owed from an earlier run, and prints the complete response. [Output](output/run.md).
+- [`ranking.mjs`](ranking.mjs): Prints the stored ranking behind one run item. [Output](output/ranking.md).

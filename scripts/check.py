@@ -37,7 +37,7 @@ with tempfile.TemporaryDirectory() as temp:
     for file in files:
         assert (ROOT/file).read_bytes()==(out/file).read_bytes(),f'{file} is stale; run scripts/generate.py'
 fixtures=json.loads((ROOT/'contract/fixtures.json').read_text())
-for key,name in {'recommendation':'LeanRecommendation','full_recommendation':'FullRecommendation','min_recommendation':'MinRecommendation','queued':'RecommendationJob','health':'Health','execution':'ExecutionResult'}.items():
+for key,name in {'recommendation':'LeanRecommendation','full_recommendation':'FullRecommendation','min_recommendation':'MinRecommendation','queued':'RecommendationJob','health':'Health','execution':'ExecutionResult','run':'RunResponse'}.items():
     schema={'$ref':'#/components/schemas/'+name,'components':api['components']}
     Draft202012Validator(schema).validate(fixtures[key])
 print(f'OpenAPI, generated files, versions, and {len(fixtures)} fixtures verified')

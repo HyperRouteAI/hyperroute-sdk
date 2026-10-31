@@ -916,6 +916,7 @@ class RunReport(TypedDict):
     score: Literal['full', 'partial', 'useless', 'not_used', 'blocked']
     reason: NotRequired[str | None]
     comment: NotRequired[str | None]
+    satisfied: NotRequired[bool | None]
 
 class RunRequest(TypedDict):
     items: NotRequired[list[RunItem]]

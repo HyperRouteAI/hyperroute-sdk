@@ -7955,6 +7955,18 @@
               }
             ],
             "default": null
+          },
+          "satisfied": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The user's own thumbs up or down, if they gave one."
           }
         },
         "required": [

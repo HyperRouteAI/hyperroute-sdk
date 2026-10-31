@@ -1028,6 +1028,7 @@ export interface RunReport {
   score: "full" | "partial" | "useless" | "not_used" | "blocked";
   reason?: string | null;
   comment?: string | null;
+  satisfied?: boolean | null;
 }
 
 export interface RunRequest {

@@ -94,7 +94,7 @@ as an extra item whose `reopens` names it. `ranking({"run": ..., "item": n})` re
 ranking behind an item as text; with `"evidence": true` it returns JSON with the probes behind the
 top rows. Runs are kept for six hours.
 
-`run` executes tools, so like `execute` it is never retried automatically.
+`run` executes tools, so like `execute` it is never retried automatically. Each account may route about 120 items a minute through `run`; over that, `run` returns HTTP 429 with `Retry-After` before any item routes, and nothing ran.
 
 ## Polling
 

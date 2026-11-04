@@ -56,7 +56,12 @@ HTTP status alone. The runnable execution examples require an explicit tool ID a
 through the `--execute` argument.
 
 `onboard({"tool_id": ..., "api_key": ...})` connects a tool credential to your account.
-Use `onboard_info` / `onboardInfo` to read connection requirements first. Recommendations may
+Use `onboard_info` / `onboardInfo` to read connection requirements first: `connect_mode` is `key`
+when it takes one key, and `values` when it takes several, listed in `fields`. Send those as
+`onboard({"tool_id": ..., "values": {"FIELD": ...}})`; all required fields go together, and a missing
+one answers HTTP 409 naming the fields. `oauth` and `unsupported` answer `onboard` with HTTP 409 and
+a `status` and `message`, and `/execute` answers an `unsupported` tool with
+`multi_cred_unsupported`. Recommendations may
 point to a native or private tool that your own application must run.
 
 ## Several lookups in one call

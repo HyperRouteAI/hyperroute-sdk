@@ -3118,7 +3118,31 @@
             "type": "string"
           },
           "api_key": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "A tool with `connect_mode: key`: its one key."
+          },
+          "values": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "A tool with `connect_mode: values`: one entry per item in `OnboardInfo.fields`, by key."
           },
           "label": {
             "anyOf": [
@@ -3133,8 +3157,7 @@
           }
         },
         "required": [
-          "tool_id",
-          "api_key"
+          "tool_id"
         ]
       },
       "ConnectRequest": {
@@ -3144,7 +3167,31 @@
             "type": "string"
           },
           "api_key": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "A tool with `connect_mode: key`: its one key."
+          },
+          "values": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "A tool with `connect_mode: values`: one entry per item in `OnboardInfo.fields`, by key."
           },
           "label": {
             "anyOf": [
@@ -3159,8 +3206,7 @@
           }
         },
         "required": [
-          "tool_id",
-          "api_key"
+          "tool_id"
         ]
       },
       "PreferencesRequest": {
@@ -5988,6 +6034,43 @@
           "requires_key": {
             "type": "boolean"
           },
+          "connect_mode": {
+            "type": "string",
+            "enum": [
+              "none",
+              "key",
+              "values",
+              "oauth",
+              "unsupported"
+            ],
+            "description": "How this tool connects. `key` takes `api_key` on `onboard`, `values` takes `values`; `oauth` and `unsupported` answer it with 409."
+          },
+          "connect_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Why the tool cannot be connected yet, when it cannot."
+          },
+          "fields": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "With `connect_mode: values`, the values to collect: `key`, `label`, `secret`, `required`, `help`."
+          },
           "connected": {
             "type": "boolean"
           },
@@ -6018,6 +6101,9 @@
           "name",
           "auth_method",
           "requires_key",
+          "connect_mode",
+          "connect_note",
+          "fields",
           "connected",
           "summary",
           "connect"

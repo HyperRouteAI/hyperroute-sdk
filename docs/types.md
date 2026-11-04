@@ -74,7 +74,8 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `tool_id` | `string` | Yes |  |
-| `api_key` | `string` | Yes |  |
+| `api_key` | `string \| null` | No | A tool with `connect_mode: key`: its one key. |
+| `values` | `Record<string, string> \| null` | No | A tool with `connect_mode: values`: one entry per item in `OnboardInfo.fields`, by key. |
 | `label` | `string \| null` | No |  |
 
 ## ConnectRequest
@@ -82,7 +83,8 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `tool_id` | `string` | Yes |  |
-| `api_key` | `string` | Yes |  |
+| `api_key` | `string \| null` | No | A tool with `connect_mode: key`: its one key. |
+| `values` | `Record<string, string> \| null` | No | A tool with `connect_mode: values`: one entry per item in `OnboardInfo.fields`, by key. |
 | `label` | `string \| null` | No |  |
 
 ## PreferencesRequest
@@ -751,6 +753,9 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `name` | `string \| null` | Yes |  |
 | `auth_method` | `string` | Yes |  |
 | `requires_key` | `boolean` | Yes |  |
+| `connect_mode` | `"none" \| "key" \| "values" \| "oauth" \| "unsupported"` | Yes | How this tool connects. `key` takes `api_key` on `onboard`, `values` takes `values`; `oauth` and `unsupported` answer it with 409. |
+| `connect_note` | `string \| null` | Yes | Why the tool cannot be connected yet, when it cannot. |
+| `fields` | `Array<JsonObject> \| null` | Yes | With `connect_mode: values`, the values to collect: `key`, `label`, `secret`, `required`, `help`. |
 | `connected` | `boolean` | Yes |  |
 | `summary` | `CallingSummary \| null` | Yes |  |
 | `connect` | `JsonObject \| null` | Yes |  |

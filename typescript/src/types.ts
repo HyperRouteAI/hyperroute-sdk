@@ -55,13 +55,15 @@ export interface NarrativeReport {
 
 export interface OnboardRequest {
   tool_id: string;
-  api_key: string;
+  api_key?: string | null;
+  values?: Record<string, string> | null;
   label?: string | null;
 }
 
 export interface ConnectRequest {
   tool_id: string;
-  api_key: string;
+  api_key?: string | null;
+  values?: Record<string, string> | null;
   label?: string | null;
 }
 
@@ -590,6 +592,9 @@ export interface OnboardInfo {
   name: string | null;
   auth_method: string;
   requires_key: boolean;
+  connect_mode: "none" | "key" | "values" | "oauth" | "unsupported";
+  connect_note: string | null;
+  fields: Array<JsonObject> | null;
   connected: boolean;
   summary: CallingSummary | null;
   connect: JsonObject | null;

@@ -53,12 +53,14 @@ class NarrativeReport(TypedDict):
 
 class OnboardRequest(TypedDict):
     tool_id: str
-    api_key: str
+    api_key: NotRequired[str | None]
+    values: NotRequired[dict[str, str] | None]
     label: NotRequired[str | None]
 
 class ConnectRequest(TypedDict):
     tool_id: str
-    api_key: str
+    api_key: NotRequired[str | None]
+    values: NotRequired[dict[str, str] | None]
     label: NotRequired[str | None]
 
 class PreferencesRequest(TypedDict):
@@ -530,6 +532,9 @@ class OnboardInfo(TypedDict):
     name: str | None
     auth_method: str
     requires_key: bool
+    connect_mode: Literal['none', 'key', 'values', 'oauth', 'unsupported']
+    connect_note: str | None
+    fields: list[JsonObject] | None
     connected: bool
     summary: CallingSummary | None
     connect: JsonObject | None

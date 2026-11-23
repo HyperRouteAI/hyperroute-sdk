@@ -8412,6 +8412,17 @@
               }
             ],
             "description": "The `<run>/<n>` a report reopened."
+          },
+          "better": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunBetter"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "On an item that carried on without a stronger keyed tool: that tool, the gap and how to connect it. needs_key is returned only when nothing usable exists."
           }
         },
         "required": [
@@ -8431,7 +8442,8 @@
           "connect",
           "tools",
           "failed",
-          "reopens"
+          "reopens",
+          "better"
         ],
         "additionalProperties": true
       },
@@ -8531,6 +8543,56 @@
         "required": [
           "ranking",
           "evidence"
+        ],
+        "additionalProperties": true
+      },
+      "RunBetter": {
+        "type": "object",
+        "description": "A stronger tool that needs a key the caller hasn't connected. The item carried on without it.",
+        "properties": {
+          "tool": {
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gap": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How much higher the stronger tool scores than what ran. Null when not measured."
+          },
+          "untested": {
+            "type": "boolean",
+            "description": "True when the caller's own tools were never tested on this job, so the gap is not measured."
+          },
+          "connect": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunConnect"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "tool",
+          "name",
+          "connect"
         ],
         "additionalProperties": true
       }

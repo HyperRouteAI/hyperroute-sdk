@@ -1082,6 +1082,7 @@ export interface RunReplyItem {
   tools: Array<string | RunChoice> | null;
   failed: Array<RunFailure>;
   reopens: string | null;
+  better: RunBetter | null;
 }
 
 export interface RunReports {
@@ -1105,6 +1106,14 @@ export interface RankingRequest {
 export interface RankingEvidence {
   ranking: string;
   evidence: Record<string, ProbeEvidence>;
+}
+
+export interface RunBetter {
+  tool: string;
+  name: string | null;
+  gap?: number | null;
+  untested?: boolean;
+  connect: RunConnect | null;
 }
 
 

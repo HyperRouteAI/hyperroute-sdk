@@ -965,6 +965,7 @@ class RunReplyItem(TypedDict):
     tools: list[str | RunChoice] | None
     failed: list[RunFailure]
     reopens: str | None
+    better: RunBetter | None
 
 class RunReports(TypedDict):
     accepted: int
@@ -984,6 +985,13 @@ class RankingRequest(TypedDict):
 class RankingEvidence(TypedDict):
     ranking: str
     evidence: dict[str, ProbeEvidence]
+
+class RunBetter(TypedDict):
+    tool: str
+    name: str | None
+    gap: NotRequired[float | None]
+    untested: NotRequired[bool]
+    connect: RunConnect | None
 
 
 class TestCredentialQuery(TypedDict):

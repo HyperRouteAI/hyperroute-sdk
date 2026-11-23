@@ -87,9 +87,14 @@ with HyperRoute() as client:
 
 Each item's `action` says what happened: `run` (the tool ran; `out` is its execution response),
 `do_yourself` (your own tools are the best choice; `instruction` carries how they were measured),
-`use_own` (a tool you declared), `needs_key` (the best tool needs a credential; `connect` lists the
-steps; run the item again after `onboard`), `no_tool`, `advisory`, `choose` (with `mode: "ask"`,
+`use_own` (a tool you declared), `needs_key` (the best tool needs a credential and nothing you can
+use can do the item; `connect` lists the steps; run the item again after `onboard`), `no_tool`, `advisory`, `choose` (with `mode: "ask"`,
 the top three for your user to pick; send the item again with `tool`) and `not_ranked`.
+
+When the best tool needs a key you haven't connected and nothing you can use is within the quality
+margin, the item carries on with the best tool you can use and `better` names the stronger tool:
+its `gap` (null when your own tools were never tested on the job, with `untested` true) and its
+`connect` steps. Tell your user, and connect it if they give a key.
 
 When the best tool fails, the next ready tool within the same quality margin runs; `failed` lists
 the tools that failed. Report the items whose `report` is `always`, and the others only when the

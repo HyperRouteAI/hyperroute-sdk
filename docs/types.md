@@ -1362,6 +1362,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `tools` | `Array<string \| RunChoice> \| null` | Yes | advisory: tool ids; choose: the top three. |
 | `failed` | `Array<RunFailure>` | Yes | Tools that failed, or were reported useless, on this item, in order. |
 | `reopens` | `string \| null` | Yes | The `<run>/<n>` a report reopened. |
+| `better` | `RunBetter \| null` | Yes | On an item that carried on without a stronger keyed tool: that tool, the gap and how to connect it. needs_key is returned only when nothing usable exists. |
 
 ## RunReports
 
@@ -1393,3 +1394,13 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 |---|---|---|---|
 | `ranking` | `string` | Yes | The stored route as text. |
 | `evidence` | `Record<string, ProbeEvidence>` | Yes | Probe evidence by tool id. |
+
+## RunBetter
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `tool` | `string` | Yes |  |
+| `name` | `string \| null` | Yes |  |
+| `gap` | `number \| null` | No | How much higher the stronger tool scores than what ran. Null when not measured. |
+| `untested` | `boolean` | No | True when the caller's own tools were never tested on this job, so the gap is not measured. |
+| `connect` | `RunConnect \| null` | Yes |  |

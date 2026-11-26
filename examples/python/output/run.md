@@ -16,7 +16,7 @@ Example output. Item 2 returned the wrong place; item 3's best tool needs a key.
       "action": "run",
       "tool": "frankfurter",
       "name": null,
-      "note": "sonar_deep_research +0.07, needs a key",
+      "note": "sonar_deep_research +0.07, not connected",
       "query": "EUR to GBP exchange rate on 2024-03-15",
       "session_id": "session-1",
       "stakes": "commodity",
@@ -139,7 +139,7 @@ Example output. Item 2 returned the wrong place; item 3's best tool needs a key.
     }
   ],
   "reports": null,
-  "text": "run r_example1\n[1] frankfurter (sonar_deep_research +0.07, needs a key) [settled, conf high; report this one]\n  EUR -> GBP on 2024-03-15: 1 EUR = 0.8541 GBP (rate 0.8541, ECB 2024-03-15)\n[2] nominatim [open, conf low; report this one]\n  {\"adapted_query\":\"geocode 350 Fifth Avenue, New York, NY, USA\",\"lat\":\"41.1033570\",\"lon\":\"-72.3659952\",\"display_name\":\"350, Fifth Avenue, Village of Greenport, Town of Southold, Suffolk County, New York, 11944, United States\",\"results\":[{\"lat\":\"41.1033570\",\"lon\":\"-72.3659952\",\"display_name\":\"350, Fifth Avenue, Village of Greenport, Town of Southold, Suffolk County, New York, 11944, United States\",\"class\":\"place\",\"type\":\"house\"},{\"lat\":\"42.7096512\",\"lon\":\"-73.7105988\",\"display_name\":\"350, 5th Avenue, City of Watervliet, Albany County, New York, 12189, United States\",\"class\":\"place\",\"type\":\"house\"},{\"lat\":\"40.9161016\",\"lon\":\"-73.8071811\",\"display_name\":\"350, 5th Avenue, North Pelham, Village of Pelham, Town of Pelham, Westchester County, New York, 10803, United States\",\"class\":\"place\",\"type\":\"house\"}]}\n[3] needs a key: sonar_deep_research is best. STOP; ask the user (signup https://www.perplexity.ai/settings/api)\n  1. Create a Perplexity account, or sign in.\n  2. Open the API settings page.\n  3. Add a payment method and buy some API credit.\n  4. Generate an API key and copy it.\n  then onboard('sonar_deep_research', <key>) and resend this item\nowed: r_example1/1, r_example1/2 → reports=[{item, score}] on next run"
+  "text": "run r_example1\n[1] frankfurter (sonar_deep_research +0.07, not connected) [settled, conf high; report this one]\n  EUR -> GBP on 2024-03-15: 1 EUR = 0.8541 GBP (rate 0.8541, ECB 2024-03-15)\n[2] nominatim [open, conf low; report this one]\n  {\"adapted_query\":\"geocode 350 Fifth Avenue, New York, NY, USA\",\"lat\":\"41.1033570\",\"lon\":\"-72.3659952\",\"display_name\":\"350, Fifth Avenue, Village of Greenport, Town of Southold, Suffolk County, New York, 11944, United States\",\"results\":[{\"lat\":\"41.1033570\",\"lon\":\"-72.3659952\",\"display_name\":\"350, Fifth Avenue, Village of Greenport, Town of Southold, Suffolk County, New York, 11944, United States\",\"class\":\"place\",\"type\":\"house\"},{\"lat\":\"42.7096512\",\"lon\":\"-73.7105988\",\"display_name\":\"350, 5th Avenue, City of Watervliet, Albany County, New York, 12189, United States\",\"class\":\"place\",\"type\":\"house\"},{\"lat\":\"40.9161016\",\"lon\":\"-73.8071811\",\"display_name\":\"350, 5th Avenue, North Pelham, Village of Pelham, Town of Pelham, Westchester County, New York, 10803, United States\",\"class\":\"place\",\"type\":\"house\"}]}\n[3] needs a key: sonar_deep_research is best. STOP; ask the user to connect it at https://hyperroute.io/directory/sonar_deep_research#connect (the key goes to HyperRoute, not this chat), and resend this item when they say it is done\n  a key pasted here anyway: onboard('sonar_deep_research', <key>)\nowed: r_example1/1, r_example1/2 → reports=[{item, score}] on next run"
 }
 ```
 
@@ -157,7 +157,7 @@ python examples/python/run.py 'USD to JPY exchange rate on 2023-01-02' --report 
       "action": "run",
       "tool": "frankfurter",
       "name": null,
-      "note": "sonar_deep_research +0.03, needs a key",
+      "note": "sonar_deep_research +0.03, not connected",
       "query": "USD to JPY exchange rate on 2023-01-02",
       "session_id": "session-1",
       "stakes": "commodity",
@@ -221,6 +221,6 @@ python examples/python/run.py 'USD to JPY exchange rate on 2023-01-02' --report 
     "accepted": 1,
     "failed": []
   },
-  "text": "run r_example2\n[1] frankfurter (sonar_deep_research +0.03, needs a key) [open, conf high; report this one]\n  USD -> JPY on 2023-01-02: 1 USD = 130.69 JPY (rate 130.69, ECB 2023-01-02)\n[2] do it yourself, for r_example1/2 (nominatim useless; nothing else close)\nowed: r_example2/1 → reports=[{item, score}] on next run\nreports: 1 accepted"
+  "text": "run r_example2\n[1] frankfurter (sonar_deep_research +0.03, not connected) [open, conf high; report this one]\n  USD -> JPY on 2023-01-02: 1 USD = 130.69 JPY (rate 130.69, ECB 2023-01-02)\n[2] do it yourself, for r_example1/2 (nominatim useless; nothing else close)\nowed: r_example2/1 → reports=[{item, score}] on next run\nreports: 1 accepted"
 }
 ```

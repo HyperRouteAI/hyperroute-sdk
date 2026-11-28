@@ -420,7 +420,7 @@
             }
           }
         },
-        "description": "The stored ranking behind one run item, as text; with evidence, JSON with the probes behind the top rows. 404 after 6 hours."
+        "description": "The stored ranking behind one run item, as text; with evidence, JSON with the probes behind the top rows. 404 after 24 hours."
       }
     },
     "/report_outcome": {
@@ -8017,7 +8017,7 @@
               "not_used",
               "blocked"
             ],
-            "description": "useless or blocked on an item that ran reopens it: the reply carries the next tool's result or the item handed back."
+            "description": "useless or blocked on an item that ran reopens it: the reply carries the next tool's result or the item handed back. blocked on a do_yourself item reopens it too: the next tool, else the item handed back with where to look instead, else no_tool."
           },
           "reason": {
             "anyOf": [
@@ -8232,7 +8232,8 @@
               "no_tool",
               "advisory",
               "choose",
-              "not_ranked"
+              "not_ranked",
+              "resend"
             ]
           },
           "tool": {
@@ -8267,7 +8268,15 @@
             ]
           },
           "query": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The step as sent; null on an item reopened after its text was no longer held."
           },
           "session_id": {
             "anyOf": [
@@ -8457,12 +8466,21 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Reports not recorded."
+          },
+          "lost": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Of failed, the items no longer on file: they are owed no more."
           }
         },
         "required": [
           "accepted",
-          "failed"
+          "failed",
+          "lost"
         ],
         "additionalProperties": true
       },
@@ -8471,7 +8489,7 @@
         "properties": {
           "run": {
             "type": "string",
-            "description": "Run id; items are addressed `<run>/<n>`, kept 6 hours."
+            "description": "Run id; items are addressed `<run>/<n>`, kept 24 hours."
           },
           "items": {
             "type": "array",
@@ -8537,7 +8555,7 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/ProbeEvidence"
             },
-            "description": "Probe evidence by tool id."
+            "description": "Probe evidence by tool id; empty when the item's query is no longer held, with the reason in ranking."
           }
         },
         "required": [

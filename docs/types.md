@@ -1300,7 +1300,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | `item` | `string \| null` | No | `<run>/<n>` from an earlier run reply. |
 | `session_id` | `string \| null` | No | Or the route's session id, with tool_id. |
 | `tool_id` | `string \| null` | No |  |
-| `score` | `"full" \| "partial" \| "useless" \| "not_used" \| "blocked"` | Yes | useless or blocked on an item that ran reopens it: the reply carries the next tool's result or the item handed back. |
+| `score` | `"full" \| "partial" \| "useless" \| "not_used" \| "blocked"` | Yes | useless or blocked on an item that ran reopens it: the reply carries the next tool's result or the item handed back. blocked on a do_yourself item reopens it too: the next tool, else the item handed back with where to look instead, else no_tool. |
 | `reason` | `string \| null` | No | wrong_output | missing_data | too_slow | error | redundant | safety; other text is kept as the comment. |
 | `comment` | `string \| null` | No |  |
 | `satisfied` | `boolean \| null` | No | The user's own thumbs up or down, if they gave one. |
@@ -1345,11 +1345,11 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `action` | `"run" \| "do_yourself" \| "use_own" \| "needs_key" \| "no_tool" \| "advisory" \| "choose" \| "not_ranked"` | Yes |  |
+| `action` | `"run" \| "do_yourself" \| "use_own" \| "needs_key" \| "no_tool" \| "advisory" \| "choose" \| "not_ranked" \| "resend"` | Yes |  |
 | `tool` | `string \| null` | Yes | The tool that ran, or the one the action is about. |
 | `name` | `string \| null` | Yes |  |
 | `note` | `string \| null` | Yes |  |
-| `query` | `string` | Yes |  |
+| `query` | `string \| null` | Yes | The step as sent; null on an item reopened after its text was no longer held. |
 | `session_id` | `string \| null` | Yes | The item's route; one route per item. |
 | `stakes` | `"high" \| "standard" \| "commodity" \| null` | Yes |  |
 | `area_state` | `"settled" \| "open" \| null` | Yes | On an item that ran. |
@@ -1369,13 +1369,14 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `accepted` | `number` | Yes |  |
-| `failed` | `Array<string>` | Yes |  |
+| `failed` | `Array<string>` | Yes | Reports not recorded. |
+| `lost` | `Array<string>` | Yes | Of failed, the items no longer on file: they are owed no more. |
 
 ## RunResponse
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `run` | `string` | Yes | Run id; items are addressed `<run>/<n>`, kept 6 hours. |
+| `run` | `string` | Yes | Run id; items are addressed `<run>/<n>`, kept 24 hours. |
 | `items` | `Array<RunReplyItem>` | Yes | The request's items in order, then any reopened by its reports. |
 | `reports` | `RunReports \| null` | Yes |  |
 | `text` | `string` | Yes | The same reply as compact text. |
@@ -1393,7 +1394,7 @@ response fields are preserved at runtime. See [recommendations](recommendations.
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `ranking` | `string` | Yes | The stored route as text. |
-| `evidence` | `Record<string, ProbeEvidence>` | Yes | Probe evidence by tool id. |
+| `evidence` | `Record<string, ProbeEvidence>` | Yes | Probe evidence by tool id; empty when the item's query is no longer held, with the reason in ranking. |
 
 ## RunBetter
 

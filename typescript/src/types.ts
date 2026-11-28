@@ -1065,11 +1065,11 @@ export interface RunConnect {
 }
 
 export interface RunReplyItem {
-  action: "run" | "do_yourself" | "use_own" | "needs_key" | "no_tool" | "advisory" | "choose" | "not_ranked";
+  action: "run" | "do_yourself" | "use_own" | "needs_key" | "no_tool" | "advisory" | "choose" | "not_ranked" | "resend";
   tool: string | null;
   name: string | null;
   note: string | null;
-  query: string;
+  query: string | null;
   session_id: string | null;
   stakes: "high" | "standard" | "commodity" | null;
   area_state: "settled" | "open" | null;
@@ -1088,6 +1088,7 @@ export interface RunReplyItem {
 export interface RunReports {
   accepted: number;
   failed: Array<string>;
+  lost: Array<string>;
 }
 
 export interface RunResponse {

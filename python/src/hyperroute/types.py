@@ -948,11 +948,11 @@ class RunConnect(TypedDict):
     field: NotRequired[str | None]
 
 class RunReplyItem(TypedDict):
-    action: Literal['run', 'do_yourself', 'use_own', 'needs_key', 'no_tool', 'advisory', 'choose', 'not_ranked']
+    action: Literal['run', 'do_yourself', 'use_own', 'needs_key', 'no_tool', 'advisory', 'choose', 'not_ranked', 'resend']
     tool: str | None
     name: str | None
     note: str | None
-    query: str
+    query: str | None
     session_id: str | None
     stakes: Literal['high', 'standard', 'commodity'] | None
     area_state: Literal['settled', 'open'] | None
@@ -970,6 +970,7 @@ class RunReplyItem(TypedDict):
 class RunReports(TypedDict):
     accepted: int
     failed: list[str]
+    lost: list[str]
 
 class RunResponse(TypedDict):
     run: str

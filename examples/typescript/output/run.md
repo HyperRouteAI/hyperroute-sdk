@@ -219,7 +219,8 @@ node examples/typescript/run.mjs 'USD to JPY exchange rate on 2023-01-02' --repo
   ],
   "reports": {
     "accepted": 1,
-    "failed": []
+    "failed": [],
+    "lost": []
   },
   "text": "run r_example2\n[1] frankfurter (sonar_deep_research +0.03, not connected) [open, conf high; report this one]\n  USD -> JPY on 2023-01-02: 1 USD = 130.69 JPY (rate 130.69, ECB 2023-01-02)\n[2] do it yourself, for r_example1/2 (nominatim useless; nothing else close)\nowed: r_example2/1 → reports=[{item, score}] on next run\nreports: 1 accepted"
 }

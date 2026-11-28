@@ -89,7 +89,8 @@ Each item's `action` says what happened: `run` (the tool ran; `out` is its execu
 `do_yourself` (your own tools are the best choice; `instruction` carries how they were measured),
 `use_own` (a tool you declared), `needs_key` (the best tool needs a credential and nothing you can
 use can do the item; `connect` lists the steps; run the item again after `onboard`), `no_tool`, `advisory`, `choose` (with `mode: "ask"`,
-the top three for your user to pick; send the item again with `tool`) and `not_ranked`.
+the top three for your user to pick; send the item again with `tool`), `not_ranked`, and `resend` (a reopened item whose query is no longer
+held: send the step again as a new item with `tool` set to the named tool).
 
 When the best tool needs a key you haven't connected and nothing you can use is within the quality
 margin, the item carries on with the best tool you can use and `better` names the stronger tool:
@@ -100,9 +101,11 @@ When the best tool fails, the next ready tool within the same quality margin run
 the tools that failed. Report the items whose `report` is `always`, and the others only when the
 result was wrong, in `reports` on your next `run`, addressed `<run>/<n>`. A `useless` or `blocked`
 report reopens that item: the response carries the next tool's result, or the item handed back,
-as an extra item whose `reopens` names it. `ranking({"run": ..., "item": n})` returns the stored
+as an extra item whose `reopens` names it. A `blocked` report on a `do_yourself` item reopens it too:
+the next tool you can run, else the item handed back with where to look instead, and after a second
+`blocked` a `no_tool` item that ends it. `ranking({"run": ..., "item": n})` returns the stored
 ranking behind an item as text; with `"evidence": true` it returns JSON with the probes behind the
-top rows. Runs are kept for six hours.
+top rows. Runs are kept for 24 hours; a report on an item no longer kept gets its own line in `text`.
 
 `run` executes tools, so like `execute` it is never retried automatically. Each account may route about 120 items a minute through `run`; over that, `run` returns HTTP 429 with `Retry-After` before any item routes, and nothing ran.
 
